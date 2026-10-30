@@ -40,5 +40,7 @@
   "debug.stopAtEntry": "Parar en main.",
   "debug.emulatorArgs": "Más argumentos para zxv-sdl.",
   "debug.snippet.zxv": "Compila, lanza zxv-sdl con --gdb y conecta GDB (necesita la extensión C/C++)",
-  "debug.snippet.cppdbg": "cppdbg conectado al emulador, que lanza una preLaunchTask"
+  "debug.snippet.cppdbg": "cppdbg conectado al emulador, que lanza una preLaunchTask",
+  "preview.gfx": "Gráficos de ZX-V",
+  "preview.sound": "Música y efectos de ZX-V"
 }

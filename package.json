@@ -478,6 +478,46 @@
           }
         ]
       }
+    ],
+    "customEditors": [
+      {
+        "viewType": "zxv.gfxPreview",
+        "displayName": "%preview.gfx%",
+        "selector": [
+          {
+            "filenamePattern": "*.gfx"
+          }
+        ],
+        "priority": "default"
+      },
+      {
+        "viewType": "zxv.soundPreview",
+        "displayName": "%preview.sound%",
+        "selector": [
+          {
+            "filenamePattern": "*.pt3"
+          },
+          {
+            "filenamePattern": "*.pt2"
+          },
+          {
+            "filenamePattern": "*.stc"
+          },
+          {
+            "filenamePattern": "*.asc"
+          },
+          {
+            "filenamePattern": "*.psg"
+          },
+          {
+            "filenamePattern": "*.afb"
+          },
+          {
+            "filenamePattern": "*.afx"
+          }
+        ],
+        "priority": "default"
+      }
     ]
   },
   "scripts": {

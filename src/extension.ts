@@ -11,6 +11,7 @@ import { lastError, registerDebug } from './debug';
 import { DialectService } from './dialectService';
 import { registerHovers } from './hover';
 import { registerNewProject } from './newProject';
+import { previewStatus, registerPreviews } from './previews';
 import { registerPublishWeb } from './publishWeb';
 import { EmulatorPanel, PanelStatus } from './panel';
 import { registerRomSnippets } from './snippets';
@@ -20,6 +21,7 @@ export interface ZxvApi {
     panelStatus(): PanelStatus | undefined;
     onPanelStatus(f: (s: PanelStatus) => void): vscode.Disposable | undefined;
     debugError(): string | undefined;
+    previewStatus(uri: vscode.Uri): Record<string, unknown> | undefined;
 }
 
 export function activate(ctx: vscode.ExtensionContext): ZxvApi {
@@ -30,6 +32,7 @@ export function activate(ctx: vscode.ExtensionContext): ZxvApi {
         ...registerHovers(ctx),
         registerNewProject(ctx),
         registerPublishWeb(ctx),
+        ...registerPreviews(ctx),
         vscode.tasks.registerTaskProvider(TASK_TYPE, new ZxvTaskProvider()),
         ...registerDebug(),
 
@@ -61,6 +64,7 @@ export function activate(ctx: vscode.ExtensionContext): ZxvApi {
         panelStatus: () => EmulatorPanel.current?.status,
         onPanelStatus: f => EmulatorPanel.current?.onStatus(f),
         debugError: () => lastError,
+        previewStatus: uri => previewStatus.get(uri.toString()),
     };
 }
 

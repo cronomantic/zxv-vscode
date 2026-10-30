@@ -126,6 +126,19 @@ first time it creates it with the program, the files it loads (`.gfx`,
 border or the touch controls. It leaves the page in `web/` and a
 `NAME-web.zip` to upload to itch.io, and opens it in the browser if you want.
 
+### Previews
+
+Opening a game file shows or plays it, instead of its bytes:
+
+| File | What you get |
+|---|---|
+| `.gfx` | Its sprites, tiles, maps (with their tiles, flips and the transparency of each cell) and mode 7 textures, with the machine palette and an unsmoothed zoom |
+| `.pt3`, `.pt2`, `.stc`, `.asc`, `.psg` | A player: it plays on the real machine (the web core) with `MUSIC PLAY`, `MUSIC PAUSE` and `MUSIC STOP` |
+| `.afb`, `.afx` | A button for each effect of the bank (`SFX n`) |
+
+They load again when the file is saved (from `zxv-gfx` or `zxv-tracker`,
+for example). To see the bytes, **Reopen Editor With...** > Text Editor.
+
 ### Debugging C with GDB
 
 The emulator is the GDB server (`zxv-sdl --gdb PORT`) and the debugger is the

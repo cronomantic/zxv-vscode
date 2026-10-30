@@ -129,6 +129,20 @@ primera vez lo crea con el programa, los ficheros que carga (`.gfx`,
 o los controles táctiles. Deja la página en `web/` y un `NOMBRE-web.zip`
 para subirlo a itch.io, y la abre en el navegador si quieres.
 
+### Vistas previas
+
+Al abrir un fichero de un juego se ve o se oye, en vez de sus bytes:
+
+| Fichero | Lo que se ve |
+|---|---|
+| `.gfx` | Sus sprites, tiles, mapas (con sus tiles, los volteos y la transparencia de cada celda) y texturas de modo 7, con la paleta de la máquina y un zoom sin suavizar |
+| `.pt3`, `.pt2`, `.stc`, `.asc`, `.psg` | Un reproductor: suena en la máquina de verdad (el núcleo web) con `MUSIC PLAY`, `MUSIC PAUSE` y `MUSIC STOP` |
+| `.afb`, `.afx` | Un botón por efecto del banco (`SFX n`) |
+
+Se vuelven a cargar al guardar el fichero (desde `zxv-gfx` o `zxv-tracker`,
+por ejemplo). Para ver los bytes, **Reabrir el editor con...** > Editor de
+texto.
+
 ### Depurar C con GDB
 
 El emulador hace de servidor GDB (`zxv-sdl --gdb PUERTO`) y el depurador es

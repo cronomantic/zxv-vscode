@@ -328,6 +328,33 @@ function suite(): void {
         });
     });
 
+    describe('vistas previas', () => {
+        afterEach(async () => {
+            await vscode.commands.executeCommand('workbench.action.closeAllEditors');
+        });
+
+        it('umbra.gfx: sprites, tiles, mapas y texturas', async () => {
+            const uri = file('sdk/examples/umbra/umbra.gfx');
+            await vscode.commands.executeCommand('vscode.open', uri);
+            const tab = vscode.window.tabGroups.activeTabGroup.activeTab;
+            assert.ok(tab?.input instanceof vscode.TabInputCustom && tab.input.viewType === 'zxv.gfxPreview',
+                'no se abre con la vista previa');
+            const st = await until('la vista previa pintada', async () => (await api()).previewStatus(uri), 30000);
+            assert.deepStrictEqual([st.sprites, st.tiles, st.maps, st.textures], [7, 1, 5, 4]);
+            assert.strictEqual(st.canvases, 7 + 1 + 5 + 4);
+        });
+
+        it('cascade.pt3 y cascade.afb: la máquina arranca para tocarlos', async () => {
+            for (const rel of ['examples/basic/cascade/cascade.pt3', 'examples/basic/cascade/cascade.afb']) {
+                const uri = file(rel);
+                await vscode.commands.executeCommand('vscode.open', uri);
+                const tab = vscode.window.tabGroups.activeTabGroup.activeTab;
+                assert.ok(tab?.input instanceof vscode.TabInputCustom && tab.input.viewType === 'zxv.soundPreview', rel);
+                await until(`${rel}: la máquina lista`, async () => (await api()).previewStatus(uri), 60000);
+            }
+        });
+    });
+
     describe('depurar C con GDB', function () {
         before(function () {
             if (!process.env.ZXV_TEST_WITH_CPPTOOLS || !vscode.extensions.getExtension('ms-vscode.cpptools'))
