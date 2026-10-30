@@ -11,8 +11,8 @@
 - Los errores del BASIC de la ROM mientras se escribe, con `zxv-check.js`
   (el BASIC de la ROM en WebAssembly).
 - Compilar (`make` con el SDK, `zxbc --arch=zxv`) y ejecutar en `zxv-sdl`,
-  con tareas y problem matchers; `zxbc` con `-W150 -W170`, sin los avisos
-  de las librerías.
+  con tareas y problem matchers; `zxbc` con `--enable-break` (ZX Basic
+  1.19.0-zxv.4 o posterior) y `-W150 -W170`, sin los avisos de las librerías.
 - «ZX-V: Proyecto nuevo»: C (Makefile, GDB, IntelliSense), BASIC de la ROM o
   ZX Basic, listo para F5.
 - El emulador dentro del editor, con el núcleo web de ZX-V 0.6.1.
@@ -30,8 +30,8 @@
 - ROM BASIC errors as you type, with `zxv-check.js` (the ROM BASIC in
   WebAssembly).
 - Build (`make` with the SDK, `zxbc --arch=zxv`) and run in `zxv-sdl`, with
-  tasks and problem matchers; `zxbc` with `-W150 -W170`, without the
-  libraries' warnings.
+  tasks and problem matchers; `zxbc` with `--enable-break` (ZX Basic
+  1.19.0-zxv.4 or later) and `-W150 -W170`, without the libraries' warnings.
 - "ZX-V: New project": C (Makefile, GDB, IntelliSense), ROM BASIC or ZX
   Basic, ready for F5.
 - The emulator inside the editor, with the ZX-V 0.6.1 web core.

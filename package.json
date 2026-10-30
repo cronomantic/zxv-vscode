@@ -168,6 +168,7 @@
             "type": "string"
           },
           "default": [
+            "--enable-break",
             "-W150",
             "-W170"
           ],
