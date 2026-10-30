@@ -161,7 +161,9 @@
             "type": "string"
           },
           "default": [
-            "--enable-break"
+            "--enable-break",
+            "-W150",
+            "-W170"
           ],
           "scope": "resource",
           "markdownDescription": "%config.zxbcArgs%"

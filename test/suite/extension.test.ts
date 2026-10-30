@@ -95,6 +95,13 @@ function suite(): void {
             await open('examples/zxbasic/stardust/stardust.bas');
             await vscode.commands.executeCommand('zxv.build');
             assert.ok(fs.existsSync(out), 'no está stardust.zxv');
+            /* Los avisos de zxv.bas (W150, W170) no llegan: -W150 -W170. Los
+             * del programa, sí (W180 en la línea 76). */
+            await sleep(500);
+            const lib = vscode.languages.getDiagnostics().filter(([u, d]) => d.length && /zxv\.bas$/i.test(u.fsPath));
+            assert.deepStrictEqual(lib.map(([u]) => u.fsPath), []);
+            const own = vscode.languages.getDiagnostics(file('examples/zxbasic/stardust/stardust.bas'));
+            assert.ok(own.some(d => d.severity === vscode.DiagnosticSeverity.Warning), JSON.stringify(own.map(d => d.message)));
         });
 
         it('ZX Basic: los errores van a Problemas', async () => {

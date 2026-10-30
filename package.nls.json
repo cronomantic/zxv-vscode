@@ -17,7 +17,7 @@
   "config.pythonPath": "Python, to run `zxbc.py`. Empty: `python` (Windows) or `python3`.",
   "config.makePath": "The `make` used to build C programs.",
   "config.makeArgs": "More arguments for `make` (`CROSS=riscv64-elf-`, `PYTHON=python`...).",
-  "config.zxbcArgs": "Arguments for `zxbc` besides `--arch=zxv` and `-o`.",
+  "config.zxbcArgs": "Arguments for `zxbc` besides `--arch=zxv` and `-o`. By default `--enable-break` (Esc stops the program) and `-W150 -W170`, which hide the warnings of the libraries (parameters read from ASM, functions not called), `zxv.bas` among them; remove them to see those warnings for your own code too.",
   "config.emulatorArgs": "More arguments for `zxv-sdl` (`--scale 2`, `--strict`, `--lang es`...).",
   "config.program": "The `.zxv` that C programs build to, if it cannot be guessed (relative to the workspace folder).",
   "config.gdbPort": "The port of the emulator GDB server (`--gdb`).",

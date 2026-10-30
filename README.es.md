@@ -120,7 +120,7 @@ GDB** escribe una configuración `cppdbg` normal en `launch.json` y su
 | `zxv.zxbcPath` | `zxbc.exe` de la release del fork, o `zxbc.py` (con `zxv.pythonPath`) |
 | `zxv.gdbPath` | GDB para RISC-V (si no, `riscv64-unknown-elf-gdb`, `riscv64-elf-gdb` o `gdb-multiarch` del PATH) |
 | `zxv.basicDialect` | `auto`, `zxv-basic` o `zxv-zxbasic`, por carpeta |
-| `zxv.makeArgs`, `zxv.zxbcArgs`, `zxv.emulatorArgs` | Más argumentos para cada herramienta |
+| `zxv.makeArgs`, `zxv.zxbcArgs`, `zxv.emulatorArgs` | Más argumentos para cada herramienta. `zxv.zxbcArgs` trae `--enable-break -W150 -W170`: los dos últimos callan los avisos que dan las librerías (también `zxv.bas`) por los parámetros que se leen en ASM y por las funciones que no se llaman |
 | `zxv.program` | El `.zxv` de un proyecto en C, si no se adivina |
 | `zxv.gdbPort` | El puerto del servidor GDB (1234) |
 

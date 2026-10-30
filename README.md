@@ -118,7 +118,7 @@ writes a plain `cppdbg` configuration to `launch.json` and its
 | `zxv.zxbcPath` | `zxbc.exe` from the fork release, or `zxbc.py` (with `zxv.pythonPath`) |
 | `zxv.gdbPath` | GDB for RISC-V (otherwise `riscv64-unknown-elf-gdb`, `riscv64-elf-gdb` or `gdb-multiarch` on the PATH) |
 | `zxv.basicDialect` | `auto`, `zxv-basic` or `zxv-zxbasic`, per folder |
-| `zxv.makeArgs`, `zxv.zxbcArgs`, `zxv.emulatorArgs` | More arguments for each tool |
+| `zxv.makeArgs`, `zxv.zxbcArgs`, `zxv.emulatorArgs` | More arguments for each tool. `zxv.zxbcArgs` brings `--enable-break -W150 -W170`: the last two hide the warnings the libraries (`zxv.bas` too) give for parameters read in ASM and for functions not called |
 | `zxv.program` | The `.zxv` of a C project, if it cannot be guessed |
 | `zxv.gdbPort` | The GDB server port (1234) |
 

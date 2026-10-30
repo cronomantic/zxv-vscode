@@ -2021,12 +2021,30 @@
     "zxv": true,
     "anywhere": true,
     "kind": {
-      "en": "",
-      "es": ""
+      "en": "function, statement; in LOAD",
+      "es": "función, orden; en LOAD"
     },
     "docs": {
-      "en": [],
-      "es": []
+      "en": [
+        {
+          "title": "MUSIC",
+          "anchor": "music"
+        },
+        {
+          "title": "LOAD",
+          "anchor": "load"
+        }
+      ],
+      "es": [
+        {
+          "title": "MUSIC",
+          "anchor": "music"
+        },
+        {
+          "title": "LOAD",
+          "anchor": "load"
+        }
+      ]
     }
   },
   {
@@ -2995,12 +3013,30 @@
     "zxv": true,
     "anywhere": true,
     "kind": {
-      "en": "",
-      "es": ""
+      "en": "function, statement; in LOAD",
+      "es": "función, orden; en LOAD"
     },
     "docs": {
-      "en": [],
-      "es": []
+      "en": [
+        {
+          "title": "SFX",
+          "anchor": "sfx"
+        },
+        {
+          "title": "LOAD",
+          "anchor": "load"
+        }
+      ],
+      "es": [
+        {
+          "title": "SFX",
+          "anchor": "sfx"
+        },
+        {
+          "title": "LOAD",
+          "anchor": "load"
+        }
+      ]
     }
   },
   {

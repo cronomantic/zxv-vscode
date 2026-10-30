@@ -17,7 +17,7 @@
   "config.pythonPath": "Python, para `zxbc.py`. Vacío: `python` (Windows) o `python3`.",
   "config.makePath": "El `make` con el que se compilan los programas en C.",
   "config.makeArgs": "Más argumentos para `make` (`CROSS=riscv64-elf-`, `PYTHON=python`...).",
-  "config.zxbcArgs": "Argumentos para `zxbc` además de `--arch=zxv` y `-o`.",
+  "config.zxbcArgs": "Argumentos para `zxbc` además de `--arch=zxv` y `-o`. Por defecto, `--enable-break` (Esc para el programa) y `-W150 -W170`, que callan los avisos de las librerías (parámetros que se leen en ASM, funciones que no se llaman), `zxv.bas` entre ellas; quítalos para ver esos avisos también en tu código.",
   "config.emulatorArgs": "Más argumentos para `zxv-sdl` (`--scale 2`, `--strict`, `--lang es`...).",
   "config.program": "El `.zxv` que sale de los programas en C, si no se adivina (relativo a la carpeta de trabajo).",
   "config.gdbPort": "El puerto del servidor GDB del emulador (`--gdb`).",
