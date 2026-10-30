@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "publisher": "cronomantic",
   "license": "MIT",
+  "icon": "images/icon.png",
   "author": "cronomantic",
   "repository": {
     "type": "git",
