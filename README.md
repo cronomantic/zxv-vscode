@@ -206,6 +206,22 @@ The tests inside VS Code (`npm run test:vscode`) build and run the ZX-V
 examples with the real tools; see `test/runTests.ts` for the variables
 (`ZXV_TOOLS`, `ZXBC`, `PYTHON`...).
 
+## Publishing it
+
+`.github/workflows/publish.yml` publishes it on the VS Code Marketplace and
+Open VSX, and leaves the `.vsix` in a GitHub release, when a tag with the
+`package.json` version is pushed:
+
+```bash
+git tag v0.1.0 && git push origin v0.1.0
+```
+
+No tokens: both stores trust that workflow (trusted publishing with OIDC),
+which runs in the repository's `publish` environment. It downloads the web
+core from the ZX-V release that `scripts/fetch-web.mjs` names. Open VSX is
+only published to with the repository variable `PUBLISH_OPENVSX = true`. It
+can be re-run safely: what a store already has is skipped.
+
 ## Licence
 
 MIT. The web core in `media/web` belongs to ZX-V, with its licences in that

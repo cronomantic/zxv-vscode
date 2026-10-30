@@ -1,0 +1,90 @@
+# Publicar la extensión en el VS Code Marketplace y en Open VSX, y dejar el
+# .vsix en una release de GitHub. Solo al subir una etiqueta vX.Y.Z (que tiene
+# que coincidir con la versión de package.json) o a mano desde Actions; nunca
+# en cada push.
+#
+# Sin tokens: las dos tiendas aceptan la publicación de confianza (OIDC) de
+# este workflow, con el entorno "publish":
+#   - Marketplace: publisher Cronomantic > Trusted Publishing: propietario
+#     cronomantic, repositorio zxv-vscode, workflow publish.yml, entorno publish.
+#   - Open VSX: Settings > Trusted Publishers, espacio de nombres cronomantic,
+#     GitHub Actions, con los mismos datos. Solo puede hacerlo el propietario
+#     del espacio de nombres (hay que reclamarlo). Hasta entonces este paso se
+#     salta: se activa con la variable del repositorio PUBLISH_OPENVSX = true
+#     (Settings > Secrets and variables > Actions > Variables).
+#
+# Se puede repetir sin miedo («Re-run all jobs»): con --skip-duplicate, lo que
+# ya está en una tienda se salta, y la release de GitHub se actualiza. Así, al
+# activar Open VSX, basta con repetir el de la última etiqueta.
+name: Publicar
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: publish
+    permissions:
+      contents: write         # la release de GitHub
+      id-token: write         # la publicación de confianza
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: La etiqueta es la versión de package.json
+        if: github.ref_type == 'tag'
+        run: |
+          v="v$(node -p "require('./package.json').version")"
+          if [ "$v" != "$GITHUB_REF_NAME" ]; then
+            echo "La etiqueta $GITHUB_REF_NAME no es la versión de package.json ($v)"
+            exit 1
+          fi
+
+      # El núcleo web (y zxv-check.js), de la release de ZX-V que dice el script.
+      - name: El núcleo web de ZX-V
+        run: node scripts/fetch-web.mjs --download
+
+      # Las pruebas que no necesitan VS Code ni las herramientas de ZX-V.
+      - run: npm test
+
+      - name: Empaquetar
+        run: npx vsce package --out zxv.vsix
+
+      # El mismo .vsix que se publica, para descargarlo desde la ejecución.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zxv-vsix
+          path: zxv.vsix
+
+      - name: VS Code Marketplace
+        run: npx vsce publish --oidc --skip-duplicate --packagePath zxv.vsix
+
+      - name: Open VSX
+        if: vars.PUBLISH_OPENVSX == 'true'
+        run: npx ovsx publish zxv.vsix --trusted-publishing --skip-duplicate
+
+      - name: La release de GitHub
+        if: github.ref_type == 'tag'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          v="$(node -p "require('./package.json').version")"
+          cp zxv.vsix "zxv-$v.vsix"
+          if gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" "zxv-$v.vsix" --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" "zxv-$v.vsix" --title "ZX-V $v" \
+              --notes "Instálala desde el VS Code Marketplace u Open VSX, o este .vsix a mano (Extensiones > ... > Instalar desde VSIX). / Install it from the VS Code Marketplace or Open VSX, or this .vsix by hand. Ver/see CHANGELOG.md."
+          fi
