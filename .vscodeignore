@@ -1,0 +1,16 @@
+**
+!package.json
+!package.nls.json
+!package.nls.es.json
+!README.md
+!README.es.md
+!CHANGELOG.md
+!LICENSE
+!l10n/**
+!out/src/**/*.js
+!syntaxes/**
+!snippets/**
+!language-configuration/**
+!data/**
+!media/**
+!images/**

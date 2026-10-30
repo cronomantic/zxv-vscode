@@ -1,0 +1,335 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "ZX Basic (ZX-V)",
+  "scopeName": "source.zxbasic.zxv",
+  "comment": "Generado por scripts/gen-grammars.mjs desde zxbasic v1.19.0-zxv.3: no lo cambies a mano.",
+  "patterns": [
+    {
+      "include": "#all"
+    }
+  ],
+  "repository": {
+    "all": {
+      "patterns": [
+        {
+          "include": "#block-comment"
+        },
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#preprocessor"
+        },
+        {
+          "include": "#asm"
+        },
+        {
+          "include": "#string"
+        },
+        {
+          "include": "#declaration"
+        },
+        {
+          "include": "#end"
+        },
+        {
+          "include": "#go"
+        },
+        {
+          "include": "#label"
+        },
+        {
+          "include": "#keywords"
+        },
+        {
+          "include": "#library"
+        },
+        {
+          "include": "#number"
+        },
+        {
+          "include": "#address"
+        },
+        {
+          "include": "#variable"
+        },
+        {
+          "include": "#operator"
+        },
+        {
+          "include": "#punctuation"
+        }
+      ]
+    },
+    "block-comment": {
+      "begin": "/'",
+      "end": "'/",
+      "name": "comment.block.zxbasic",
+      "captures": {
+        "0": {
+          "name": "punctuation.definition.comment.zxbasic"
+        }
+      }
+    },
+    "comment": {
+      "patterns": [
+        {
+          "match": "'.*$",
+          "name": "comment.line.apostrophe.zxbasic"
+        },
+        {
+          "match": "(?i)(?<![A-Za-z0-9_$])(rem)(?![A-Za-z0-9_$])(.*)$",
+          "captures": {
+            "1": {
+              "name": "keyword.other.rem.zxbasic"
+            },
+            "2": {
+              "name": "comment.line.rem.zxbasic"
+            }
+          },
+          "name": "comment.line.rem.zxbasic"
+        }
+      ]
+    },
+    "preprocessor": {
+      "begin": "(?i)^\\s*(#)\\s*(include|require|warning|define|ifndef|pragma|endif|error|ifdef|undef|elif|else|init|line|once|if)\\b",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.definition.directive.zxbasic"
+        },
+        "2": {
+          "name": "keyword.control.directive.zxbasic"
+        }
+      },
+      "end": "(?<!_)$",
+      "name": "meta.preprocessor.zxbasic",
+      "patterns": [
+        {
+          "match": "<[^>]*>",
+          "name": "string.quoted.other.lt-gt.include.zxbasic"
+        },
+        {
+          "include": "#string"
+        },
+        {
+          "include": "#number"
+        },
+        {
+          "match": "[A-Za-z_][A-Za-z0-9_]*",
+          "name": "entity.name.function.preprocessor.zxbasic"
+        }
+      ]
+    },
+    "asm": {
+      "begin": "(?i)(?<![A-Za-z0-9_$])(asm)(?![A-Za-z0-9_$])",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.control.asm.zxbasic"
+        }
+      },
+      "end": "(?i)\\b(end\\s+asm)\\b",
+      "endCaptures": {
+        "1": {
+          "name": "keyword.control.asm.zxbasic"
+        }
+      },
+      "contentName": "meta.embedded.block.asm",
+      "patterns": [
+        {
+          "match": ";.*$",
+          "name": "comment.line.semicolon.asm"
+        },
+        {
+          "match": "\"(?:[^\"\\\\]|\\\\.)*\"",
+          "name": "string.quoted.double.asm"
+        },
+        {
+          "match": "(?<![A-Za-z0-9_.])(?:0x[0-9A-Fa-f]+|-?\\d+)\\b",
+          "name": "constant.numeric.asm"
+        }
+      ]
+    },
+    "string": {
+      "begin": "\"",
+      "end": "\"(?!\")",
+      "name": "string.quoted.double.zxbasic",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.zxbasic"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.zxbasic"
+        }
+      },
+      "patterns": [
+        {
+          "match": "\"\"",
+          "name": "constant.character.escape.quote.zxbasic"
+        },
+        {
+          "match": "\\\\(?:\\\\|\\*|[ '.:][ '.:]|[A-Ua-u]|#[0-9]{3}|\\{[pi][0-9]\\}|\\{[fb][01]\\}|\\{v[in01]\\}|\\{[IB][01]\\})",
+          "name": "constant.character.escape.zxbasic"
+        }
+      ]
+    },
+    "declaration": {
+      "comment": "SUB y FUNCTION con su nombre (y DECLARE delante).",
+      "match": "(?i)(?<![A-Za-z0-9_$])(?:(declare)\\s+)?(sub|function)\\s+(?:(fastcall|stdcall)\\s+)?([A-Za-z_][A-Za-z0-9_]*\\$?)",
+      "captures": {
+        "1": {
+          "name": "storage.type.zxbasic"
+        },
+        "2": {
+          "name": "storage.type.function.zxbasic"
+        },
+        "3": {
+          "name": "storage.modifier.zxbasic"
+        },
+        "4": {
+          "name": "entity.name.function.zxbasic"
+        }
+      }
+    },
+    "end": {
+      "match": "(?i)(?<![A-Za-z0-9_$])(end)\\s+(sub|function|if|while|asm)(?![A-Za-z0-9_$])",
+      "captures": {
+        "1": {
+          "name": "keyword.control.zxbasic"
+        },
+        "2": {
+          "name": "keyword.control.zxbasic"
+        }
+      }
+    },
+    "go": {
+      "match": "(?i)(?<![A-Za-z0-9_$])go\\s+(?:to|sub)(?![A-Za-z0-9_$])",
+      "name": "keyword.control.zxbasic"
+    },
+    "label": {
+      "comment": "Un número de línea o una etiqueta (nombre:) al principio de la línea.",
+      "patterns": [
+        {
+          "match": "^\\s*(\\d+)(?=\\s|$)",
+          "captures": {
+            "1": {
+              "name": "constant.numeric.line-number.zxbasic"
+            }
+          }
+        },
+        {
+          "match": "(?i)^\\s*(?!(?:randomize(?![A-Za-z0-9_$])|continue(?![A-Za-z0-9_$])|fastcall(?![A-Za-z0-9_$])|function(?![A-Za-z0-9_$])|uinteger(?![A-Za-z0-9_$])|declare(?![A-Za-z0-9_$])|integer(?![A-Za-z0-9_$])|inverse(?![A-Za-z0-9_$])|restore(?![A-Za-z0-9_$])|stdcall(?![A-Za-z0-9_$])|border(?![A-Za-z0-9_$])|bright(?![A-Za-z0-9_$])|circle(?![A-Za-z0-9_$])|elseif(?![A-Za-z0-9_$])|italic(?![A-Za-z0-9_$])|lbound(?![A-Za-z0-9_$])|return(?![A-Za-z0-9_$])|sizeof(?![A-Za-z0-9_$])|string(?![A-Za-z0-9_$])|ubound(?![A-Za-z0-9_$])|verify(?![A-Za-z0-9_$])|byref(?![A-Za-z0-9_$])|byval(?![A-Za-z0-9_$])|const(?![A-Za-z0-9_$])|endif(?![A-Za-z0-9_$])|error(?![A-Za-z0-9_$])|fixed(?![A-Za-z0-9_$])|flash(?![A-Za-z0-9_$])|float(?![A-Za-z0-9_$])|gosub(?![A-Za-z0-9_$])|inkey(?![A-Za-z0-9_$])|paper(?![A-Za-z0-9_$])|pause(?![A-Za-z0-9_$])|print(?![A-Za-z0-9_$])|ubyte(?![A-Za-z0-9_$])|ulong(?![A-Za-z0-9_$])|until(?![A-Za-z0-9_$])|while(?![A-Za-z0-9_$])|band(?![A-Za-z0-9_$])|beep(?![A-Za-z0-9_$])|bnot(?![A-Za-z0-9_$])|bold(?![A-Za-z0-9_$])|bxor(?![A-Za-z0-9_$])|byte(?![A-Za-z0-9_$])|cast(?![A-Za-z0-9_$])|code(?![A-Za-z0-9_$])|data(?![A-Za-z0-9_$])|draw(?![A-Za-z0-9_$])|else(?![A-Za-z0-9_$])|exit(?![A-Za-z0-9_$])|goto(?![A-Za-z0-9_$])|load(?![A-Za-z0-9_$])|long(?![A-Za-z0-9_$])|loop(?![A-Za-z0-9_$])|next(?![A-Za-z0-9_$])|over(?![A-Za-z0-9_$])|peek(?![A-Za-z0-9_$])|plot(?![A-Za-z0-9_$])|poke(?![A-Za-z0-9_$])|read(?![A-Za-z0-9_$])|save(?![A-Za-z0-9_$])|step(?![A-Za-z0-9_$])|stop(?![A-Za-z0-9_$])|then(?![A-Za-z0-9_$])|wend(?![A-Za-z0-9_$])|abs(?![A-Za-z0-9_$])|acs(?![A-Za-z0-9_$])|and(?![A-Za-z0-9_$])|asm(?![A-Za-z0-9_$])|asn(?![A-Za-z0-9_$])|atn(?![A-Za-z0-9_$])|bin(?![A-Za-z0-9_$])|bor(?![A-Za-z0-9_$])|chr(?![A-Za-z0-9_$])|cls(?![A-Za-z0-9_$])|cos(?![A-Za-z0-9_$])|dim(?![A-Za-z0-9_$])|end(?![A-Za-z0-9_$])|exp(?![A-Za-z0-9_$])|for(?![A-Za-z0-9_$])|ink(?![A-Za-z0-9_$])|int(?![A-Za-z0-9_$])|len(?![A-Za-z0-9_$])|let(?![A-Za-z0-9_$])|mod(?![A-Za-z0-9_$])|not(?![A-Za-z0-9_$])|out(?![A-Za-z0-9_$])|rnd(?![A-Za-z0-9_$])|sgn(?![A-Za-z0-9_$])|shl(?![A-Za-z0-9_$])|shr(?![A-Za-z0-9_$])|sin(?![A-Za-z0-9_$])|sqr(?![A-Za-z0-9_$])|str(?![A-Za-z0-9_$])|sub(?![A-Za-z0-9_$])|tab(?![A-Za-z0-9_$])|tan(?![A-Za-z0-9_$])|usr(?![A-Za-z0-9_$])|val(?![A-Za-z0-9_$])|xor(?![A-Za-z0-9_$])|as(?![A-Za-z0-9_$])|at(?![A-Za-z0-9_$])|do(?![A-Za-z0-9_$])|go(?![A-Za-z0-9_$])|if(?![A-Za-z0-9_$])|in(?![A-Za-z0-9_$])|ln(?![A-Za-z0-9_$])|on(?![A-Za-z0-9_$])|or(?![A-Za-z0-9_$])|pi(?![A-Za-z0-9_$])|to(?![A-Za-z0-9_$])|inkey\\$|chr\\$|str\\$|musiccontinue(?![A-Za-z0-9_$])|musicpause(?![A-Za-z0-9_$])|remapreset(?![A-Za-z0-9_$])|sfxplaying(?![A-Za-z0-9_$])|musicload(?![A-Za-z0-9_$])|musicplay(?![A-Za-z0-9_$])|musicstop(?![A-Za-z0-9_$])|grabstr(?![A-Za-z0-9_$])|sfxload(?![A-Za-z0-9_$])|sfxstop(?![A-Za-z0-9_$])|screen(?![A-Za-z0-9_$])|scroll(?![A-Za-z0-9_$])|sprite(?![A-Za-z0-9_$])|music(?![A-Za-z0-9_$])|pixel(?![A-Za-z0-9_$])|remap(?![A-Za-z0-9_$])|sound(?![A-Za-z0-9_$])|clip(?![A-Za-z0-9_$])|disc(?![A-Za-z0-9_$])|grab(?![A-Za-z0-9_$])|mode(?![A-Za-z0-9_$])|page(?![A-Za-z0-9_$])|poly(?![A-Za-z0-9_$])|time(?![A-Za-z0-9_$])|wait(?![A-Za-z0-9_$])|box(?![A-Za-z0-9_$])|hit(?![A-Za-z0-9_$])|joy(?![A-Za-z0-9_$])|key(?![A-Za-z0-9_$])|sfx(?![A-Za-z0-9_$]))\\s*:)([A-Za-z_][A-Za-z0-9_]*)\\s*(:)(?!=)",
+          "captures": {
+            "1": {
+              "name": "entity.name.label.zxbasic"
+            },
+            "2": {
+              "name": "punctuation.separator.label.zxbasic"
+            }
+          }
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "match": "(?i)(?<![A-Za-z0-9_$])(?:continue(?![A-Za-z0-9_$])|elseif(?![A-Za-z0-9_$])|return(?![A-Za-z0-9_$])|endif(?![A-Za-z0-9_$])|gosub(?![A-Za-z0-9_$])|until(?![A-Za-z0-9_$])|while(?![A-Za-z0-9_$])|else(?![A-Za-z0-9_$])|exit(?![A-Za-z0-9_$])|goto(?![A-Za-z0-9_$])|loop(?![A-Za-z0-9_$])|next(?![A-Za-z0-9_$])|step(?![A-Za-z0-9_$])|stop(?![A-Za-z0-9_$])|then(?![A-Za-z0-9_$])|wend(?![A-Za-z0-9_$])|end(?![A-Za-z0-9_$])|for(?![A-Za-z0-9_$])|do(?![A-Za-z0-9_$])|go(?![A-Za-z0-9_$])|if(?![A-Za-z0-9_$])|on(?![A-Za-z0-9_$])|to(?![A-Za-z0-9_$]))",
+          "name": "keyword.control.zxbasic"
+        },
+        {
+          "match": "(?i)(?<![A-Za-z0-9_$])(?:function(?![A-Za-z0-9_$])|declare(?![A-Za-z0-9_$])|const(?![A-Za-z0-9_$])|dim(?![A-Za-z0-9_$])|sub(?![A-Za-z0-9_$])|as(?![A-Za-z0-9_$]))",
+          "name": "storage.type.zxbasic"
+        },
+        {
+          "match": "(?i)(?<![A-Za-z0-9_$])(?:uinteger(?![A-Za-z0-9_$])|integer(?![A-Za-z0-9_$])|string(?![A-Za-z0-9_$])|fixed(?![A-Za-z0-9_$])|float(?![A-Za-z0-9_$])|ubyte(?![A-Za-z0-9_$])|ulong(?![A-Za-z0-9_$])|byte(?![A-Za-z0-9_$])|long(?![A-Za-z0-9_$]))",
+          "name": "storage.type.zxbasic"
+        },
+        {
+          "match": "(?i)(?<![A-Za-z0-9_$])(?:fastcall(?![A-Za-z0-9_$])|stdcall(?![A-Za-z0-9_$])|byref(?![A-Za-z0-9_$])|byval(?![A-Za-z0-9_$]))",
+          "name": "storage.modifier.zxbasic"
+        },
+        {
+          "match": "(?i)(?<![A-Za-z0-9_$])(?:band(?![A-Za-z0-9_$])|bnot(?![A-Za-z0-9_$])|bxor(?![A-Za-z0-9_$])|and(?![A-Za-z0-9_$])|bor(?![A-Za-z0-9_$])|mod(?![A-Za-z0-9_$])|not(?![A-Za-z0-9_$])|shl(?![A-Za-z0-9_$])|shr(?![A-Za-z0-9_$])|xor(?![A-Za-z0-9_$])|or(?![A-Za-z0-9_$]))",
+          "name": "keyword.operator.word.zxbasic"
+        },
+        {
+          "match": "(?i)(?<![A-Za-z0-9_$])(?:lbound(?![A-Za-z0-9_$])|sizeof(?![A-Za-z0-9_$])|ubound(?![A-Za-z0-9_$])|inkey(?![A-Za-z0-9_$])|cast(?![A-Za-z0-9_$])|code(?![A-Za-z0-9_$])|peek(?![A-Za-z0-9_$])|abs(?![A-Za-z0-9_$])|acs(?![A-Za-z0-9_$])|asn(?![A-Za-z0-9_$])|atn(?![A-Za-z0-9_$])|chr(?![A-Za-z0-9_$])|cos(?![A-Za-z0-9_$])|exp(?![A-Za-z0-9_$])|int(?![A-Za-z0-9_$])|len(?![A-Za-z0-9_$])|rnd(?![A-Za-z0-9_$])|sgn(?![A-Za-z0-9_$])|sin(?![A-Za-z0-9_$])|sqr(?![A-Za-z0-9_$])|str(?![A-Za-z0-9_$])|tan(?![A-Za-z0-9_$])|usr(?![A-Za-z0-9_$])|val(?![A-Za-z0-9_$])|in(?![A-Za-z0-9_$])|ln(?![A-Za-z0-9_$])|pi(?![A-Za-z0-9_$])|inkey\\$|chr\\$|str\\$)",
+          "name": "support.function.builtin.zxbasic"
+        },
+        {
+          "match": "(?i)(?<![A-Za-z0-9_$])(?:randomize(?![A-Za-z0-9_$])|inverse(?![A-Za-z0-9_$])|restore(?![A-Za-z0-9_$])|border(?![A-Za-z0-9_$])|bright(?![A-Za-z0-9_$])|circle(?![A-Za-z0-9_$])|italic(?![A-Za-z0-9_$])|verify(?![A-Za-z0-9_$])|error(?![A-Za-z0-9_$])|flash(?![A-Za-z0-9_$])|paper(?![A-Za-z0-9_$])|pause(?![A-Za-z0-9_$])|print(?![A-Za-z0-9_$])|beep(?![A-Za-z0-9_$])|bold(?![A-Za-z0-9_$])|data(?![A-Za-z0-9_$])|draw(?![A-Za-z0-9_$])|load(?![A-Za-z0-9_$])|over(?![A-Za-z0-9_$])|plot(?![A-Za-z0-9_$])|poke(?![A-Za-z0-9_$])|read(?![A-Za-z0-9_$])|save(?![A-Za-z0-9_$])|bin(?![A-Za-z0-9_$])|cls(?![A-Za-z0-9_$])|ink(?![A-Za-z0-9_$])|let(?![A-Za-z0-9_$])|out(?![A-Za-z0-9_$])|tab(?![A-Za-z0-9_$])|at(?![A-Za-z0-9_$]))",
+          "name": "keyword.other.zxbasic"
+        }
+      ]
+    },
+    "library": {
+      "comment": "Las SUB y FUNCTION de zxv.bas (#include <zxv.bas>).",
+      "match": "(?i)(?<![A-Za-z0-9_$])(?:musiccontinue(?![A-Za-z0-9_$])|musicpause(?![A-Za-z0-9_$])|remapreset(?![A-Za-z0-9_$])|sfxplaying(?![A-Za-z0-9_$])|musicload(?![A-Za-z0-9_$])|musicplay(?![A-Za-z0-9_$])|musicstop(?![A-Za-z0-9_$])|grabstr(?![A-Za-z0-9_$])|sfxload(?![A-Za-z0-9_$])|sfxstop(?![A-Za-z0-9_$])|screen(?![A-Za-z0-9_$])|scroll(?![A-Za-z0-9_$])|sprite(?![A-Za-z0-9_$])|music(?![A-Za-z0-9_$])|pixel(?![A-Za-z0-9_$])|remap(?![A-Za-z0-9_$])|sound(?![A-Za-z0-9_$])|clip(?![A-Za-z0-9_$])|disc(?![A-Za-z0-9_$])|grab(?![A-Za-z0-9_$])|mode(?![A-Za-z0-9_$])|page(?![A-Za-z0-9_$])|poly(?![A-Za-z0-9_$])|time(?![A-Za-z0-9_$])|wait(?![A-Za-z0-9_$])|box(?![A-Za-z0-9_$])|hit(?![A-Za-z0-9_$])|joy(?![A-Za-z0-9_$])|key(?![A-Za-z0-9_$])|sfx(?![A-Za-z0-9_$]))",
+      "name": "support.function.zxv.zxbasic"
+    },
+    "number": {
+      "patterns": [
+        {
+          "match": "(?<![A-Za-z0-9_])(?:\\$[0-9A-Fa-f]+|0[xX][0-9A-Fa-f]+|[0-9][0-9A-Fa-f]*[hH](?![A-Za-z0-9_]))",
+          "name": "constant.numeric.hex.zxbasic"
+        },
+        {
+          "match": "(?<![A-Za-z0-9_])(?:%[01]+|[01]+[bB](?![A-Za-z0-9_]))",
+          "name": "constant.numeric.binary.zxbasic"
+        },
+        {
+          "match": "(?<![A-Za-z0-9_.])(?:\\d+\\.?\\d*|\\.\\d+)(?:[eE][+-]?\\d+)?",
+          "name": "constant.numeric.zxbasic"
+        }
+      ]
+    },
+    "address": {
+      "match": "(@)\\s*([A-Za-z_][A-Za-z0-9_]*)",
+      "captures": {
+        "1": {
+          "name": "keyword.operator.address.zxbasic"
+        },
+        "2": {
+          "name": "variable.other.zxbasic"
+        }
+      }
+    },
+    "variable": {
+      "match": "(?<![A-Za-z0-9_])[A-Za-z_][A-Za-z0-9_]*\\$?",
+      "name": "variable.other.zxbasic"
+    },
+    "operator": {
+      "patterns": [
+        {
+          "match": ":=|<=|>=|<>|<<|>>|=>",
+          "name": "keyword.operator.zxbasic"
+        },
+        {
+          "match": "[=<>]",
+          "name": "keyword.operator.comparison.zxbasic"
+        },
+        {
+          "match": "[-+*/^~&|!]",
+          "name": "keyword.operator.arithmetic.zxbasic"
+        }
+      ]
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "match": ":",
+          "name": "punctuation.separator.statement.zxbasic"
+        },
+        {
+          "match": "[;,]",
+          "name": "punctuation.separator.zxbasic"
+        },
+        {
+          "match": "_\\s*$",
+          "name": "punctuation.separator.continuation.zxbasic"
+        }
+      ]
+    }
+  }
+}

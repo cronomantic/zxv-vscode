@@ -1,0 +1,479 @@
+{
+  "name": "zxv",
+  "displayName": "ZX-V",
+  "description": "ZX-V: los dos BASIC, compilar y ejecutar, el emulador dentro del editor y depurar C con GDB / ZX-V: both BASICs, build and run, the emulator inside the editor and C debugging with GDB",
+  "version": "0.1.0",
+  "publisher": "cronomantic",
+  "license": "MIT",
+  "author": "cronomantic",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cronomantic/zxv-vscode"
+  },
+  "homepage": "https://cronomantic.github.io/ZX-V/",
+  "bugs": "https://github.com/cronomantic/zxv-vscode/issues",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets",
+    "Debuggers",
+    "Other"
+  ],
+  "keywords": [
+    "zx-v",
+    "zx spectrum",
+    "basic",
+    "zx basic",
+    "boriel",
+    "risc-v",
+    "retro"
+  ],
+  "main": "./out/src/extension.js",
+  "l10n": "./l10n",
+  "activationEvents": [
+    "onLanguage:vb",
+    "onLanguage:zxbasic",
+    "onLanguage:borielbasic",
+    "workspaceContains:**/*.zxv",
+    "workspaceContains:**/zxv.ld",
+    "onDebugResolve:zxv",
+    "onDebugDynamicConfigurations:zxv"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "zxv-zxbasic",
+        "aliases": [
+          "ZX Basic (Boriel, ZX-V)",
+          "zxv-zxbasic"
+        ],
+        "extensions": [
+          ".bas"
+        ],
+        "configuration": "./language-configuration/zxbasic.json"
+      },
+      {
+        "id": "zxv-basic",
+        "aliases": [
+          "ZX-V BASIC",
+          "zxv-basic"
+        ],
+        "extensions": [
+          ".bas"
+        ],
+        "firstLine": "^\\s*\\d+\\s",
+        "configuration": "./language-configuration/zxv-basic.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "zxv-basic",
+        "scopeName": "source.zxv-basic",
+        "path": "./syntaxes/zxv-basic.tmLanguage.json"
+      },
+      {
+        "language": "zxv-zxbasic",
+        "scopeName": "source.zxbasic.zxv",
+        "path": "./syntaxes/zxbasic.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "zxv-zxbasic",
+        "path": "./snippets/zxbasic.json"
+      }
+    ],
+    "configuration": {
+      "title": "ZX-V",
+      "properties": {
+        "zxv.basicDialect": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "zxv-basic",
+            "zxv-zxbasic"
+          ],
+          "enumDescriptions": [
+            "%config.basicDialect.auto%",
+            "%config.basicDialect.zxv%",
+            "%config.basicDialect.zxbasic%"
+          ],
+          "default": "auto",
+          "scope": "resource",
+          "markdownDescription": "%config.basicDialect%"
+        },
+        "zxv.claimBasFiles": {
+          "type": "boolean",
+          "default": true,
+          "scope": "resource",
+          "markdownDescription": "%config.claimBasFiles%"
+        },
+        "zxv.toolsPath": {
+          "type": "string",
+          "default": "",
+          "scope": "machine-overridable",
+          "markdownDescription": "%config.toolsPath%"
+        },
+        "zxv.sdkPath": {
+          "type": "string",
+          "default": "",
+          "scope": "machine-overridable",
+          "markdownDescription": "%config.sdkPath%"
+        },
+        "zxv.zxbcPath": {
+          "type": "string",
+          "default": "",
+          "scope": "machine-overridable",
+          "markdownDescription": "%config.zxbcPath%"
+        },
+        "zxv.gdbPath": {
+          "type": "string",
+          "default": "",
+          "scope": "machine-overridable",
+          "markdownDescription": "%config.gdbPath%"
+        },
+        "zxv.pythonPath": {
+          "type": "string",
+          "default": "",
+          "scope": "machine-overridable",
+          "markdownDescription": "%config.pythonPath%"
+        },
+        "zxv.makePath": {
+          "type": "string",
+          "default": "make",
+          "scope": "machine-overridable",
+          "markdownDescription": "%config.makePath%"
+        },
+        "zxv.makeArgs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "scope": "resource",
+          "markdownDescription": "%config.makeArgs%"
+        },
+        "zxv.zxbcArgs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "--enable-break"
+          ],
+          "scope": "resource",
+          "markdownDescription": "%config.zxbcArgs%"
+        },
+        "zxv.emulatorArgs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "scope": "resource",
+          "markdownDescription": "%config.emulatorArgs%"
+        },
+        "zxv.program": {
+          "type": "string",
+          "default": "",
+          "scope": "resource",
+          "markdownDescription": "%config.program%"
+        },
+        "zxv.gdbPort": {
+          "type": "integer",
+          "default": 1234,
+          "minimum": 1,
+          "maximum": 65535,
+          "scope": "resource",
+          "markdownDescription": "%config.gdbPort%"
+        },
+        "zxv.panel.reloadOnChange": {
+          "type": "boolean",
+          "default": true,
+          "scope": "resource",
+          "markdownDescription": "%config.reloadOnChange%"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "zxv.build",
+        "title": "%command.build%",
+        "category": "ZX-V",
+        "icon": "$(tools)"
+      },
+      {
+        "command": "zxv.run",
+        "title": "%command.run%",
+        "category": "ZX-V",
+        "icon": "$(play)"
+      },
+      {
+        "command": "zxv.runInPanel",
+        "title": "%command.runInPanel%",
+        "category": "ZX-V",
+        "icon": "$(preview)"
+      },
+      {
+        "command": "zxv.openEmulator",
+        "title": "%command.openEmulator%",
+        "category": "ZX-V"
+      },
+      {
+        "command": "zxv.selectBasicDialect",
+        "title": "%command.selectBasicDialect%",
+        "category": "ZX-V"
+      },
+      {
+        "command": "zxv.addDebugConfiguration",
+        "title": "%command.addDebugConfiguration%",
+        "category": "ZX-V"
+      }
+    ],
+    "menus": {
+      "editor/title/run": [
+        {
+          "command": "zxv.run",
+          "when": "editorLangId == zxv-basic || editorLangId == zxv-zxbasic",
+          "group": "navigation@1"
+        },
+        {
+          "command": "zxv.runInPanel",
+          "when": "editorLangId == zxv-basic || editorLangId == zxv-zxbasic",
+          "group": "navigation@2"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "zxv.selectBasicDialect",
+          "when": "editorLangId == zxv-basic || editorLangId == zxv-zxbasic",
+          "group": "zxv@1"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "zxv.run",
+          "when": "resourceExtname == .zxv || resourceExtname == .bas",
+          "group": "zxv@1"
+        },
+        {
+          "command": "zxv.runInPanel",
+          "when": "resourceExtname == .zxv || resourceExtname == .bas",
+          "group": "zxv@2"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "zxv.run",
+        "key": "f5",
+        "when": "editorLangId == zxv-basic && !inDebugMode"
+      }
+    ],
+    "taskDefinitions": [
+      {
+        "type": "zxv",
+        "required": [
+          "action"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "make",
+              "zxbc",
+              "run",
+              "gdb-server"
+            ],
+            "description": "%task.action%"
+          },
+          "file": {
+            "type": "string",
+            "description": "%task.file%"
+          },
+          "args": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "%task.args%"
+          }
+        }
+      }
+    ],
+    "problemMatchers": [
+      {
+        "name": "zxv-gcc",
+        "label": "%problemMatcher.gcc%",
+        "owner": "zxv-gcc",
+        "source": "gcc",
+        "fileLocation": "absolute",
+        "pattern": {
+          "regexp": "^(.*?):(\\d+):(\\d*):?\\s+(?:fatal\\s+)?(warning|error|note):\\s+(.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "message": 5
+        }
+      },
+      {
+        "name": "zxv-ld",
+        "label": "%problemMatcher.ld%",
+        "owner": "zxv-gcc",
+        "source": "ld",
+        "fileLocation": "absolute",
+        "severity": "error",
+        "pattern": {
+          "regexp": "^(.*?):(\\d+):\\s+(undefined reference to .*|multiple definition of .*)$",
+          "file": 1,
+          "line": 2,
+          "message": 3
+        }
+      },
+      {
+        "name": "zxbc",
+        "label": "%problemMatcher.zxbc%",
+        "owner": "zxbc",
+        "source": "zxbc",
+        "fileLocation": "absolute",
+        "pattern": {
+          "regexp": "^(.*?\\.(?:bas|bi|zxb|asm|inc)):(\\d+):\\s+(error|warning):\\s*(?:\\[\\w+\\]\\s*)?(.*)$",
+          "file": 1,
+          "line": 2,
+          "severity": 3,
+          "message": 4
+        }
+      },
+      {
+        "name": "zxv-gdb-server",
+        "label": "%problemMatcher.gdbServer%",
+        "owner": "zxv-gdb-server",
+        "pattern": {
+          "regexp": "^(gdb: no se puede .*|gdb: cannot .*)$",
+          "message": 1
+        },
+        "background": {
+          "activeBegins": true,
+          "beginsPattern": "^.",
+          "endsPattern": "(Esperando a GDB en el puerto|Waiting for GDB on port) \\d+"
+        }
+      }
+    ],
+    "debuggers": [
+      {
+        "type": "zxv",
+        "label": "ZX-V (GDB)",
+        "languages": [
+          "c"
+        ],
+        "configurationAttributes": {
+          "launch": {
+            "required": [
+              "program"
+            ],
+            "properties": {
+              "program": {
+                "type": "string",
+                "description": "%debug.program%",
+                "default": "${workspaceFolder}/build/${fileBasenameNoExtension}.elf"
+              },
+              "zxv": {
+                "type": "string",
+                "description": "%debug.zxv%"
+              },
+              "port": {
+                "type": "integer",
+                "description": "%debug.port%",
+                "default": 1234
+              },
+              "sd": {
+                "type": "string",
+                "description": "%debug.sd%"
+              },
+              "build": {
+                "type": "boolean",
+                "description": "%debug.build%",
+                "default": true
+              },
+              "stopAtEntry": {
+                "type": "boolean",
+                "description": "%debug.stopAtEntry%",
+                "default": false
+              },
+              "emulatorArgs": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "%debug.emulatorArgs%"
+              }
+            }
+          }
+        },
+        "initialConfigurations": [
+          {
+            "type": "zxv",
+            "request": "launch",
+            "name": "ZX-V: GDB",
+            "program": "${workspaceFolder}/build/${fileBasenameNoExtension}.elf"
+          }
+        ],
+        "configurationSnippets": [
+          {
+            "label": "ZX-V: GDB",
+            "description": "%debug.snippet.zxv%",
+            "body": {
+              "type": "zxv",
+              "request": "launch",
+              "name": "ZX-V: GDB",
+              "program": "^\"\\${workspaceFolder}/build/${1:programa}.elf\""
+            }
+          },
+          {
+            "label": "ZX-V: GDB (cppdbg + preLaunchTask)",
+            "description": "%debug.snippet.cppdbg%",
+            "body": {
+              "type": "cppdbg",
+              "request": "launch",
+              "name": "ZX-V: GDB (cppdbg)",
+              "program": "^\"\\${workspaceFolder}/build/${1:programa}.elf\"",
+              "cwd": "^\"\\${workspaceFolder}\"",
+              "MIMode": "gdb",
+              "miDebuggerPath": "riscv64-unknown-elf-gdb",
+              "miDebuggerServerAddress": "localhost:1234",
+              "stopAtEntry": false,
+              "externalConsole": false,
+              "preLaunchTask": "ZX-V: emulador con GDB"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "grammars": "node scripts/gen-grammars.mjs",
+    "web": "node scripts/fetch-web.mjs",
+    "pretest": "npm run compile",
+    "test": "mocha \"out/test/unit/**/*.test.js\"",
+    "test:vscode": "npm run compile && node out/test/runTests.js",
+    "vscode:prepublish": "npm run compile && node scripts/check-media.mjs",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^20.19.43",
+    "@types/vscode": "1.90.0",
+    "@vscode/test-electron": "^3.1.0",
+    "@vscode/vsce": "^4.1.0",
+    "adm-zip": "^0.6.1",
+    "mocha": "^12.0.3",
+    "typescript": "^5.9.3",
+    "vscode-oniguruma": "^2.0.1",
+    "vscode-textmate": "^9.3.2"
+  }
+}

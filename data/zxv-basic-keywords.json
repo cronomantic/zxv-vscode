@@ -1,0 +1,3614 @@
+[
+  {
+    "keyword": "ABS",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "ABS, SGN, INT",
+          "anchor": "abs-sgn-int"
+        }
+      ],
+      "es": [
+        {
+          "title": "ABS, SGN, INT",
+          "anchor": "abs-sgn-int"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "ACS",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "ASN, ACS, ATN",
+          "anchor": "asn-acs-atn"
+        }
+      ],
+      "es": [
+        {
+          "title": "ASN, ACS, ATN",
+          "anchor": "asn-acs-atn"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "AND",
+    "class": "operator",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "operator",
+      "es": "operador"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "True and false",
+          "anchor": "true-and-false"
+        }
+      ],
+      "es": [
+        {
+          "title": "Verdadero y falso",
+          "anchor": "verdadero-y-falso"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "ASN",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "ASN, ACS, ATN",
+          "anchor": "asn-acs-atn"
+        }
+      ],
+      "es": [
+        {
+          "title": "ASN, ACS, ATN",
+          "anchor": "asn-acs-atn"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "AT",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "in PRINT, INPUT",
+      "es": "en PRINT, INPUT"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "PRINT",
+          "anchor": "print"
+        }
+      ],
+      "es": [
+        {
+          "title": "PRINT",
+          "anchor": "print"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "ATN",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "ASN, ACS, ATN",
+          "anchor": "asn-acs-atn"
+        }
+      ],
+      "es": [
+        {
+          "title": "ASN, ACS, ATN",
+          "anchor": "asn-acs-atn"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "ATTR",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "SCREEN$, ATTR",
+          "anchor": "screen-attr"
+        }
+      ],
+      "es": [
+        {
+          "title": "SCREEN$, ATTR",
+          "anchor": "screen-attr"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "AUTO",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "AUTO",
+          "anchor": "auto"
+        }
+      ],
+      "es": [
+        {
+          "title": "AUTO",
+          "anchor": "auto"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "BEEP",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "BEEP",
+          "anchor": "beep"
+        }
+      ],
+      "es": [
+        {
+          "title": "BEEP",
+          "anchor": "beep"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "BIN",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "number",
+      "es": "número"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "BIN",
+          "anchor": "bin"
+        }
+      ],
+      "es": [
+        {
+          "title": "BIN",
+          "anchor": "bin"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "BORDER",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "BORDER",
+          "anchor": "border"
+        }
+      ],
+      "es": [
+        {
+          "title": "BORDER",
+          "anchor": "border"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "BOX",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "BOX",
+          "anchor": "box"
+        }
+      ],
+      "es": [
+        {
+          "title": "BOX",
+          "anchor": "box"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "BRIGHT",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement, item",
+      "es": "orden, elemento"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "BRIGHT, FLASH",
+          "anchor": "bright-flash"
+        }
+      ],
+      "es": [
+        {
+          "title": "BRIGHT, FLASH",
+          "anchor": "bright-flash"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "CASE",
+    "class": "control",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "in SELECT CASE",
+      "es": "en SELECT CASE"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "SELECT CASE",
+          "anchor": "select-case"
+        }
+      ],
+      "es": [
+        {
+          "title": "SELECT CASE",
+          "anchor": "select-case"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "CAT",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "CAT",
+          "anchor": "cat"
+        }
+      ],
+      "es": [
+        {
+          "title": "CAT",
+          "anchor": "cat"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "CD",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "CD, DIR$",
+          "anchor": "cd-dir"
+        }
+      ],
+      "es": [
+        {
+          "title": "CD, DIR$",
+          "anchor": "cd-dir"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "CELL",
+    "class": "function",
+    "zxv": true,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "CELL",
+          "anchor": "cell"
+        }
+      ],
+      "es": [
+        {
+          "title": "CELL",
+          "anchor": "cell"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "CHR$",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "CHR$, CODE",
+          "anchor": "chr-code"
+        }
+      ],
+      "es": [
+        {
+          "title": "CHR$, CODE",
+          "anchor": "chr-code"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "CIRCLE",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "CIRCLE",
+          "anchor": "circle"
+        }
+      ],
+      "es": [
+        {
+          "title": "CIRCLE",
+          "anchor": "circle"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "CLEAR",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "CLEAR",
+          "anchor": "clear"
+        }
+      ],
+      "es": [
+        {
+          "title": "CLEAR",
+          "anchor": "clear"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "CLIP",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "CLIP",
+          "anchor": "clip"
+        }
+      ],
+      "es": [
+        {
+          "title": "CLIP",
+          "anchor": "clip"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "CLOCK",
+    "class": "function",
+    "zxv": true,
+    "anywhere": true,
+    "kind": {
+      "en": "function, statement",
+      "es": "función, orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "CLOCK",
+          "anchor": "clock"
+        }
+      ],
+      "es": [
+        {
+          "title": "CLOCK",
+          "anchor": "clock"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "CLOSE #",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "OPEN, CLOSE",
+          "anchor": "open-close"
+        }
+      ],
+      "es": [
+        {
+          "title": "OPEN, CLOSE",
+          "anchor": "open-close"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "CLS",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "CLS",
+          "anchor": "cls"
+        }
+      ],
+      "es": [
+        {
+          "title": "CLS",
+          "anchor": "cls"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "CODE",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function; in SAVE, LOAD",
+      "es": "función; en SAVE, LOAD"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "CHR$, CODE",
+          "anchor": "chr-code"
+        },
+        {
+          "title": "SAVE",
+          "anchor": "save"
+        }
+      ],
+      "es": [
+        {
+          "title": "CHR$, CODE",
+          "anchor": "chr-code"
+        },
+        {
+          "title": "SAVE",
+          "anchor": "save"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "CONTINUE",
+    "class": "control",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "CONTINUE",
+          "anchor": "continue"
+        }
+      ],
+      "es": [
+        {
+          "title": "CONTINUE",
+          "anchor": "continue"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "COPY",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "COPY",
+          "anchor": "copy"
+        }
+      ],
+      "es": [
+        {
+          "title": "COPY",
+          "anchor": "copy"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "COS",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "SIN, COS, TAN",
+          "anchor": "sin-cos-tan"
+        }
+      ],
+      "es": [
+        {
+          "title": "SIN, COS, TAN",
+          "anchor": "sin-cos-tan"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "DATA",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement; in SAVE, LOAD",
+      "es": "orden; en SAVE, LOAD"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "READ, DATA, RESTORE",
+          "anchor": "read-data-restore"
+        },
+        {
+          "title": "SAVE",
+          "anchor": "save"
+        }
+      ],
+      "es": [
+        {
+          "title": "READ, DATA, RESTORE",
+          "anchor": "read-data-restore"
+        },
+        {
+          "title": "SAVE",
+          "anchor": "save"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "DEF FN",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "DEF FN, FN",
+          "anchor": "def-fn-fn"
+        }
+      ],
+      "es": [
+        {
+          "title": "DEF FN, FN",
+          "anchor": "def-fn-fn"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "DEF PROC",
+    "class": "control",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "DEF PROC, PROC, END PROC",
+          "anchor": "def-proc-proc-end-proc"
+        }
+      ],
+      "es": [
+        {
+          "title": "DEF PROC, PROC, END PROC",
+          "anchor": "def-proc-proc-end-proc"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "DELETE",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "DELETE",
+          "anchor": "delete"
+        }
+      ],
+      "es": [
+        {
+          "title": "DELETE",
+          "anchor": "delete"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "DIM",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "DIM",
+          "anchor": "dim"
+        }
+      ],
+      "es": [
+        {
+          "title": "DIM",
+          "anchor": "dim"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "DIR$",
+    "class": "function",
+    "zxv": true,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "CD, DIR$",
+          "anchor": "cd-dir"
+        }
+      ],
+      "es": [
+        {
+          "title": "CD, DIR$",
+          "anchor": "cd-dir"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "DISC",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "DISC",
+          "anchor": "disc"
+        }
+      ],
+      "es": [
+        {
+          "title": "DISC",
+          "anchor": "disc"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "DRAW",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "DRAW",
+          "anchor": "draw"
+        }
+      ],
+      "es": [
+        {
+          "title": "DRAW",
+          "anchor": "draw"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "EDIT",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "EDIT",
+          "anchor": "edit"
+        }
+      ],
+      "es": [
+        {
+          "title": "EDIT",
+          "anchor": "edit"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "ELSE",
+    "class": "control",
+    "zxv": true,
+    "anywhere": true,
+    "kind": {
+      "en": "in IF",
+      "es": "en IF"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "IF, THEN, ELSE",
+          "anchor": "if-then-else"
+        }
+      ],
+      "es": [
+        {
+          "title": "IF, THEN, ELSE",
+          "anchor": "if-then-else"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "END IF",
+    "class": "control",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "IF, THEN, ELSE",
+          "anchor": "if-then-else"
+        }
+      ],
+      "es": [
+        {
+          "title": "IF, THEN, ELSE",
+          "anchor": "if-then-else"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "END PROC",
+    "class": "control",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "DEF PROC, PROC, END PROC",
+          "anchor": "def-proc-proc-end-proc"
+        }
+      ],
+      "es": [
+        {
+          "title": "DEF PROC, PROC, END PROC",
+          "anchor": "def-proc-proc-end-proc"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "END SELECT",
+    "class": "control",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "SELECT CASE",
+          "anchor": "select-case"
+        }
+      ],
+      "es": [
+        {
+          "title": "SELECT CASE",
+          "anchor": "select-case"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "ERASE",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "ERASE",
+          "anchor": "erase"
+        }
+      ],
+      "es": [
+        {
+          "title": "ERASE",
+          "anchor": "erase"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "ERL",
+    "class": "function",
+    "zxv": true,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "ERR, ERL",
+          "anchor": "err-erl"
+        }
+      ],
+      "es": [
+        {
+          "title": "ERR, ERL",
+          "anchor": "err-erl"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "ERR",
+    "class": "function",
+    "zxv": true,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "ERR, ERL",
+          "anchor": "err-erl"
+        }
+      ],
+      "es": [
+        {
+          "title": "ERR, ERL",
+          "anchor": "err-erl"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "EXP",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "EXP, LN",
+          "anchor": "exp-ln"
+        }
+      ],
+      "es": [
+        {
+          "title": "EXP, LN",
+          "anchor": "exp-ln"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "FIND",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "FIND",
+          "anchor": "find"
+        }
+      ],
+      "es": [
+        {
+          "title": "FIND",
+          "anchor": "find"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "FLASH",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement, item",
+      "es": "orden, elemento"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "BRIGHT, FLASH",
+          "anchor": "bright-flash"
+        }
+      ],
+      "es": [
+        {
+          "title": "BRIGHT, FLASH",
+          "anchor": "bright-flash"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "FLOOR",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "FLOOR",
+          "anchor": "floor"
+        }
+      ],
+      "es": [
+        {
+          "title": "FLOOR",
+          "anchor": "floor"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "FN",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "DEF FN, FN",
+          "anchor": "def-fn-fn"
+        }
+      ],
+      "es": [
+        {
+          "title": "DEF FN, FN",
+          "anchor": "def-fn-fn"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "FOR",
+    "class": "control",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "FOR, NEXT",
+          "anchor": "for-next"
+        }
+      ],
+      "es": [
+        {
+          "title": "FOR, NEXT",
+          "anchor": "for-next"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "FORMAT",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "FORMAT",
+          "anchor": "format"
+        }
+      ],
+      "es": [
+        {
+          "title": "FORMAT",
+          "anchor": "format"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "GO SUB",
+    "class": "control",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "GO SUB, RETURN",
+          "anchor": "go-sub-return"
+        }
+      ],
+      "es": [
+        {
+          "title": "GO SUB, RETURN",
+          "anchor": "go-sub-return"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "GO TO",
+    "class": "control",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "GO TO",
+          "anchor": "go-to"
+        }
+      ],
+      "es": [
+        {
+          "title": "GO TO",
+          "anchor": "go-to"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "GRAB",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "GRAB",
+          "anchor": "grab"
+        }
+      ],
+      "es": [
+        {
+          "title": "GRAB",
+          "anchor": "grab"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "GRAPHICS",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "in SAVE, LOAD, VERIFY",
+      "es": "en SAVE, LOAD, VERIFY"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "SAVE",
+          "anchor": "save"
+        },
+        {
+          "title": "LOAD",
+          "anchor": "load"
+        }
+      ],
+      "es": [
+        {
+          "title": "SAVE",
+          "anchor": "save"
+        },
+        {
+          "title": "LOAD",
+          "anchor": "load"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "HIT",
+    "class": "function",
+    "zxv": true,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "HIT",
+          "anchor": "hit"
+        }
+      ],
+      "es": [
+        {
+          "title": "HIT",
+          "anchor": "hit"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "IF",
+    "class": "control",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "IF, THEN, ELSE",
+          "anchor": "if-then-else"
+        }
+      ],
+      "es": [
+        {
+          "title": "IF, THEN, ELSE",
+          "anchor": "if-then-else"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "IN",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function; in OPEN #",
+      "es": "función; en OPEN #"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "IN, OUT",
+          "anchor": "in-out"
+        },
+        {
+          "title": "OPEN, CLOSE",
+          "anchor": "open-close"
+        }
+      ],
+      "es": [
+        {
+          "title": "IN, OUT",
+          "anchor": "in-out"
+        },
+        {
+          "title": "OPEN, CLOSE",
+          "anchor": "open-close"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "INK",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement, item",
+      "es": "orden, elemento"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "INK, PAPER",
+          "anchor": "ink-paper"
+        }
+      ],
+      "es": [
+        {
+          "title": "INK, PAPER",
+          "anchor": "ink-paper"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "INKEY$",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "INKEY$",
+          "anchor": "inkey"
+        }
+      ],
+      "es": [
+        {
+          "title": "INKEY$",
+          "anchor": "inkey"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "INPUT",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "INPUT",
+          "anchor": "input"
+        }
+      ],
+      "es": [
+        {
+          "title": "INPUT",
+          "anchor": "input"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "INT",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "ABS, SGN, INT",
+          "anchor": "abs-sgn-int"
+        }
+      ],
+      "es": [
+        {
+          "title": "ABS, SGN, INT",
+          "anchor": "abs-sgn-int"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "INVERSE",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement, item",
+      "es": "orden, elemento"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "INVERSE, OVER",
+          "anchor": "inverse-over"
+        }
+      ],
+      "es": [
+        {
+          "title": "INVERSE, OVER",
+          "anchor": "inverse-over"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "JOY",
+    "class": "function",
+    "zxv": true,
+    "anywhere": true,
+    "kind": {
+      "en": "function, statement",
+      "es": "función, orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "JOY",
+          "anchor": "joy"
+        }
+      ],
+      "es": [
+        {
+          "title": "JOY",
+          "anchor": "joy"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "KEY",
+    "class": "function",
+    "zxv": true,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "KEY",
+          "anchor": "key"
+        }
+      ],
+      "es": [
+        {
+          "title": "KEY",
+          "anchor": "key"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "LANGUAGE",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "LANGUAGE",
+          "anchor": "language"
+        }
+      ],
+      "es": [
+        {
+          "title": "LANGUAGE",
+          "anchor": "language"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "LEN",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "LEN",
+          "anchor": "len"
+        }
+      ],
+      "es": [
+        {
+          "title": "LEN",
+          "anchor": "len"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "LET",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "LET",
+          "anchor": "let"
+        }
+      ],
+      "es": [
+        {
+          "title": "LET",
+          "anchor": "let"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "LINE",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "in INPUT, SAVE",
+      "es": "en INPUT, SAVE"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "INPUT",
+          "anchor": "input"
+        },
+        {
+          "title": "SAVE",
+          "anchor": "save"
+        }
+      ],
+      "es": [
+        {
+          "title": "INPUT",
+          "anchor": "input"
+        },
+        {
+          "title": "SAVE",
+          "anchor": "save"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "LIST",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "LIST",
+          "anchor": "list"
+        }
+      ],
+      "es": [
+        {
+          "title": "LIST",
+          "anchor": "list"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "LLIST",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "LPRINT, LLIST",
+          "anchor": "lprint-llist"
+        }
+      ],
+      "es": [
+        {
+          "title": "LPRINT, LLIST",
+          "anchor": "lprint-llist"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "LN",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "EXP, LN",
+          "anchor": "exp-ln"
+        }
+      ],
+      "es": [
+        {
+          "title": "EXP, LN",
+          "anchor": "exp-ln"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "LOAD",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "LOAD",
+          "anchor": "load"
+        }
+      ],
+      "es": [
+        {
+          "title": "LOAD",
+          "anchor": "load"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "LOCAL",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "LOCAL",
+          "anchor": "local"
+        }
+      ],
+      "es": [
+        {
+          "title": "LOCAL",
+          "anchor": "local"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "LPRINT",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "LPRINT, LLIST",
+          "anchor": "lprint-llist"
+        }
+      ],
+      "es": [
+        {
+          "title": "LPRINT, LLIST",
+          "anchor": "lprint-llist"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "MAP",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "MAP",
+          "anchor": "map"
+        },
+        {
+          "title": "MAP DIM, MAP POKE",
+          "anchor": "map-dim-map-poke"
+        }
+      ],
+      "es": [
+        {
+          "title": "MAP",
+          "anchor": "map"
+        },
+        {
+          "title": "MAP DIM, MAP POKE",
+          "anchor": "map-dim-map-poke"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "MERGE",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "MERGE",
+          "anchor": "merge"
+        }
+      ],
+      "es": [
+        {
+          "title": "MERGE",
+          "anchor": "merge"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "MKDIR",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "MKDIR, RMDIR",
+          "anchor": "mkdir-rmdir"
+        }
+      ],
+      "es": [
+        {
+          "title": "MKDIR, RMDIR",
+          "anchor": "mkdir-rmdir"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "MODE",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "MODE",
+          "anchor": "mode"
+        }
+      ],
+      "es": [
+        {
+          "title": "MODE",
+          "anchor": "mode"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "MONITOR",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "MONITOR",
+          "anchor": "monitor"
+        }
+      ],
+      "es": [
+        {
+          "title": "MONITOR",
+          "anchor": "monitor"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "MOUSE",
+    "class": "function",
+    "zxv": true,
+    "anywhere": true,
+    "kind": {
+      "en": "function, statement",
+      "es": "función, orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "MOUSE",
+          "anchor": "mouse"
+        }
+      ],
+      "es": [
+        {
+          "title": "MOUSE",
+          "anchor": "mouse"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "MOVE",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "MOVE",
+          "anchor": "move"
+        }
+      ],
+      "es": [
+        {
+          "title": "MOVE",
+          "anchor": "move"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "MUSIC",
+    "class": "function",
+    "zxv": true,
+    "anywhere": true,
+    "kind": {
+      "en": "",
+      "es": ""
+    },
+    "docs": {
+      "en": [],
+      "es": []
+    }
+  },
+  {
+    "keyword": "NEW",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "NEW",
+          "anchor": "new"
+        }
+      ],
+      "es": [
+        {
+          "title": "NEW",
+          "anchor": "new"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "NEXT",
+    "class": "control",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "FOR, NEXT",
+          "anchor": "for-next"
+        }
+      ],
+      "es": [
+        {
+          "title": "FOR, NEXT",
+          "anchor": "for-next"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "NOT",
+    "class": "operator",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "operator",
+      "es": "operador"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "True and false",
+          "anchor": "true-and-false"
+        }
+      ],
+      "es": [
+        {
+          "title": "Verdadero y falso",
+          "anchor": "verdadero-y-falso"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "ON ERROR",
+    "class": "control",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "ON ERROR",
+          "anchor": "on-error"
+        }
+      ],
+      "es": [
+        {
+          "title": "ON ERROR",
+          "anchor": "on-error"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "OPEN #",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "OPEN, CLOSE",
+          "anchor": "open-close"
+        }
+      ],
+      "es": [
+        {
+          "title": "OPEN, CLOSE",
+          "anchor": "open-close"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "OR",
+    "class": "operator",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "operator",
+      "es": "operador"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "True and false",
+          "anchor": "true-and-false"
+        }
+      ],
+      "es": [
+        {
+          "title": "Verdadero y falso",
+          "anchor": "verdadero-y-falso"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "OUT",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement; in OPEN #",
+      "es": "orden; en OPEN #"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "IN, OUT",
+          "anchor": "in-out"
+        },
+        {
+          "title": "OPEN, CLOSE",
+          "anchor": "open-close"
+        }
+      ],
+      "es": [
+        {
+          "title": "IN, OUT",
+          "anchor": "in-out"
+        },
+        {
+          "title": "OPEN, CLOSE",
+          "anchor": "open-close"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "OVER",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement, item",
+      "es": "orden, elemento"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "INVERSE, OVER",
+          "anchor": "inverse-over"
+        }
+      ],
+      "es": [
+        {
+          "title": "INVERSE, OVER",
+          "anchor": "inverse-over"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "PAGE",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "PAGE, SCREEN",
+          "anchor": "page-screen"
+        }
+      ],
+      "es": [
+        {
+          "title": "PAGE, SCREEN",
+          "anchor": "page-screen"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "PAPER",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement, item",
+      "es": "orden, elemento"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "INK, PAPER",
+          "anchor": "ink-paper"
+        }
+      ],
+      "es": [
+        {
+          "title": "INK, PAPER",
+          "anchor": "ink-paper"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "PAUSE",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "PAUSE",
+          "anchor": "pause"
+        }
+      ],
+      "es": [
+        {
+          "title": "PAUSE",
+          "anchor": "pause"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "PEEK",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "PEEK, POKE",
+          "anchor": "peek-poke"
+        }
+      ],
+      "es": [
+        {
+          "title": "PEEK, POKE",
+          "anchor": "peek-poke"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "PI",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "PI",
+          "anchor": "pi"
+        }
+      ],
+      "es": [
+        {
+          "title": "PI",
+          "anchor": "pi"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "PIXEL",
+    "class": "function",
+    "zxv": true,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "PIXEL",
+          "anchor": "pixel"
+        }
+      ],
+      "es": [
+        {
+          "title": "PIXEL",
+          "anchor": "pixel"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "PLAY",
+    "class": "other",
+    "zxv": false,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "PLAY",
+          "anchor": "play"
+        }
+      ],
+      "es": [
+        {
+          "title": "PLAY",
+          "anchor": "play"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "PLOT",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "PLOT",
+          "anchor": "plot"
+        }
+      ],
+      "es": [
+        {
+          "title": "PLOT",
+          "anchor": "plot"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "POINT",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "POINT",
+          "anchor": "point"
+        }
+      ],
+      "es": [
+        {
+          "title": "POINT",
+          "anchor": "point"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "POKE",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement; in MAP",
+      "es": "orden; en MAP"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "PEEK, POKE",
+          "anchor": "peek-poke"
+        },
+        {
+          "title": "MAP DIM, MAP POKE",
+          "anchor": "map-dim-map-poke"
+        }
+      ],
+      "es": [
+        {
+          "title": "PEEK, POKE",
+          "anchor": "peek-poke"
+        },
+        {
+          "title": "MAP DIM, MAP POKE",
+          "anchor": "map-dim-map-poke"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "POLY",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "POLY",
+          "anchor": "poly"
+        }
+      ],
+      "es": [
+        {
+          "title": "POLY",
+          "anchor": "poly"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "PRINT",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "PRINT",
+          "anchor": "print"
+        }
+      ],
+      "es": [
+        {
+          "title": "PRINT",
+          "anchor": "print"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "PROC",
+    "class": "control",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "DEF PROC, PROC, END PROC",
+          "anchor": "def-proc-proc-end-proc"
+        }
+      ],
+      "es": [
+        {
+          "title": "DEF PROC, PROC, END PROC",
+          "anchor": "def-proc-proc-end-proc"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "RANDOMIZE",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "RND, RANDOMIZE",
+          "anchor": "rnd-randomize"
+        }
+      ],
+      "es": [
+        {
+          "title": "RND, RANDOMIZE",
+          "anchor": "rnd-randomize"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "RASTER",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "RASTER",
+          "anchor": "raster"
+        }
+      ],
+      "es": [
+        {
+          "title": "RASTER",
+          "anchor": "raster"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "READ",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "READ, DATA, RESTORE",
+          "anchor": "read-data-restore"
+        }
+      ],
+      "es": [
+        {
+          "title": "READ, DATA, RESTORE",
+          "anchor": "read-data-restore"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "REM",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "REM",
+          "anchor": "rem"
+        }
+      ],
+      "es": [
+        {
+          "title": "REM",
+          "anchor": "rem"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "REMAP",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "REMAP",
+          "anchor": "remap"
+        }
+      ],
+      "es": [
+        {
+          "title": "REMAP",
+          "anchor": "remap"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "RENUM",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "RENUM",
+          "anchor": "renum"
+        }
+      ],
+      "es": [
+        {
+          "title": "RENUM",
+          "anchor": "renum"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "REPEAT",
+    "class": "control",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "REPEAT, UNTIL",
+          "anchor": "repeat-until"
+        }
+      ],
+      "es": [
+        {
+          "title": "REPEAT, UNTIL",
+          "anchor": "repeat-until"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "REPLACE",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "REPLACE",
+          "anchor": "replace"
+        }
+      ],
+      "es": [
+        {
+          "title": "REPLACE",
+          "anchor": "replace"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "RESTORE",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "READ, DATA, RESTORE",
+          "anchor": "read-data-restore"
+        }
+      ],
+      "es": [
+        {
+          "title": "READ, DATA, RESTORE",
+          "anchor": "read-data-restore"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "RETURN",
+    "class": "control",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "GO SUB, RETURN",
+          "anchor": "go-sub-return"
+        }
+      ],
+      "es": [
+        {
+          "title": "GO SUB, RETURN",
+          "anchor": "go-sub-return"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "RMDIR",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "MKDIR, RMDIR",
+          "anchor": "mkdir-rmdir"
+        }
+      ],
+      "es": [
+        {
+          "title": "MKDIR, RMDIR",
+          "anchor": "mkdir-rmdir"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "RND",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "RND, RANDOMIZE",
+          "anchor": "rnd-randomize"
+        }
+      ],
+      "es": [
+        {
+          "title": "RND, RANDOMIZE",
+          "anchor": "rnd-randomize"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "RUN",
+    "class": "control",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "RUN",
+          "anchor": "run"
+        }
+      ],
+      "es": [
+        {
+          "title": "RUN",
+          "anchor": "run"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "SAVE",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "SAVE",
+          "anchor": "save"
+        }
+      ],
+      "es": [
+        {
+          "title": "SAVE",
+          "anchor": "save"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "SCREEN",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "PAGE, SCREEN",
+          "anchor": "page-screen"
+        }
+      ],
+      "es": [
+        {
+          "title": "PAGE, SCREEN",
+          "anchor": "page-screen"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "SCREEN$",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function; in SAVE, LOAD",
+      "es": "función; en SAVE, LOAD"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "SCREEN$, ATTR",
+          "anchor": "screen-attr"
+        },
+        {
+          "title": "SAVE",
+          "anchor": "save"
+        }
+      ],
+      "es": [
+        {
+          "title": "SCREEN$, ATTR",
+          "anchor": "screen-attr"
+        },
+        {
+          "title": "SAVE",
+          "anchor": "save"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "SCROLL",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "SCROLL",
+          "anchor": "scroll"
+        }
+      ],
+      "es": [
+        {
+          "title": "SCROLL",
+          "anchor": "scroll"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "SELECT CASE",
+    "class": "control",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "SELECT CASE",
+          "anchor": "select-case"
+        }
+      ],
+      "es": [
+        {
+          "title": "SELECT CASE",
+          "anchor": "select-case"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "SFX",
+    "class": "function",
+    "zxv": true,
+    "anywhere": true,
+    "kind": {
+      "en": "",
+      "es": ""
+    },
+    "docs": {
+      "en": [],
+      "es": []
+    }
+  },
+  {
+    "keyword": "SGN",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "ABS, SGN, INT",
+          "anchor": "abs-sgn-int"
+        }
+      ],
+      "es": [
+        {
+          "title": "ABS, SGN, INT",
+          "anchor": "abs-sgn-int"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "SIN",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "SIN, COS, TAN",
+          "anchor": "sin-cos-tan"
+        }
+      ],
+      "es": [
+        {
+          "title": "SIN, COS, TAN",
+          "anchor": "sin-cos-tan"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "SOUND",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "SOUND",
+          "anchor": "sound"
+        }
+      ],
+      "es": [
+        {
+          "title": "SOUND",
+          "anchor": "sound"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "SPEED",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "SPEED",
+          "anchor": "speed"
+        }
+      ],
+      "es": [
+        {
+          "title": "SPEED",
+          "anchor": "speed"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "SPRITE",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "SPRITE",
+          "anchor": "sprite"
+        }
+      ],
+      "es": [
+        {
+          "title": "SPRITE",
+          "anchor": "sprite"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "SQR",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "SQR",
+          "anchor": "sqr"
+        }
+      ],
+      "es": [
+        {
+          "title": "SQR",
+          "anchor": "sqr"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "STEP",
+    "class": "control",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "in FOR",
+      "es": "en FOR"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "FOR, NEXT",
+          "anchor": "for-next"
+        }
+      ],
+      "es": [
+        {
+          "title": "FOR, NEXT",
+          "anchor": "for-next"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "STOP",
+    "class": "control",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "STOP",
+          "anchor": "stop"
+        }
+      ],
+      "es": [
+        {
+          "title": "STOP",
+          "anchor": "stop"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "STR$",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "STR$, VAL, VAL$",
+          "anchor": "str-val-val"
+        }
+      ],
+      "es": [
+        {
+          "title": "STR$, VAL, VAL$",
+          "anchor": "str-val-val"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "TAB",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "in PRINT, INPUT",
+      "es": "en PRINT, INPUT"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "PRINT",
+          "anchor": "print"
+        }
+      ],
+      "es": [
+        {
+          "title": "PRINT",
+          "anchor": "print"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "TAN",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "SIN, COS, TAN",
+          "anchor": "sin-cos-tan"
+        }
+      ],
+      "es": [
+        {
+          "title": "SIN, COS, TAN",
+          "anchor": "sin-cos-tan"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "TEXTURE",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "TEXTURE",
+          "anchor": "texture"
+        }
+      ],
+      "es": [
+        {
+          "title": "TEXTURE",
+          "anchor": "texture"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "THEN",
+    "class": "control",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "in IF",
+      "es": "en IF"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "IF, THEN, ELSE",
+          "anchor": "if-then-else"
+        }
+      ],
+      "es": [
+        {
+          "title": "IF, THEN, ELSE",
+          "anchor": "if-then-else"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "TILE",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "TILE",
+          "anchor": "tile"
+        }
+      ],
+      "es": [
+        {
+          "title": "TILE",
+          "anchor": "tile"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "TIME",
+    "class": "function",
+    "zxv": true,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "TIME",
+          "anchor": "time"
+        }
+      ],
+      "es": [
+        {
+          "title": "TIME",
+          "anchor": "time"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "TO",
+    "class": "control",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "in FOR, slices, MOVE, COPY",
+      "es": "en FOR, trozos, MOVE, COPY"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "FOR, NEXT",
+          "anchor": "for-next"
+        },
+        {
+          "title": "Strings",
+          "anchor": "strings"
+        }
+      ],
+      "es": [
+        {
+          "title": "FOR, NEXT",
+          "anchor": "for-next"
+        },
+        {
+          "title": "Cadenas",
+          "anchor": "cadenas"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "TRACE",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "TRACE",
+          "anchor": "trace"
+        }
+      ],
+      "es": [
+        {
+          "title": "TRACE",
+          "anchor": "trace"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "UNTIL",
+    "class": "control",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "REPEAT, UNTIL",
+          "anchor": "repeat-until"
+        }
+      ],
+      "es": [
+        {
+          "title": "REPEAT, UNTIL",
+          "anchor": "repeat-until"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "USR",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "USR",
+          "anchor": "usr"
+        }
+      ],
+      "es": [
+        {
+          "title": "USR",
+          "anchor": "usr"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "VAL",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "STR$, VAL, VAL$",
+          "anchor": "str-val-val"
+        }
+      ],
+      "es": [
+        {
+          "title": "STR$, VAL, VAL$",
+          "anchor": "str-val-val"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "VAL$",
+    "class": "function",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "function",
+      "es": "función"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "STR$, VAL, VAL$",
+          "anchor": "str-val-val"
+        }
+      ],
+      "es": [
+        {
+          "title": "STR$, VAL, VAL$",
+          "anchor": "str-val-val"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "VERIFY",
+    "class": "other",
+    "zxv": false,
+    "anywhere": true,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "VERIFY",
+          "anchor": "verify"
+        }
+      ],
+      "es": [
+        {
+          "title": "VERIFY",
+          "anchor": "verify"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "WAIT",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "WAIT",
+          "anchor": "wait"
+        }
+      ],
+      "es": [
+        {
+          "title": "WAIT",
+          "anchor": "wait"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "WEND",
+    "class": "control",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "WHILE, WEND",
+          "anchor": "while-wend"
+        }
+      ],
+      "es": [
+        {
+          "title": "WHILE, WEND",
+          "anchor": "while-wend"
+        }
+      ]
+    }
+  },
+  {
+    "keyword": "WHILE",
+    "class": "control",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "WHILE, WEND",
+          "anchor": "while-wend"
+        }
+      ],
+      "es": [
+        {
+          "title": "WHILE, WEND",
+          "anchor": "while-wend"
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "brackets": [["(", ")"]],
+  "autoClosingPairs": [
+    { "open": "(", "close": ")" },
+    { "open": "\"", "close": "\"", "notIn": ["string", "comment"] }
+  ],
+  "surroundingPairs": [["(", ")"], ["\"", "\""]],
+  "wordPattern": "(-?\d*\.\d\w*)|(@?[A-Za-z][A-Za-z0-9_]*\$?)",
+  "folding": {
+    "markers": {
+      "start": "^\s*\d+\s+[Dd][Ee][Ff]\s*[Pp][Rr][Oo][Cc]\b",
+      "end": "^\s*\d+\s+[Ee][Nn][Dd]\s*[Pp][Rr][Oo][Cc]\b"
+    }
+  }
+}

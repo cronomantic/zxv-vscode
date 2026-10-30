@@ -1,0 +1,6 @@
+node_modules/
+out/
+*.vsix
+.vscode-test/
+# El núcleo web sale de una release con scripts/fetch-web.mjs.
+media/web/

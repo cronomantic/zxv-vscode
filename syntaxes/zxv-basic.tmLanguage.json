@@ -1,0 +1,290 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "ZX-V BASIC",
+  "scopeName": "source.zxv-basic",
+  "comment": "Generado por scripts/gen-grammars.mjs desde ZX-V v0.6.1: no lo cambies a mano.",
+  "patterns": [
+    {
+      "include": "#statement"
+    }
+  ],
+  "repository": {
+    "statement": {
+      "patterns": [
+        {
+          "include": "#rem"
+        },
+        {
+          "include": "#string"
+        },
+        {
+          "include": "#file-statement"
+        },
+        {
+          "include": "#proc-name"
+        },
+        {
+          "include": "#fn-name"
+        },
+        {
+          "include": "#after"
+        },
+        {
+          "include": "#start-control"
+        },
+        {
+          "include": "#start-other"
+        },
+        {
+          "include": "#line-number"
+        },
+        {
+          "include": "#bin"
+        },
+        {
+          "include": "#keywords"
+        },
+        {
+          "include": "#number"
+        },
+        {
+          "include": "#label"
+        },
+        {
+          "include": "#variable"
+        },
+        {
+          "include": "#operator"
+        },
+        {
+          "include": "#punctuation"
+        }
+      ]
+    },
+    "rem": {
+      "comment": "REM: el resto de la línea es un comentario (como en tokenize).",
+      "match": "(?i)(?:^\\s*(\\d+)\\s*)?(?<![A-Za-z0-9_])(REM)(?![A-Za-z0-9_])(.*)$",
+      "captures": {
+        "1": {
+          "name": "constant.numeric.line-number.zxv-basic"
+        },
+        "2": {
+          "name": "keyword.other.rem.zxv-basic"
+        },
+        "3": {
+          "name": "comment.line.rem.zxv-basic"
+        }
+      },
+      "name": "comment.line.rem.zxv-basic"
+    },
+    "string": {
+      "begin": "\"",
+      "end": "\"(?!\")",
+      "name": "string.quoted.double.zxv-basic",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.zxv-basic"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.zxv-basic"
+        }
+      },
+      "patterns": [
+        {
+          "match": "\"\"",
+          "name": "constant.character.escape.quote.zxv-basic"
+        }
+      ]
+    },
+    "file-statement": {
+      "comment": "SAVE, LOAD, VERIFY y MERGE: dentro, también GRAPHICS.",
+      "begin": "(?i)(?<![A-Za-z0-9_])(SAVE(?![A-Za-z0-9_])|LOAD(?![A-Za-z0-9_])|VERIFY(?![A-Za-z0-9_])|MERGE(?![A-Za-z0-9_]))",
+      "beginCaptures": {
+        "1": {
+          "name": "keyword.other.zxv-basic"
+        }
+      },
+      "end": "(?=:|$)",
+      "patterns": [
+        {
+          "include": "#string"
+        },
+        {
+          "match": "(?i)(?<![A-Za-z0-9_])GRAPHICS(?![A-Za-z0-9_])",
+          "name": "keyword.other.zxv-basic"
+        },
+        {
+          "include": "#keywords"
+        },
+        {
+          "include": "#number"
+        },
+        {
+          "include": "#variable"
+        },
+        {
+          "include": "#operator"
+        },
+        {
+          "include": "#punctuation"
+        }
+      ]
+    },
+    "proc-name": {
+      "comment": "El nombre tras DEF PROC y PROC.",
+      "match": "(?i)(?<=PROC)\\s*([A-Za-z][A-Za-z0-9_]*)",
+      "captures": {
+        "1": {
+          "name": "entity.name.function.zxv-basic"
+        }
+      }
+    },
+    "fn-name": {
+      "comment": "La letra tras DEF FN y FN.",
+      "match": "(?i)(?<=FN)\\s*([A-Za-z]\\$?)(?![A-Za-z0-9_])",
+      "captures": {
+        "1": {
+          "name": "entity.name.function.zxv-basic"
+        }
+      }
+    },
+    "after": {
+      "comment": "PLAY tras MUSIC; REMAP y SCROLL tras RASTER (tokens.c).",
+      "match": "(?i)(?<=MUSIC|RASTER)\\s*(PLAY(?![A-Za-z0-9_])|REMAP(?![A-Za-z0-9_])|SCROLL(?![A-Za-z0-9_]))",
+      "captures": {
+        "1": {
+          "name": "keyword.other.zxv-basic"
+        }
+      }
+    },
+    "start-control": {
+      "comment": "Las órdenes de control propias de ZX-V, al principio de una sentencia.",
+      "match": "(?i)(?:^(\\s*)(\\d+)?|(:)|(?<![A-Za-z0-9_])(THEN|ELSE)(?![A-Za-z0-9_]))\\s*(SELECT\\s*CASE(?![A-Za-z0-9_])|END\\s*SELECT(?![A-Za-z0-9_])|DEF\\s*PROC(?![A-Za-z0-9_])|END\\s*PROC(?![A-Za-z0-9_])|ON\\s*ERROR(?![A-Za-z0-9_])|END\\s*IF(?![A-Za-z0-9_])|REPEAT(?![A-Za-z0-9_])|UNTIL(?![A-Za-z0-9_])|WHILE(?![A-Za-z0-9_])|CASE(?![A-Za-z0-9_])|PROC(?![A-Za-z0-9_])|WEND(?![A-Za-z0-9_]))",
+      "captures": {
+        "2": {
+          "name": "constant.numeric.line-number.zxv-basic"
+        },
+        "3": {
+          "name": "punctuation.separator.statement.zxv-basic"
+        },
+        "4": {
+          "name": "keyword.control.zxv-basic"
+        },
+        "5": {
+          "name": "keyword.control.zxv-basic"
+        }
+      }
+    },
+    "start-other": {
+      "comment": "Las demás órdenes propias de ZX-V, al principio de una sentencia.",
+      "match": "(?i)(?:^(\\s*)(\\d+)?|(:)|(?<![A-Za-z0-9_])(THEN|ELSE)(?![A-Za-z0-9_]))\\s*(LANGUAGE(?![A-Za-z0-9_])|MONITOR(?![A-Za-z0-9_])|REPLACE(?![A-Za-z0-9_])|TEXTURE(?![A-Za-z0-9_])|DELETE(?![A-Za-z0-9_])|RASTER(?![A-Za-z0-9_])|SCREEN(?![A-Za-z0-9_])|SCROLL(?![A-Za-z0-9_])|SPRITE(?![A-Za-z0-9_])|FLOOR(?![A-Za-z0-9_])|LOCAL(?![A-Za-z0-9_])|MKDIR(?![A-Za-z0-9_])|REMAP(?![A-Za-z0-9_])|RENUM(?![A-Za-z0-9_])|RMDIR(?![A-Za-z0-9_])|SOUND(?![A-Za-z0-9_])|SPEED(?![A-Za-z0-9_])|TRACE(?![A-Za-z0-9_])|AUTO(?![A-Za-z0-9_])|CLIP(?![A-Za-z0-9_])|DISC(?![A-Za-z0-9_])|EDIT(?![A-Za-z0-9_])|FIND(?![A-Za-z0-9_])|GRAB(?![A-Za-z0-9_])|MODE(?![A-Za-z0-9_])|PAGE(?![A-Za-z0-9_])|PLAY(?![A-Za-z0-9_])|POLY(?![A-Za-z0-9_])|TILE(?![A-Za-z0-9_])|WAIT(?![A-Za-z0-9_])|BOX(?![A-Za-z0-9_])|MAP(?![A-Za-z0-9_])|CD(?![A-Za-z0-9_]))",
+      "captures": {
+        "2": {
+          "name": "constant.numeric.line-number.zxv-basic"
+        },
+        "3": {
+          "name": "punctuation.separator.statement.zxv-basic"
+        },
+        "4": {
+          "name": "keyword.control.zxv-basic"
+        },
+        "5": {
+          "name": "keyword.other.zxv-basic"
+        }
+      }
+    },
+    "line-number": {
+      "match": "^\\s*(\\d+)",
+      "captures": {
+        "1": {
+          "name": "constant.numeric.line-number.zxv-basic"
+        }
+      }
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "match": "(?i)(?<![A-Za-z0-9_])(CONTINUE(?![A-Za-z0-9_])|GO\\s*SUB(?![A-Za-z0-9_])|GO\\s*TO(?![A-Za-z0-9_])|RETURN(?![A-Za-z0-9_])|ELSE(?![A-Za-z0-9_])|NEXT(?![A-Za-z0-9_])|STEP(?![A-Za-z0-9_])|STOP(?![A-Za-z0-9_])|THEN(?![A-Za-z0-9_])|FOR(?![A-Za-z0-9_])|RUN(?![A-Za-z0-9_])|IF(?![A-Za-z0-9_])|TO(?![A-Za-z0-9_]))",
+          "name": "keyword.control.zxv-basic"
+        },
+        {
+          "match": "(?i)(?<![A-Za-z0-9_])(AND(?![A-Za-z0-9_])|NOT(?![A-Za-z0-9_])|OR(?![A-Za-z0-9_]))",
+          "name": "keyword.operator.word.zxv-basic"
+        },
+        {
+          "match": "(?i)(?<![A-Za-z0-9_])(CLOCK(?![A-Za-z0-9_])|MOUSE(?![A-Za-z0-9_])|MUSIC(?![A-Za-z0-9_])|PIXEL(?![A-Za-z0-9_])|POINT(?![A-Za-z0-9_])|ATTR(?![A-Za-z0-9_])|CELL(?![A-Za-z0-9_])|CODE(?![A-Za-z0-9_])|PEEK(?![A-Za-z0-9_])|TIME(?![A-Za-z0-9_])|ABS(?![A-Za-z0-9_])|ACS(?![A-Za-z0-9_])|ASN(?![A-Za-z0-9_])|ATN(?![A-Za-z0-9_])|COS(?![A-Za-z0-9_])|ERL(?![A-Za-z0-9_])|ERR(?![A-Za-z0-9_])|EXP(?![A-Za-z0-9_])|HIT(?![A-Za-z0-9_])|INT(?![A-Za-z0-9_])|JOY(?![A-Za-z0-9_])|KEY(?![A-Za-z0-9_])|LEN(?![A-Za-z0-9_])|RND(?![A-Za-z0-9_])|SFX(?![A-Za-z0-9_])|SGN(?![A-Za-z0-9_])|SIN(?![A-Za-z0-9_])|SQR(?![A-Za-z0-9_])|TAN(?![A-Za-z0-9_])|USR(?![A-Za-z0-9_])|VAL(?![A-Za-z0-9_])|FN(?![A-Za-z0-9_])|IN(?![A-Za-z0-9_])|LN(?![A-Za-z0-9_])|PI(?![A-Za-z0-9_])|SCREEN\\$|INKEY\\$|CHR\\$|DIR\\$|STR\\$|VAL\\$)",
+          "name": "support.function.zxv-basic"
+        },
+        {
+          "match": "(?i)(?<![A-Za-z0-9_])(RANDOMIZE(?![A-Za-z0-9_])|DEF\\s*FN(?![A-Za-z0-9_])|INVERSE(?![A-Za-z0-9_])|RESTORE(?![A-Za-z0-9_])|BORDER(?![A-Za-z0-9_])|BRIGHT(?![A-Za-z0-9_])|CIRCLE(?![A-Za-z0-9_])|FORMAT(?![A-Za-z0-9_])|LPRINT(?![A-Za-z0-9_])|VERIFY(?![A-Za-z0-9_])|CLEAR(?![A-Za-z0-9_])|ERASE(?![A-Za-z0-9_])|FLASH(?![A-Za-z0-9_])|INPUT(?![A-Za-z0-9_])|LLIST(?![A-Za-z0-9_])|MERGE(?![A-Za-z0-9_])|PAPER(?![A-Za-z0-9_])|PAUSE(?![A-Za-z0-9_])|PRINT(?![A-Za-z0-9_])|BEEP(?![A-Za-z0-9_])|COPY(?![A-Za-z0-9_])|DATA(?![A-Za-z0-9_])|DRAW(?![A-Za-z0-9_])|LINE(?![A-Za-z0-9_])|LIST(?![A-Za-z0-9_])|LOAD(?![A-Za-z0-9_])|MOVE(?![A-Za-z0-9_])|OVER(?![A-Za-z0-9_])|PLOT(?![A-Za-z0-9_])|POKE(?![A-Za-z0-9_])|READ(?![A-Za-z0-9_])|SAVE(?![A-Za-z0-9_])|BIN(?![A-Za-z0-9_])|CAT(?![A-Za-z0-9_])|CLS(?![A-Za-z0-9_])|DIM(?![A-Za-z0-9_])|INK(?![A-Za-z0-9_])|LET(?![A-Za-z0-9_])|NEW(?![A-Za-z0-9_])|OUT(?![A-Za-z0-9_])|REM(?![A-Za-z0-9_])|TAB(?![A-Za-z0-9_])|AT(?![A-Za-z0-9_])|CLOSE\\s*#|OPEN\\s*#)",
+          "name": "keyword.other.zxv-basic"
+        }
+      ]
+    },
+    "bin": {
+      "match": "(?i)(?<![A-Za-z0-9_])(BIN(?![A-Za-z0-9_]))\\s*([01]*)",
+      "captures": {
+        "1": {
+          "name": "keyword.other.zxv-basic"
+        },
+        "2": {
+          "name": "constant.numeric.binary.zxv-basic"
+        }
+      }
+    },
+    "number": {
+      "match": "(?<![A-Za-z0-9_.])(?:\\d+\\.?\\d*|\\.\\d+)(?:[eE][+-]?\\d+)?",
+      "name": "constant.numeric.zxv-basic"
+    },
+    "label": {
+      "match": "@[A-Za-z][A-Za-z0-9_]*",
+      "name": "entity.name.label.zxv-basic"
+    },
+    "variable": {
+      "patterns": [
+        {
+          "match": "(?i)(?<![A-Za-z0-9_])[a-z]\\$",
+          "name": "variable.other.string.zxv-basic"
+        },
+        {
+          "match": "(?i)(?<![A-Za-z0-9_])[a-z][a-z0-9_]*",
+          "name": "variable.other.zxv-basic"
+        }
+      ]
+    },
+    "operator": {
+      "patterns": [
+        {
+          "match": "<=|>=|<>",
+          "name": "keyword.operator.comparison.zxv-basic"
+        },
+        {
+          "match": "[=<>]",
+          "name": "keyword.operator.comparison.zxv-basic"
+        },
+        {
+          "match": "[-+*/^]",
+          "name": "keyword.operator.arithmetic.zxv-basic"
+        }
+      ]
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "match": ":",
+          "name": "punctuation.separator.statement.zxv-basic"
+        },
+        {
+          "match": "[;,']",
+          "name": "punctuation.separator.zxv-basic"
+        },
+        {
+          "match": "#",
+          "name": "punctuation.definition.stream.zxv-basic"
+        }
+      ]
+    }
+  }
+}

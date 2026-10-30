@@ -1,0 +1,74 @@
+{
+  "zxv.bas": {
+    "prefix": "#include zxv",
+    "body": ["#include <zxv.bas>", "$0"],
+    "description": "La librería de ZX-V: MODE, SPRITE, BOX, KEY, MUSIC..."
+  },
+  "SUB": {
+    "prefix": "sub",
+    "body": ["SUB ${1:nombre}(${2:x AS UByte})", "\t$0", "END SUB"],
+    "description": "Un procedimiento"
+  },
+  "FUNCTION": {
+    "prefix": "function",
+    "body": ["FUNCTION ${1:nombre}(${2:x AS UByte}) AS ${3:UByte}", "\t$0", "\tRETURN ${4:x}", "END FUNCTION"],
+    "description": "Una función"
+  },
+  "FOR ... NEXT": {
+    "prefix": "for",
+    "body": ["FOR ${1:i} = ${2:0} TO ${3:10}", "\t$0", "NEXT ${1:i}"],
+    "description": "Un bucle FOR"
+  },
+  "DO ... LOOP": {
+    "prefix": "do",
+    "body": ["DO", "\t$0", "LOOP UNTIL ${1:condición}"],
+    "description": "Repite hasta que se cumpla"
+  },
+  "WHILE ... END WHILE": {
+    "prefix": "while",
+    "body": ["WHILE ${1:condición}", "\t$0", "END WHILE"],
+    "description": "Repite mientras se cumpla"
+  },
+  "IF ... END IF": {
+    "prefix": "if",
+    "body": ["IF ${1:condición} THEN", "\t$0", "END IF"],
+    "description": "Un IF de bloque"
+  },
+  "IF ... ELSE ... END IF": {
+    "prefix": "ifelse",
+    "body": ["IF ${1:condición} THEN", "\t$2", "ELSE", "\t$0", "END IF"],
+    "description": "Un IF de bloque con ELSE"
+  },
+  "DIM": {
+    "prefix": "dim",
+    "body": ["DIM ${1:x} AS ${2|UByte,Byte,UInteger,Integer,ULong,Long,Fixed,Float,String|}"],
+    "description": "Declara una variable"
+  },
+  "ASM": {
+    "prefix": "asm",
+    "body": ["ASM", "\t$0", "END ASM"],
+    "description": "Ensamblador en línea (RISC-V en el target zxv)"
+  },
+  "Bucle de juego": {
+    "prefix": "gameloop",
+    "body": [
+      "#include <zxv.bas>",
+      "",
+      "DIM p AS UByte",
+      "MODE 0",
+      "DO",
+      "\tSCREEN 1 - p: CLS",
+      "\t$0",
+      "\tPAGE 1 - p: p = 1 - p",
+      "\tWAIT",
+      "LOOP UNTIL KEY(${1:32})",
+      ""
+    ],
+    "description": "Doble buffer a 60 imágenes por segundo con zxv.bas"
+  },
+  "Música": {
+    "prefix": "music",
+    "body": ["MUSICLOAD \"${1:musica.pt3}\"", "MUSICPLAY", "$0"],
+    "description": "Carga y toca un módulo de música"
+  }
+}

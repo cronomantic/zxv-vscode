@@ -1,0 +1,318 @@
+{
+  "keywords": [
+    "abs",
+    "acs",
+    "and",
+    "as",
+    "asm",
+    "asn",
+    "at",
+    "atn",
+    "band",
+    "beep",
+    "bin",
+    "bnot",
+    "bold",
+    "bor",
+    "border",
+    "bright",
+    "bxor",
+    "byref",
+    "byte",
+    "byval",
+    "cast",
+    "chr",
+    "chr$",
+    "circle",
+    "cls",
+    "code",
+    "const",
+    "continue",
+    "cos",
+    "data",
+    "declare",
+    "dim",
+    "do",
+    "draw",
+    "else",
+    "elseif",
+    "end",
+    "endif",
+    "error",
+    "exit",
+    "exp",
+    "fastcall",
+    "fixed",
+    "flash",
+    "float",
+    "for",
+    "function",
+    "go",
+    "gosub",
+    "goto",
+    "if",
+    "in",
+    "ink",
+    "inkey",
+    "inkey$",
+    "int",
+    "integer",
+    "inverse",
+    "italic",
+    "lbound",
+    "len",
+    "let",
+    "ln",
+    "load",
+    "long",
+    "loop",
+    "mod",
+    "next",
+    "not",
+    "on",
+    "or",
+    "out",
+    "over",
+    "paper",
+    "pause",
+    "peek",
+    "pi",
+    "plot",
+    "poke",
+    "print",
+    "randomize",
+    "read",
+    "restore",
+    "return",
+    "rnd",
+    "save",
+    "sgn",
+    "shl",
+    "shr",
+    "sin",
+    "sizeof",
+    "sqr",
+    "stdcall",
+    "step",
+    "stop",
+    "str",
+    "str$",
+    "string",
+    "sub",
+    "tab",
+    "tan",
+    "then",
+    "to",
+    "ubound",
+    "ubyte",
+    "uinteger",
+    "ulong",
+    "until",
+    "usr",
+    "val",
+    "verify",
+    "wend",
+    "while",
+    "xor"
+  ],
+  "directives": [
+    "define",
+    "elif",
+    "else",
+    "endif",
+    "error",
+    "if",
+    "ifdef",
+    "ifndef",
+    "include",
+    "init",
+    "line",
+    "once",
+    "pragma",
+    "require",
+    "undef",
+    "warning"
+  ],
+  "zxv": [
+    {
+      "name": "MODE",
+      "kind": "sub",
+      "signature": "MODE(m as UByte, w as UInteger = 0, h as UInteger = 0)",
+      "doc": "MODE n[, w, h]: mode 0 (256 x 192, 32 x 24 characters) or 1 (512 x 384). In mode 0 the page can be bigger than the screen (512 x 384, 1024 x 192 or 256 x 768), and SCROLL moves the screen over it. Both pages are cleared, page 0 is shown and drawn on, and the scroll, REMAP and CLIP go."
+    },
+    {
+      "name": "PAGE",
+      "kind": "sub",
+      "signature": "PAGE(n as UByte)",
+      "doc": "PAGE n: the page that is shown (0 or 1)"
+    },
+    {
+      "name": "SCREEN",
+      "kind": "sub",
+      "signature": "SCREEN(n as UByte)",
+      "doc": "SCREEN n: the page everything draws on. Drawing on the hidden one and then showing it gives animations without flicker."
+    },
+    {
+      "name": "SCROLL",
+      "kind": "sub",
+      "signature": "SCROLL(x as Integer = 0, y as Integer = 0)",
+      "doc": "SCROLL x, y: the pixel (x, y) of the page is seen at the top left corner of the screen; SCROLL alone puts it back"
+    },
+    {
+      "name": "REMAP",
+      "kind": "sub",
+      "signature": "REMAP(c as UByte, n as UByte)",
+      "doc": "REMAP c, n: colour c is seen as n, at once and on all the screen"
+    },
+    {
+      "name": "REMAPRESET",
+      "kind": "sub",
+      "signature": "REMAPRESET",
+      "doc": "REMAPRESET: every colour as it was (REMAP with no arguments)"
+    },
+    {
+      "name": "WAIT",
+      "kind": "sub",
+      "signature": "WAIT(n as UInteger = 1)",
+      "doc": "WAIT [n]: until the next frame, and until n frames have gone since the last WAIT: a steady pace for games"
+    },
+    {
+      "name": "GRAB",
+      "kind": "sub",
+      "signature": "GRAB(n as UByte, x as Integer, y as Integer, w as UInteger, h as UInteger, t as Integer = -1)",
+      "doc": "GRAB n, x, y, w, h[, t]: sprite n (0-255) is that rectangle of the drawing page; colour t becomes transparent"
+    },
+    {
+      "name": "GRABSTR",
+      "kind": "sub",
+      "signature": "GRABSTR(n as UByte, w as UInteger, ByVal a$ as String)",
+      "doc": "GRABSTR n, w, a$: sprite n from a string, a character a pixel and w pixels a row: the hex digits are the colours, anything else (\".\", \" \") is transparent"
+    },
+    {
+      "name": "SPRITE",
+      "kind": "sub",
+      "signature": "SPRITE(n as UByte, x as Integer, y as Integer, f as UByte = 0, ByVal c$ as String = \"\", w as UInteger = 0, h as UInteger = 0)",
+      "doc": "SPRITE n, x, y[, f[, c$[, w, h]]]: draws sprite n with its top left corner at (x, y). f: 1 mirrored left to right, 2 upside down, 3 both. c$ changes its colours: colour i is drawn as the hex digit i of c$ (any other character leaves it). w, h: stretched or shrunk to that size."
+    },
+    {
+      "name": "HIT",
+      "kind": "function",
+      "signature": "HIT(a as UByte, ax as Integer, ay as Integer, b as UByte, bx as Integer, by as Integer) as UByte",
+      "doc": "HIT(a, ax, ay, b, bx, by): 1 if a solid pixel of sprite a at (ax, ay) falls on a solid pixel of sprite b at (bx, by); it draws nothing"
+    },
+    {
+      "name": "BOX",
+      "kind": "sub",
+      "signature": "BOX(c as UByte, x as Integer, y as Integer, w as Integer, h as Integer)",
+      "doc": "BOX c, x, y, w, h: a filled rectangle of colour c"
+    },
+    {
+      "name": "DISC",
+      "kind": "sub",
+      "signature": "DISC(c as UByte, x as Integer, y as Integer, r as Integer)",
+      "doc": "DISC c, x, y, r: a filled circle"
+    },
+    {
+      "name": "POLY",
+      "kind": "sub",
+      "signature": "POLY(c as UByte, x1 as Integer, y1 as Integer, x2 as Integer = -32768, y2 as Integer = 0, x3 as Integer = -32768, y3 as Integer = 0, x4 as Integer = -32768, y4 as Integer = 0, x5 as Integer = -32768, y5 as Integer = 0, x6 as Integer = -32768, y6 as Integer = 0, x7 as Integer = -32768, y7 as Integer = 0, x8 as Integer = -32768, y8 as Integer = 0)",
+      "doc": "POLY c, x1, y1[, x2, y2...]: a point, a line or a filled polygon (up to 8 points)"
+    },
+    {
+      "name": "CLIP",
+      "kind": "sub",
+      "signature": "CLIP(x as Integer = 0, y as Integer = 0, w as Integer = -1, h as Integer = 0)",
+      "doc": "CLIP x, y, w, h: the fast graphics only draw in that rectangle; CLIP alone, everywhere"
+    },
+    {
+      "name": "PIXEL",
+      "kind": "function",
+      "signature": "PIXEL(x as Integer, y as Integer) as Byte",
+      "doc": "PIXEL(x, y): the colour (0-15) of a pixel of the drawing page, whoever drew it; -1 out of the page"
+    },
+    {
+      "name": "KEY",
+      "kind": "function",
+      "signature": "KEY(n as UInteger) as UByte",
+      "doc": "KEY(n): 1 if the key is down now (several at once). n: CODE \"a\" to CODE \"z\", CODE \"0\" to CODE \"9\", 8 to 11 the cursor keys (left, right, down, up), 12 Delete, 13 Enter, 32 Space, or 256 + a USB key code"
+    },
+    {
+      "name": "JOY",
+      "kind": "function",
+      "signature": "JOY(n as UByte) as UInteger",
+      "doc": "JOY(n): the buttons of joystick n (0 or 1); 0 if it is not connected. 1 right, 2 left, 4 down, 8 up, 16 fire 1, 32 fire 2, 64 fire 3, 128 start, 256 select"
+    },
+    {
+      "name": "SOUND",
+      "kind": "sub",
+      "signature": "SOUND(r as UByte, v as UByte)",
+      "doc": "SOUND r, v: writes v in register r of the AY chips (0-15 the first, 16-31 the second)"
+    },
+    {
+      "name": "TIME",
+      "kind": "function",
+      "signature": "TIME as ULong",
+      "doc": "TIME: the frames (60 a second) since the machine started"
+    },
+    {
+      "name": "MUSICLOAD",
+      "kind": "sub",
+      "signature": "MUSICLOAD(ByVal f$ as String)",
+      "doc": "MUSICLOAD f$: loads a module made with a tracker (without an extension, f$.pt3): Pro Tracker 3 or Vortex Tracker II (.pt3, what zxv-tracker saves), a TurboSound (two modules, one on each AY chip), Pro Tracker 2, Sound Tracker, ASC Sound Master or a PSG dump. It goes in the heap."
+    },
+    {
+      "name": "MUSICPLAY",
+      "kind": "sub",
+      "signature": "MUSICPLAY",
+      "doc": "MUSICPLAY: plays the module in the background while the program goes on, and at its end goes back to its loop position, for ever. It plays on the first AY chip (a TurboSound, on both), until MUSICSTOP or the end of the program."
+    },
+    {
+      "name": "MUSICSTOP",
+      "kind": "sub",
+      "signature": "MUSICSTOP",
+      "doc": "MUSICSTOP: stops the music"
+    },
+    {
+      "name": "MUSICPAUSE",
+      "kind": "sub",
+      "signature": "MUSICPAUSE",
+      "doc": "MUSICPAUSE: silences the music; MUSICCONTINUE goes on where it was"
+    },
+    {
+      "name": "MUSICCONTINUE",
+      "kind": "sub",
+      "signature": "MUSICCONTINUE",
+      "doc": ""
+    },
+    {
+      "name": "MUSIC",
+      "kind": "function",
+      "signature": "MUSIC as UByte",
+      "doc": "MUSIC: 1 while the music plays, 0 if not"
+    },
+    {
+      "name": "SFXLOAD",
+      "kind": "sub",
+      "signature": "SFXLOAD(ByVal f$ as String)",
+      "doc": "SFXLOAD f$: loads an AYFX bank of sound effects (without an extension, f$.afb: what the effects tab of zxv-tracker or the AY Sound FX Editor saves), or a single effect (.afx). It goes in the heap."
+    },
+    {
+      "name": "SFX",
+      "kind": "sub",
+      "signature": "SFX(n as UByte, c as Byte = -1)",
+      "doc": "SFX n[, c]: plays effect n of the bank (the first is 0) without waiting, on a free channel of the chip the music does not use, or on channel c: 0 to 2 are A, B and C of the first chip and 3 to 5 those of the second"
+    },
+    {
+      "name": "SFXSTOP",
+      "kind": "sub",
+      "signature": "SFXSTOP",
+      "doc": "SFXSTOP: stops all the effects"
+    },
+    {
+      "name": "SFXPLAYING",
+      "kind": "function",
+      "signature": "SFXPLAYING as UByte",
+      "doc": "SFXPLAYING: 1 while any effect plays"
+    }
+  ]
+}
