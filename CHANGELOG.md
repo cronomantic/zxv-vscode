@@ -19,7 +19,7 @@
   game.json, y el .zip para itch.io.
 - Vistas previas: los .gfx dibujados y la música (.pt3...) y los efectos
   (.afb) sonando en la máquina.
-- El emulador dentro del editor, con el núcleo web de ZX-V 0.6.1.
+- El emulador dentro del editor, con el núcleo web de ZX-V 0.6.2.
 - Depurar C con GDB: el tipo de depuración `zxv` (sobre `cppdbg`) o una
   configuración `cppdbg` con `preLaunchTask`.
 
@@ -42,6 +42,6 @@
   its game.json, and the .zip for itch.io.
 - Previews: .gfx files drawn, and music (.pt3...) and effects (.afb)
   playing on the machine.
-- The emulator inside the editor, with the ZX-V 0.6.1 web core.
+- The emulator inside the editor, with the ZX-V 0.6.2 web core.
 - C debugging with GDB: the `zxv` debug type (on top of `cppdbg`) or a
   `cppdbg` configuration with a `preLaunchTask`.

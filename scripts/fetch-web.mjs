@@ -23,7 +23,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import AdmZip from 'adm-zip';
 
-const ZXV_VERSION = '0.6.1';
+const ZXV_VERSION = '0.6.2';
 const URL = `https://github.com/cronomantic/ZX-V/releases/download/v${ZXV_VERSION}/zxv-web.zip`;
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'media', 'web');

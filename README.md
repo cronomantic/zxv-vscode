@@ -190,18 +190,17 @@ code --install-extension zxv-0.1.0.vsix
 ```bash
 npm install
 npm run grammars    # the grammars, from ../ZX-V and ../zxbasic (or --zxv, --zxbasic)
-npm run web         # the web core: copies zxv-web.zip from ../ZX-V/build/release/0.6.1
+npm run web         # the web core: copies zxv-web.zip from ../ZX-V/build/release/0.6.2
 npm test            # unit tests
 npx vsce package    # zxv-0.1.0.vsix
 ```
 
 `npm run web -- --from PATH` uses another `zxv-web.zip` (or a folder with
 it), and `npm run web -- --download` downloads it from the
-[v0.6.1 release](https://github.com/cronomantic/ZX-V/releases/tag/v0.6.1).
-The 0.6.1 one does not bring `zxv-check.js` yet: `npm run web -- --check
-PATH` adds one built separately (`emcmake cmake -S emulator -B build-web` and
-the `zxv-check-web` target, in ZX-V); without it, the extension does not mark
-errors as you type.
+[v0.6.2 release](https://github.com/cronomantic/ZX-V/releases/tag/v0.6.2).
+With one older than 0.6.2, which has no `zxv-check.js`, `npm run web --
+--check PATH` adds one built separately (the `zxv-check-web` target of ZX-V
+with `emcmake`); without it, the extension does not mark errors as you type.
 
 The tests inside VS Code (`npm run test:vscode`) build and run the ZX-V
 examples with the real tools; see `test/runTests.ts` for the variables
