@@ -58,6 +58,15 @@ entrada entera, en español o en inglés según el idioma de VS Code. Lo saca
 una orden de `zxv.bas` sale su firma y su descripción (en inglés, la de la
 librería).
 
+**Los errores mientras escribes.** En el BASIC de la ROM, cada línea se
+comprueba como la lee `LOAD` (el mismo tokenizador y la misma comprobación
+que el editor de la máquina al pulsar Intro), con el propio BASIC de la ROM
+compilado a WebAssembly: `zxv-check.js`, que viene en `zxv-web.zip` desde
+ZX-V 0.6.2 (es la orden `zxv-check` de las releases). Marca el error en su
+sitio con el informe de la máquina (`C Sintaxis incorrecta`...) y avisa de
+los números de línea repetidos. Solo la sintaxis: los errores que salen al
+ejecutar los da `RUN`. Se apaga con `zxv.basicCheck`.
+
 > **Con otras extensiones de ZX Basic.** El lenguaje de ZX Basic de esta
 > extensión es `zxv-zxbasic`, aparte del `zxbasic` de *ZX-Basic* (jsjlogin)
 > y del `borielbasic` de *Boriel Basic* (rtorralba), así que conviven: lo
@@ -154,6 +163,10 @@ npx vsce package    # zxv-0.1.0.vsix
 `npm run web -- --from RUTA` usa otro `zxv-web.zip` (o una carpeta con él), y
 `npm run web -- --download` lo descarga de la
 [release v0.6.1](https://github.com/cronomantic/ZX-V/releases/tag/v0.6.1).
+El de la 0.6.1 aún no trae `zxv-check.js`: `npm run web -- --check RUTA`
+pone uno compilado aparte (`emcmake cmake -S emulator -B build-web` y el
+objetivo `zxv-check-web`, en ZX-V); sin él, la extensión no marca los errores
+mientras escribes.
 
 Las pruebas dentro de VS Code (`npm run test:vscode`) compilan y ejecutan los
 ejemplos de ZX-V con las herramientas de verdad; ver `test/runTests.ts` para

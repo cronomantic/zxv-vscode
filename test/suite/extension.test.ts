@@ -73,6 +73,31 @@ function suite(): void {
             assert.strictEqual(await langOf(rel, 'zxv-basic'), 'zxv-basic');
         });
 
+        it('los errores del BASIC de la ROM mientras se escribe (zxv-check.js)', async function () {
+            const ext = vscode.extensions.getExtension('cronomantic.zxv')!;
+            if (!fs.existsSync(path.join(ext.extensionPath, 'media', 'web', 'zxv-check.js')))
+                this.skip();
+            const rel = 'examples/basic/cascade/errores.bas';
+            fs.writeFileSync(file(rel).fsPath, '10 PRINT "hola"\n20 PRINT 1+\n30 LET ñ=1: GO SUB 7a\n20 REM otra\n');
+            assert.strictEqual(await langOf(rel, 'zxv-basic'), 'zxv-basic');
+            const diags = await until('los errores de errores.bas', () => {
+                const d = vscode.languages.getDiagnostics(file(rel)).filter(x => x.source === 'ZX-V');
+                return d.length >= 3 ? d : undefined;
+            }, 20000);
+            const at = (line: number) => diags.find(d => d.range.start.line === line)!;
+            assert.strictEqual(at(1).severity, vscode.DiagnosticSeverity.Error);
+            assert.strictEqual(at(1).code, 'C');
+            assert.strictEqual(at(1).range.start.character, 10);          // el final: falta algo tras «+»
+            assert.strictEqual(at(2).range.start.character, 20);          // la «a» de «7a», tras la ñ
+            assert.strictEqual(at(3).severity, vscode.DiagnosticSeverity.Warning);
+            /* Al corregirlo, desaparece. */
+            const ed = vscode.window.activeTextEditor!;
+            await ed.edit(e => e.replace(new vscode.Range(1, 0, 1, 11), '20 PRINT 1+2'));
+            await until('sin el error de la línea 20', () =>
+                !vscode.languages.getDiagnostics(file(rel)).some(d => d.range.start.line === 1 && d.source === 'ZX-V') || undefined, 10000);
+            await vscode.commands.executeCommand('workbench.action.revertAndCloseActiveEditor');
+        });
+
         it('la ayuda al pasar el ratón, en los dos', async () => {
             const hoverText = async (rel: string, find: RegExp, lang: string) => {
                 assert.strictEqual(await langOf(rel, lang), lang);

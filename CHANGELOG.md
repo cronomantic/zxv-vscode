@@ -8,6 +8,8 @@
   `zxv.basicDialect`, orden para cambiarlo).
 - La ayuda al pasar el ratón: la sintaxis y el resumen de la referencia en el
   BASIC de la ROM; la firma y la descripción de las órdenes de `zxv.bas`.
+- Los errores del BASIC de la ROM mientras se escribe, con `zxv-check.js`
+  (el BASIC de la ROM en WebAssembly).
 - Compilar (`make` con el SDK, `zxbc --arch=zxv`) y ejecutar en `zxv-sdl`,
   con tareas y problem matchers; `zxbc` con `-W150 -W170`, sin los avisos
   de las librerías.
@@ -23,6 +25,8 @@
   to change it).
 - Help on hover: syntax and summary from the reference in the ROM BASIC;
   signature and description of the `zxv.bas` commands.
+- ROM BASIC errors as you type, with `zxv-check.js` (the ROM BASIC in
+  WebAssembly).
 - Build (`make` with the SDK, `zxbc --arch=zxv`) and run in `zxv-sdl`, with
   tasks and problem matchers; `zxbc` with `-W150 -W170`, without the
   libraries' warnings.

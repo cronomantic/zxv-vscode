@@ -110,6 +110,12 @@
           "scope": "resource",
           "markdownDescription": "%config.claimBasFiles%"
         },
+        "zxv.basicCheck": {
+          "type": "boolean",
+          "default": true,
+          "scope": "resource",
+          "markdownDescription": "%config.basicCheck%"
+        },
         "zxv.toolsPath": {
           "type": "string",
           "default": "",

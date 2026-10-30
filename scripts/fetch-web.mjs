@@ -3,12 +3,16 @@
  * fetch-web.mjs - Pone en media/web el núcleo web de ZX-V (engine.js y
  * zxv-core.js, con el wasm dentro) de zxv-web.zip, el paquete web de una
  * release. Se usa la versión de la página de un juego (play/): la máquina sin
- * los menús de la página del emulador. Van también sus licencias.
+ * los menús de la página del emulador. Van también sus licencias y, si los
+ * trae (desde ZX-V 0.6.2), zxv-check.js: el comprobador de listados de la
+ * ROM en WebAssembly, para los errores mientras se escribe.
  *
  *   node scripts/fetch-web.mjs                 la copia local (ver abajo)
  *   node scripts/fetch-web.mjs --from RUTA     un zxv-web.zip, o una carpeta
  *                                              que lo tenga (o descomprimido)
  *   node scripts/fetch-web.mjs --download      lo descarga de la release
+ *   ... --check zxv-check.js                   el comprobador, de otro sitio
+ *                                              (uno compilado a mano)
  *
  * Sin --from ni --download busca $ZXV_WEB_ZIP y luego
  * ../ZX-V/build/release/VERSIÓN/zxv-web.zip. Nunca descarga sin --download.
@@ -32,6 +36,7 @@ const FILES = [
     ['THIRD_PARTY_NOTICES.txt', 'THIRD_PARTY_NOTICES.txt'],
 ];
 const LICENSES = 'licenses/';
+const CHECK = 'zxv-check.js';
 
 function fail(msg) {
     console.error(msg);
@@ -40,10 +45,11 @@ function fail(msg) {
 
 function parse() {
     const a = process.argv.slice(2);
-    const o = { from: process.env.ZXV_WEB_ZIP || '', download: false };
+    const o = { from: process.env.ZXV_WEB_ZIP || '', download: false, check: process.env.ZXV_CHECK_JS || '' };
     for (let i = 0; i < a.length; i++) {
         if (a[i] === '--from') o.from = a[++i];
         else if (a[i] === '--download') o.download = true;
+        else if (a[i] === '--check') o.check = a[++i];
         else fail(`Opción desconocida: ${a[i]}`);
     }
     return o;
@@ -111,6 +117,15 @@ for (const [inZip, name] of FILES) {
     fs.writeFileSync(path.join(OUT, name), data);
     copied.push(name);
 }
+/* El comprobador: el del zip o el de --check; sin él, la extensión no marca
+ * los errores del BASIC de la ROM mientras se escribe. */
+const check = o.check ? fs.readFileSync(o.check) : src.read(CHECK);
+if (check) {
+    fs.writeFileSync(path.join(OUT, CHECK), check);
+    copied.push(CHECK);
+} else {
+    console.warn(`aviso: no hay ${CHECK} (ni en ${src.what} ni con --check): sin los errores en vivo`);
+}
 for (const name of src.list(LICENSES)) {
     const dest = path.join(OUT, name);
     fs.mkdirSync(path.dirname(dest), { recursive: true });
@@ -120,6 +135,7 @@ for (const name of src.list(LICENSES)) {
 fs.writeFileSync(path.join(OUT, 'VERSION.json'), JSON.stringify({
     zxv: ZXV_VERSION,
     from: downloaded ? URL : path.basename(from),
+    check: o.check ? path.basename(o.check) : check ? 'zxv-web.zip' : null,
     files: copied.length,
 }, null, 2) + '\n');
 if (downloaded)

@@ -10,6 +10,7 @@
   "config.basicDialect.zxv": "The ZX-V ROM BASIC (with line numbers)",
   "config.basicDialect.zxbasic": "ZX Basic (Boriel), compiled with zxbc --arch=zxv",
   "config.claimBasFiles": "Open as one of the ZX-V BASICs the `.bas` files that VS Code or another extension opened as Visual Basic, `zxbasic` (jsjlogin) or Boriel Basic.",
+  "config.basicCheck": "Mark the errors of the ZX-V ROM BASIC as you type: each line is checked as `LOAD` reads it, with the ROM BASIC itself compiled to WebAssembly (`zxv-check`). Only syntax: the errors that come up when running, `RUN` gives them.",
   "config.toolsPath": "The folder with the ZX-V tools of a release (`zxv-sdl`, `zxv-cli`). Empty: they are looked for on the PATH.",
   "config.sdkPath": "The ZX-V SDK folder (`sdk` in the repository). It is passed to `make` as `SDK=...`, as the Makefile of the SDK guide expects.",
   "config.zxbcPath": "The ZX Basic compiler with the ZX-V target: `zxbc.exe` of its release or `zxbc.py` (run with `zxv.pythonPath`). Empty: `zxbc` on the PATH.",

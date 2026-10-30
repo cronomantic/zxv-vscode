@@ -57,6 +57,15 @@ after the VS Code language. `gen-grammars.mjs` takes it from
 `docs/{en,es}/basic/reference.md`. In ZX Basic, over a `zxv.bas` command
 you get its signature and description (in English, the library's).
 
+**Errors as you type.** In the ROM BASIC, each line is checked as `LOAD`
+reads it (the same tokenizer and the same check as the machine editor when
+you press Enter), with the ROM BASIC itself compiled to WebAssembly:
+`zxv-check.js`, in `zxv-web.zip` since ZX-V 0.6.2 (it is the `zxv-check`
+command of the releases). It marks the error in place with the machine
+report (`C Nonsense in BASIC`...) and warns about repeated line numbers.
+Only syntax: the errors that come up when running come from `RUN`. Turn it
+off with `zxv.basicCheck`.
+
 > **With other ZX Basic extensions.** This extension's ZX Basic language is
 > `zxv-zxbasic`, apart from the `zxbasic` of *ZX-Basic* (jsjlogin) and the
 > `borielbasic` of *Boriel Basic* (rtorralba), so they live together: what
@@ -151,6 +160,10 @@ npx vsce package    # zxv-0.1.0.vsix
 `npm run web -- --from PATH` uses another `zxv-web.zip` (or a folder with
 it), and `npm run web -- --download` downloads it from the
 [v0.6.1 release](https://github.com/cronomantic/ZX-V/releases/tag/v0.6.1).
+The 0.6.1 one does not bring `zxv-check.js` yet: `npm run web -- --check
+PATH` adds one built separately (`emcmake cmake -S emulator -B build-web` and
+the `zxv-check-web` target, in ZX-V); without it, the extension does not mark
+errors as you type.
 
 The tests inside VS Code (`npm run test:vscode`) build and run the ZX-V
 examples with the real tools; see `test/runTests.ts` for the variables
