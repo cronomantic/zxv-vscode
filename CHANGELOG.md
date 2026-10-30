@@ -13,6 +13,8 @@
 - Compilar (`make` con el SDK, `zxbc --arch=zxv`) y ejecutar en `zxv-sdl`,
   con tareas y problem matchers; `zxbc` con `-W150 -W170`, sin los avisos
   de las librerías.
+- «ZX-V: Proyecto nuevo»: C (Makefile, GDB, IntelliSense), BASIC de la ROM o
+  ZX Basic, listo para F5.
 - El emulador dentro del editor, con el núcleo web de ZX-V 0.6.1.
 - Depurar C con GDB: el tipo de depuración `zxv` (sobre `cppdbg`) o una
   configuración `cppdbg` con `preLaunchTask`.
@@ -30,6 +32,8 @@
 - Build (`make` with the SDK, `zxbc --arch=zxv`) and run in `zxv-sdl`, with
   tasks and problem matchers; `zxbc` with `-W150 -W170`, without the
   libraries' warnings.
+- "ZX-V: New project": C (Makefile, GDB, IntelliSense), ROM BASIC or ZX
+  Basic, ready for F5.
 - The emulator inside the editor, with the ZX-V 0.6.1 web core.
 - C debugging with GDB: the `zxv` debug type (on top of `cppdbg`) or a
   `cppdbg` configuration with a `preLaunchTask`.

@@ -39,7 +39,8 @@
     "workspaceContains:**/*.zxv",
     "workspaceContains:**/zxv.ld",
     "onDebugResolve:zxv",
-    "onDebugDynamicConfigurations:zxv"
+    "onDebugDynamicConfigurations:zxv",
+    "onStartupFinished"
   ],
   "contributes": {
     "languages": [
@@ -167,7 +168,6 @@
             "type": "string"
           },
           "default": [
-            "--enable-break",
             "-W150",
             "-W170"
           ],
@@ -206,6 +206,12 @@
       }
     },
     "commands": [
+      {
+        "command": "zxv.newProject",
+        "title": "%command.newProject%",
+        "category": "ZX-V",
+        "icon": "$(new-folder)"
+      },
       {
         "command": "zxv.build",
         "title": "%command.build%",

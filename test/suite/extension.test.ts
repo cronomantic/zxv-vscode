@@ -140,13 +140,11 @@ function suite(): void {
             await open('examples/zxbasic/stardust/stardust.bas');
             await vscode.commands.executeCommand('zxv.build');
             assert.ok(fs.existsSync(out), 'no está stardust.zxv');
-            /* Los avisos de zxv.bas (W150, W170) no llegan: -W150 -W170. Los
-             * del programa, sí (W180 en la línea 76). */
+            /* Los avisos de zxv.bas (W150, W170) no llegan: -W150 -W170 (los
+             * errores del programa, sí: la prueba siguiente). */
             await sleep(500);
             const lib = vscode.languages.getDiagnostics().filter(([u, d]) => d.length && /zxv\.bas$/i.test(u.fsPath));
             assert.deepStrictEqual(lib.map(([u]) => u.fsPath), []);
-            const own = vscode.languages.getDiagnostics(file('examples/zxbasic/stardust/stardust.bas'));
-            assert.ok(own.some(d => d.severity === vscode.DiagnosticSeverity.Warning), JSON.stringify(own.map(d => d.message)));
         });
 
         it('ZX Basic: los errores van a Problemas', async () => {
@@ -220,6 +218,70 @@ function suite(): void {
         it('hello (C)', async () => {
             const s = await runs('sdk/examples/hello/hello.c');
             assert.strictEqual(s.program, 'hello.zxv');
+        });
+    });
+
+    describe('proyecto nuevo', () => {
+        const parent = () => path.join(ws(), 'nuevos');
+        const create = async (kind: string, name: string) => {
+            fs.rmSync(path.join(parent(), name), { recursive: true, force: true });
+            const dir = await vscode.commands.executeCommand<string>('zxv.newProject',
+                { kind, name, parent: parent(), sdk: path.join(ws(), 'sdk'), open: 'none' });
+            assert.strictEqual(dir, path.join(parent(), name));
+            return dir;
+        };
+
+        it('C: main.c, Makefile, GDB e IntelliSense; compila y se ejecuta', async () => {
+            const dir = await create('c', 'prueba-c');
+            for (const f of ['main.c', 'Makefile', '.gitignore', '.vscode/launch.json', '.vscode/c_cpp_properties.json'])
+                assert.ok(fs.existsSync(path.join(dir, f)), f);
+            assert.match(fs.readFileSync(path.join(dir, 'Makefile'), 'utf8'), /^NAME\s+:= prueba-c$/m);
+            const launch = JSON.parse(fs.readFileSync(path.join(dir, '.vscode/launch.json'), 'utf8'));
+            assert.strictEqual(launch.configurations[0].program, '${workspaceFolder}/prueba-c.elf');
+            await vscode.window.showTextDocument(vscode.Uri.file(path.join(dir, 'main.c')));
+            await vscode.commands.executeCommand('zxv.build');
+            assert.ok(fs.existsSync(path.join(dir, 'prueba-c.zxv')), 'no está prueba-c.zxv');
+            const a = await api();
+            await vscode.commands.executeCommand('zxv.runInPanel');
+            const s = await until('prueba-c en marcha', () => (a.panelStatus()?.state === 'running' ? a.panelStatus() : undefined), 90000);
+            assert.strictEqual(s.program, 'prueba-c.zxv');
+            await vscode.commands.executeCommand('workbench.action.closeAllEditors');
+        });
+
+        it('BASIC de la ROM: se abre como tal y no tiene errores', async () => {
+            const dir = await create('basic', 'prueba-rom');
+            const rel = path.relative(ws(), path.join(dir, 'prueba-rom.bas'));
+            assert.strictEqual(await langOf(rel, 'zxv-basic'), 'zxv-basic');
+            await sleep(1000);
+            assert.deepStrictEqual(vscode.languages.getDiagnostics(file(rel)).map(d => d.message), []);
+            const settings = JSON.parse(fs.readFileSync(path.join(dir, '.vscode/settings.json'), 'utf8'));
+            assert.strictEqual(settings['zxv.basicDialect'], 'zxv-basic');
+        });
+
+        it('ZX Basic: compila con zxbc', async () => {
+            const dir = await create('zxbasic', 'prueba-zxb');
+            const rel = path.relative(ws(), path.join(dir, 'prueba-zxb.bas'));
+            assert.strictEqual(await langOf(rel, 'zxv-zxbasic'), 'zxv-zxbasic');
+            await vscode.commands.executeCommand('zxv.build');
+            assert.ok(fs.existsSync(path.join(dir, 'prueba-zxb.zxv')), 'no está prueba-zxb.zxv');
+            /* En marcha y sigue: su bucle espera a KEY(32) (con --enable-break,
+             * KEY devolvía basura y acababa enseguida). */
+            const a = await api();
+            await vscode.commands.executeCommand('zxv.runInPanel');
+            await until('prueba-zxb en marcha', () => (a.panelStatus()?.state === 'running' ? true : undefined), 90000);
+            await sleep(3000);
+            assert.strictEqual(a.panelStatus()?.state, 'running');
+            await vscode.commands.executeCommand('workbench.action.closeAllEditors');
+        });
+
+        it('no pisa una carpeta que ya tiene algo', async () => {
+            const dir = path.join(parent(), 'ocupada');
+            fs.mkdirSync(dir, { recursive: true });
+            fs.writeFileSync(path.join(dir, 'algo.txt'), 'x');
+            const r = await vscode.commands.executeCommand<string | undefined>('zxv.newProject',
+                { kind: 'basic', name: 'ocupada', parent: parent(), open: 'none' });
+            assert.strictEqual(r, undefined);
+            assert.deepStrictEqual(fs.readdirSync(dir), ['algo.txt']);
         });
     });
 

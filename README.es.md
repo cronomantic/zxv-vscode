@@ -77,6 +77,20 @@ ejecutar los da `RUN`. Se apaga con `zxv.basicCheck`.
 > queden con los suyos (y el lenguaje se cambia a mano en la barra de
 > estado).
 
+### Proyecto nuevo
+
+**ZX-V: Proyecto nuevo** pregunta el tipo, el nombre y dónde, y crea una
+carpeta lista para F5:
+
+| Tipo | Lo que trae |
+|---|---|
+| C | `main.c`, el `Makefile` de la guía del SDK (con `OPT=-Og` para depurar), `launch.json` con la configuración «ZX-V: GDB» y `c_cpp_properties.json` con las cabeceras del SDK para IntelliSense. Si no sabe dónde está el SDK, lo pregunta (y puede guardarlo en `zxv.sdkPath`). |
+| BASIC de la ROM | `NOMBRE.bas` con números de línea y `zxv.basicDialect` en la carpeta |
+| ZX Basic | `NOMBRE.bas` con `#include <zxv.bas>` y un bucle a 60 imágenes por segundo con doble buffer |
+
+Luego la abre (en esta ventana, en otra o añadida al espacio de trabajo) con
+el fichero principal a la vista.
+
 ### Compilar y ejecutar
 
 | Orden | Qué hace |
@@ -137,7 +151,7 @@ GDB** escribe una configuración `cppdbg` normal en `launch.json` y su
 | `zxv.zxbcPath` | `zxbc.exe` de la release del fork, o `zxbc.py` (con `zxv.pythonPath`) |
 | `zxv.gdbPath` | GDB para RISC-V (si no, `riscv64-unknown-elf-gdb`, `riscv64-elf-gdb` o `gdb-multiarch` del PATH) |
 | `zxv.basicDialect` | `auto`, `zxv-basic` o `zxv-zxbasic`, por carpeta |
-| `zxv.makeArgs`, `zxv.zxbcArgs`, `zxv.emulatorArgs` | Más argumentos para cada herramienta. `zxv.zxbcArgs` trae `--enable-break -W150 -W170`: los dos últimos callan los avisos que dan las librerías (también `zxv.bas`) por los parámetros que se leen en ASM y por las funciones que no se llaman |
+| `zxv.makeArgs`, `zxv.zxbcArgs`, `zxv.emulatorArgs` | Más argumentos para cada herramienta. `zxv.zxbcArgs` trae `-W150 -W170`, que callan los avisos que dan las librerías (también `zxv.bas`) por los parámetros que se leen en ASM y por las funciones que no se llaman. `--enable-break` no va, de momento: en el target zxv del fork estropea lo que devuelven `KEY`, `JOY`... |
 | `zxv.program` | El `.zxv` de un proyecto en C, si no se adivina |
 | `zxv.gdbPort` | El puerto del servidor GDB (1234) |
 

@@ -118,7 +118,7 @@ export function zxbcTask(file: vscode.Uri, def?: ZxvTaskDefinition, onExit?: OnE
     const out = zxbcOutput(file.fsPath);
     const args = [
         ...z.args,
-        ...tools.config(file).get<string[]>('zxbcArgs', ['--enable-break', '-W150', '-W170']),
+        ...tools.config(file).get<string[]>('zxbcArgs', ['-W150', '-W170']),
         '--arch=zxv',
         '-o', out,
         ...(def?.args ?? []),

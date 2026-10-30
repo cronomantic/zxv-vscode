@@ -75,6 +75,20 @@ off with `zxv.basicCheck`.
 > BASICs; turn it off if you prefer those extensions to keep theirs (and
 > change the language by hand in the status bar).
 
+### New project
+
+**ZX-V: New project** asks for the kind, the name and where, and creates a
+folder ready for F5:
+
+| Kind | What it brings |
+|---|---|
+| C | `main.c`, the `Makefile` of the SDK guide (with `OPT=-Og` to debug), `launch.json` with the "ZX-V: GDB" configuration and `c_cpp_properties.json` with the SDK headers for IntelliSense. If it does not know where the SDK is, it asks (and can save it in `zxv.sdkPath`). |
+| ZX-V ROM BASIC | `NAME.bas` with line numbers and `zxv.basicDialect` in the folder |
+| ZX Basic | `NAME.bas` with `#include <zxv.bas>` and a 60 frames per second loop with double buffer |
+
+Then it opens it (in this window, in a new one or added to the workspace)
+with the main file in view.
+
 ### Build and run
 
 | Command | What it does |
@@ -134,7 +148,7 @@ writes a plain `cppdbg` configuration to `launch.json` and its
 | `zxv.zxbcPath` | `zxbc.exe` from the fork release, or `zxbc.py` (with `zxv.pythonPath`) |
 | `zxv.gdbPath` | GDB for RISC-V (otherwise `riscv64-unknown-elf-gdb`, `riscv64-elf-gdb` or `gdb-multiarch` on the PATH) |
 | `zxv.basicDialect` | `auto`, `zxv-basic` or `zxv-zxbasic`, per folder |
-| `zxv.makeArgs`, `zxv.zxbcArgs`, `zxv.emulatorArgs` | More arguments for each tool. `zxv.zxbcArgs` brings `--enable-break -W150 -W170`: the last two hide the warnings the libraries (`zxv.bas` too) give for parameters read in ASM and for functions not called |
+| `zxv.makeArgs`, `zxv.zxbcArgs`, `zxv.emulatorArgs` | More arguments for each tool. `zxv.zxbcArgs` brings `-W150 -W170`, which hide the warnings the libraries (`zxv.bas` too) give for parameters read in ASM and for functions not called. `--enable-break` is left out for now: in the fork's zxv target it breaks what `KEY`, `JOY`... return |
 | `zxv.program` | The `.zxv` of a C project, if it cannot be guessed |
 | `zxv.gdbPort` | The GDB server port (1234) |
 
