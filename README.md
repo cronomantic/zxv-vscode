@@ -115,6 +115,17 @@ the panel copies the program and the files of its folder (`.gfx`, `.pt3`,
 `.afb`...) to its card, loads it with `LOAD` and loads it again when you
 rebuild it or save the `.bas`. The panel card is kept between sessions.
 
+### Publishing on the web
+
+**ZX-V: Publish on the web** makes the page of a single game, the one that
+starts by itself without showing the BASIC ([the guide](https://github.com/cronomantic/ZX-V/blob/main/docs/en/sdk/web.md)),
+with the SDK's `sdk/tools/mkweb.py` and the web core the extension carries.
+It builds the program and uses the `game.json` of the project folder; the
+first time it creates it with the program, the files it loads (`.gfx`,
+`.pt3`, `.afb`...) and the title, so you can change the language, the
+border or the touch controls. It leaves the page in `web/` and a
+`NAME-web.zip` to upload to itch.io, and opens it in the browser if you want.
+
 ### Debugging C with GDB
 
 The emulator is the GDB server (`zxv-sdl --gdb PORT`) and the debugger is the

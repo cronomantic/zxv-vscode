@@ -29,9 +29,14 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'media', 'web');
 
 /* Lo que se copia: [en el zip, en media/web]. */
+/* Con index.html, play.js y play.css, media/web es también el kit de
+ * sdk/tools/mkweb.py (--kit), para «ZX-V: Publicar en la web». */
 const FILES = [
     ['play/engine.js', 'engine.js'],
     ['play/zxv-core.js', 'zxv-core.js'],
+    ['play/index.html', 'index.html'],
+    ['play/play.js', 'play.js'],
+    ['play/play.css', 'play.css'],
     ['LICENSE.txt', 'LICENSE.txt'],
     ['THIRD_PARTY_NOTICES.txt', 'THIRD_PARTY_NOTICES.txt'],
 ];

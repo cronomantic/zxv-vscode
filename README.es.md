@@ -118,6 +118,17 @@ ficheros de su carpeta (`.gfx`, `.pt3`, `.afb`...), lo carga con `LOAD` y,
 cuando lo recompilas o guardas el `.bas`, lo vuelve a cargar. La tarjeta del
 panel se guarda entre sesiones.
 
+### Publicar en la web
+
+**ZX-V: Publicar en la web** hace la página de un solo juego, la que empieza
+sola sin que se vea el BASIC ([la guía](https://github.com/cronomantic/ZX-V/blob/main/docs/es/sdk/web.md)),
+con `sdk/tools/mkweb.py` del SDK y el núcleo web que lleva la extensión.
+Compila el programa y usa el `game.json` de la carpeta del proyecto; la
+primera vez lo crea con el programa, los ficheros que carga (`.gfx`,
+`.pt3`, `.afb`...) y el título, para que puedas cambiar el idioma, el borde
+o los controles táctiles. Deja la página en `web/` y un `NOMBRE-web.zip`
+para subirlo a itch.io, y la abre en el navegador si quieres.
+
 ### Depurar C con GDB
 
 El emulador hace de servidor GDB (`zxv-sdl --gdb PUERTO`) y el depurador es

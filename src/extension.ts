@@ -11,6 +11,7 @@ import { lastError, registerDebug } from './debug';
 import { DialectService } from './dialectService';
 import { registerHovers } from './hover';
 import { registerNewProject } from './newProject';
+import { registerPublishWeb } from './publishWeb';
 import { EmulatorPanel, PanelStatus } from './panel';
 import { registerRomSnippets } from './snippets';
 
@@ -28,6 +29,7 @@ export function activate(ctx: vscode.ExtensionContext): ZxvApi {
         registerRomSnippets(ctx),
         ...registerHovers(ctx),
         registerNewProject(ctx),
+        registerPublishWeb(ctx),
         vscode.tasks.registerTaskProvider(TASK_TYPE, new ZxvTaskProvider()),
         ...registerDebug(),
 

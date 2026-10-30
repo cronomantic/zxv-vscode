@@ -15,6 +15,8 @@
   1.19.0-zxv.4 o posterior) y `-W150 -W170`, sin los avisos de las librerías.
 - «ZX-V: Proyecto nuevo»: C (Makefile, GDB, IntelliSense), BASIC de la ROM o
   ZX Basic, listo para F5.
+- «ZX-V: Publicar en la web»: la página de un solo juego con mkweb.py y su
+  game.json, y el .zip para itch.io.
 - El emulador dentro del editor, con el núcleo web de ZX-V 0.6.1.
 - Depurar C con GDB: el tipo de depuración `zxv` (sobre `cppdbg`) o una
   configuración `cppdbg` con `preLaunchTask`.
@@ -34,6 +36,8 @@
   1.19.0-zxv.4 or later) and `-W150 -W170`, without the libraries' warnings.
 - "ZX-V: New project": C (Makefile, GDB, IntelliSense), ROM BASIC or ZX
   Basic, ready for F5.
+- "ZX-V: Publish on the web": the page of a single game with mkweb.py and
+  its game.json, and the .zip for itch.io.
 - The emulator inside the editor, with the ZX-V 0.6.1 web core.
 - C debugging with GDB: the `zxv` debug type (on top of `cppdbg`) or a
   `cppdbg` configuration with a `preLaunchTask`.

@@ -111,7 +111,8 @@ export function createProject(ctx: vscode.ExtensionContext, kind: ProjectKind, n
     }
 }
 
-async function askSdk(): Promise<string | undefined> {
+/* El SDK: zxv.sdkPath o, si no, lo pregunta (y puede guardarlo). */
+export async function askSdk(): Promise<string | undefined> {
     const current = tools.sdk();
     if (current && isSdk(current))
         return current;

@@ -237,6 +237,12 @@
         "category": "ZX-V"
       },
       {
+        "command": "zxv.publishWeb",
+        "title": "%command.publishWeb%",
+        "category": "ZX-V",
+        "icon": "$(globe)"
+      },
+      {
         "command": "zxv.selectBasicDialect",
         "title": "%command.selectBasicDialect%",
         "category": "ZX-V"
@@ -277,6 +283,11 @@
           "command": "zxv.runInPanel",
           "when": "resourceExtname == .zxv || resourceExtname == .bas",
           "group": "zxv@2"
+        },
+        {
+          "command": "zxv.publishWeb",
+          "when": "resourceExtname == .zxv || resourceExtname == .bas",
+          "group": "zxv@3"
         }
       ]
     },
@@ -300,7 +311,8 @@
               "make",
               "zxbc",
               "run",
-              "gdb-server"
+              "gdb-server",
+              "mkweb"
             ],
             "description": "%task.action%"
           },

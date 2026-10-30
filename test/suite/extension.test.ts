@@ -285,6 +285,49 @@ function suite(): void {
         });
     });
 
+    describe('publicar en la web', () => {
+        before(async () => {
+            await vscode.workspace.getConfiguration('zxv').update('sdkPath', path.join(ws(), 'sdk'), vscode.ConfigurationTarget.Workspace);
+        });
+        after(async () => {
+            await vscode.workspace.getConfiguration('zxv').update('sdkPath', undefined, vscode.ConfigurationTarget.Workspace);
+        });
+
+        type Published = { dir: string; zip: string; config: string };
+
+        it('cascade.bas: la página, el zip y el game.json con sus ficheros', async () => {
+            const dir = file('examples/basic/cascade').fsPath;
+            for (const f of ['game.json', 'web', 'cascade-web.zip'])
+                fs.rmSync(path.join(dir, f), { recursive: true, force: true });
+            const r = await vscode.commands.executeCommand<Published>('zxv.publishWeb',
+                file('examples/basic/cascade/cascade.bas'), { title: 'Cascade', open: false });
+            assert.ok(r, 'no ha publicado');
+            for (const f of ['index.html', 'game.js', 'play.js', 'engine.js', 'zxv-core.js', 'LICENSE.txt'])
+                assert.ok(fs.existsSync(path.join(r.dir, f)), f);
+            assert.ok(fs.existsSync(r.zip), 'no está el zip');
+            const cfg = JSON.parse(fs.readFileSync(r.config, 'utf8'));
+            assert.strictEqual(cfg.start, 'cascade.bas');
+            assert.deepStrictEqual(cfg.files, ['cascade.afb', 'cascade.gfx', 'cascade.pt3']);
+            assert.match(fs.readFileSync(path.join(r.dir, 'game.js'), 'utf8'), /"title":\s*"Cascade"/);
+        });
+
+        it('hello.c del SDK: el game.json apunta a build/hello.zxv', async () => {
+            const dir = file('sdk/examples/hello').fsPath;
+            for (const f of ['game.json', 'web', 'hello-web.zip'])
+                fs.rmSync(path.join(dir, f), { recursive: true, force: true });
+            await open('sdk/examples/hello/hello.c');
+            const r = await vscode.commands.executeCommand<Published>('zxv.publishWeb', undefined, { title: 'Hello', open: false });
+            assert.ok(r, 'no ha publicado');
+            const cfg = JSON.parse(fs.readFileSync(r.config, 'utf8'));
+            assert.strictEqual(cfg.start, '../../build/hello.zxv');
+            assert.ok(fs.existsSync(path.join(r.dir, 'index.html')));
+            /* La segunda vez usa el game.json que ya hay (sin preguntar nada). */
+            const again = await vscode.commands.executeCommand<Published>('zxv.publishWeb', undefined, { open: false });
+            assert.strictEqual(again?.config, r.config);
+            await vscode.commands.executeCommand('workbench.action.closeAllEditors');
+        });
+    });
+
     describe('depurar C con GDB', function () {
         before(function () {
             if (!process.env.ZXV_TEST_WITH_CPPTOOLS || !vscode.extensions.getExtension('ms-vscode.cpptools'))

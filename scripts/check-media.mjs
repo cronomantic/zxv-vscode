@@ -10,6 +10,9 @@ const need = [
     'media/web/engine.js',
     'media/web/zxv-core.js',
     'media/web/LICENSE.txt',
+    'media/web/index.html',
+    'media/web/play.js',
+    'media/web/play.css',
     'syntaxes/zxv-basic.tmLanguage.json',
     'syntaxes/zxbasic.tmLanguage.json',
 ];

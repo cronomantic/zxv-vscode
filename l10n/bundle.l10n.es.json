@@ -53,5 +53,12 @@
   "Add to the workspace": "Añadir al espacio de trabajo",
   "Project {0} created in {1}.": "Proyecto {0} creado en {1}.",
   "hello": "hola",
-  "game": "juego"
+  "game": "juego",
+  "The title of the game (on the cover and the browser tab)": "El título del juego (en la portada y en la pestaña del navegador)",
+  "{0} does not exist: this SDK is older than mkweb.py.": "{0} no existe: este SDK es anterior a mkweb.py.",
+  "mkweb.py failed: look at the terminal.": "mkweb.py ha fallado: mira la terminal.",
+  "Open in the browser": "Abrir en el navegador",
+  "Show the folder": "Enseñar la carpeta",
+  "Edit game.json": "Cambiar game.json",
+  "The page is in {0}, and {1} is ready for itch.io.": "La página está en {0}, y {1}, listo para itch.io."
 }
