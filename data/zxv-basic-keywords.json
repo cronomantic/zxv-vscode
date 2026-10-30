@@ -1,5 +1,29 @@
 [
   {
+    "keyword": "@",
+    "class": "label",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "@label",
+          "anchor": "label"
+        }
+      ],
+      "es": [
+        {
+          "title": "@etiqueta",
+          "anchor": "etiqueta"
+        }
+      ]
+    }
+  },
+  {
     "keyword": "ABS",
     "class": "function",
     "zxv": false,

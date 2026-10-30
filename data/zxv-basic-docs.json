@@ -1,0 +1,1066 @@
+{
+  "en": {
+    "abs-sgn-int": {
+      "title": "ABS, SGN, INT",
+      "syntax": "ABS x     SGN x     INT x",
+      "summary": "is -3. To round to the nearest, use `INT (x+0.5)`."
+    },
+    "asn-acs-atn": {
+      "title": "ASN, ACS, ATN",
+      "syntax": "ASN x     ACS x     ATN x",
+      "summary": "Arcsine, arccosine and arctangent: the angle, in radians, whose sine, cosine or tangent is `x`. `ASN` and `ACS` need `x` from -1 to 1 (otherwise `A Invalid argument`)."
+    },
+    "auto": {
+      "title": "AUTO",
+      "syntax": "AUTO [first [, step]]",
+      "summary": "Automatic line numbers: each new line in the editor starts with the next number. Without values, it starts at the last line plus 10, and goes up in tens. It ends when you press Enter on a line with only the number, press Esc, or move to another line. Only as a direct command (in a program, `C Nonsense in BASIC`)."
+    },
+    "beep": {
+      "title": "BEEP",
+      "syntax": "BEEP duration, pitch",
+      "summary": "Plays a note on the beeper. `duration` is in seconds (0 to 10); `pitch` is in semitones above middle C (0 is middle C, 12 the C above, -12 the C below), from -60 to 69, and can have decimals. The program waits until the note ends."
+    },
+    "bin": {
+      "title": "BIN",
+      "syntax": "BIN digits",
+      "summary": "Writes a number in binary: `BIN 1010` is 10. Handy for designing graphics with [`POKE USR`](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#user-defined-graphics-udg)."
+    },
+    "border": {
+      "title": "BORDER",
+      "syntax": "BORDER n",
+      "summary": "Colour of the border around the screen, 0 to 7. The lower part of the screen (the two lines of `INPUT` and the reports) uses the border colour as its paper."
+    },
+    "box": {
+      "title": "BOX",
+      "syntax": "BOX colour, x, y, width, height",
+      "summary": "A filled rectangle with its top left corner at `x`, `y`."
+    },
+    "bright-flash": {
+      "title": "BRIGHT, FLASH",
+      "syntax": "BRIGHT n     FLASH n",
+      "summary": "`BRIGHT 1` uses the bright version of the ink and paper; `BRIGHT 0` the normal one. `FLASH 1` makes the cell swap its ink and paper about every third of a second. 8 is transparent (keeps what the cell had). Other values give `K Invalid colour`."
+    },
+    "cat": {
+      "title": "CAT",
+      "syntax": "CAT [name$]",
+      "summary": "Lists a folder: first the folder name, then each file with its size in bytes, and each folder with `/` and `<DIR>`. Without a name, the current folder. With wildcards or a file name, only what matches."
+    },
+    "cd-dir": {
+      "title": "CD, DIR$",
+      "syntax": "CD folder$\nDIR$",
+      "summary": "`CD` changes the current folder: `CD \"games\"`, `CD \"..\"` (the folder above), `CD \"/\"` (the root of the drive), `CD \"ROM:\"` (the built-in examples drive) and `CD \"SD:\"` (back to the card). The function `DIR$` gives the current folder, such as `\"/games\"` or `\"ROM:/\"`."
+    },
+    "cell": {
+      "title": "CELL",
+      "syntax": "CELL(m, x, y)",
+      "summary": "The value of the cell at column `x`, row `y` of map `m`, including the mirror, transparency and priority bits. Outside a map that does not wrap, 0. Useful to check what the scenery has at some place: the cell under a sprite at pixel `px`, `py` is `CELL(m, INT (px/8), INT (py/8))` for 8-pixel tiles."
+    },
+    "chr-code": {
+      "title": "CHR$, CODE",
+      "syntax": "CHR$ n     CODE a$",
+      "summary": "`CHR$ n` is the character with code `n` (0 to 255), and `CODE a$` the code of the first character of `a$` (0 if it is empty). See the [Character set](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#character-set)."
+    },
+    "circle": {
+      "title": "CIRCLE",
+      "syntax": "CIRCLE [colour items;] x, y, radius",
+      "summary": "Draws a circle with its centre at `x`, `y`."
+    },
+    "clear": {
+      "title": "CLEAR",
+      "syntax": "CLEAR [address]",
+      "summary": "Deletes all variables, clears the screen, closes the files opened with `OPEN #`, forgets the `GO SUB` and loop returns, turns off `ON ERROR` and `CLIP`, and makes `READ` start from the first `DATA`. Sprites and other graphics are kept. [`RUN`](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#run) does a `CLEAR` first."
+    },
+    "clip": {
+      "title": "CLIP",
+      "syntax": "CLIP x, y, width, height\nCLIP",
+      "summary": "From now on, the commands of this section only draw inside that rectangle. `CLIP` alone removes the limit (as do `MODE`, `RUN` and `CLEAR`)."
+    },
+    "clock": {
+      "title": "CLOCK",
+      "syntax": "CLOCK n\nCLOCK year, month, day, hour, minutes [, seconds]",
+      "summary": "The function `CLOCK n` reads the date and time: 0 year, 1 month, 2 day, 3 hour, 4 minutes, 5 seconds, 6 day of the week (1 Monday to 7 Sunday). It gives 0 if the clock has not been set. The statement sets the clock (years 2000 to 2099); a date that does not exist gives `A Invalid argument`. Files saved on the card are stamped with this date."
+    },
+    "cls": {
+      "title": "CLS",
+      "syntax": "CLS",
+      "summary": "Clears the screen with the current `PAPER` colour and puts the print position back at the top left corner."
+    },
+    "continue": {
+      "title": "CONTINUE",
+      "syntax": "CONTINUE",
+      "summary": "Carries on after a stop: after `STOP` or BREAK, from the next statement; after an error, it repeats the statement that failed (useful once you have fixed the cause, for example by giving a missing variable a value)."
+    },
+    "copy": {
+      "title": "COPY",
+      "syntax": "COPY from$ TO to$\nCOPY",
+      "summary": "With two names, copies a file (replacing `to$` if it exists; if `to$` is a folder, the copy goes inside). With wildcards, `to$` must be a folder. Copying a file onto itself gives `V Disk error (already exists)`. To copy an example to the card: `COPY \"ROM:hello.zxv\" TO \"hello.zxv\"`."
+    },
+    "def-fn-fn": {
+      "title": "DEF FN, FN",
+      "syntax": "DEF FN letter([param [, param]...]) = expression\nDEF FN letter$([param [, param]...]) = string expression\nFN letter(values)",
+      "summary": "Defines your own function with a one-letter name and one-letter parameters (`x`, or `a$` for strings). `FN` calls it. `DEF FN` can be anywhere in the program and does nothing when reached. Calling a function that is not defined gives `P FN without DEF`; the wrong number or type of values gives `Q Parameter error`."
+    },
+    "def-proc-proc-end-proc": {
+      "title": "DEF PROC, PROC, END PROC",
+      "syntax": "DEF PROC name [(param [, param]...)]\nEND PROC\nPROC name [(value [, value]...)]",
+      "summary": "A **procedure** is a named piece of program. `DEF PROC` starts it and `END PROC` ends it; `PROC` runs it and then comes back. The parameters receive the values given in `PROC`; they are local: their old values are restored at `END PROC`. A numeric parameter is a numeric variable name; a string parameter is a letter with `$`. Procedures can call themselves."
+    },
+    "delete": {
+      "title": "DELETE",
+      "syntax": "DELETE first [, last]",
+      "summary": "Deletes the lines from `first` to `last` (or just line `first`). Only as a direct command."
+    },
+    "dim": {
+      "title": "DIM",
+      "syntax": "DIM letter(size [, size]...)\nDIM letter$(size [, size]...)",
+      "summary": "Creates an array (see [Arrays](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#arrays)), replacing any array with the same name. Up to 16 dimensions; each size goes from 1 to 65535. Numeric arrays start full of zeros and string arrays full of spaces. A subscript out of range gives `3 Subscript wrong`."
+    },
+    "disc": {
+      "title": "DISC",
+      "syntax": "DISC colour, x, y, radius",
+      "summary": "A filled circle with its centre at `x`, `y`."
+    },
+    "draw": {
+      "title": "DRAW",
+      "syntax": "DRAW [colour items;] dx, dy [, angle]",
+      "summary": "Draws a line from the last point to the point `dx` pixels to the right and `dy` pixels up (negative values go left and down). With `angle` (in radians) it draws an arc instead, turning that much on the way: `PI` draws half a circle, and a positive angle curves anticlockwise."
+    },
+    "edit": {
+      "title": "EDIT",
+      "syntax": "EDIT [line]",
+      "summary": "Puts the editor's cursor on that line (without a number, on the current line). Not to be confused with the EDIT key (Tab), which opens the editor's options menu."
+    },
+    "erase": {
+      "title": "ERASE",
+      "syntax": "ERASE name$",
+      "summary": "Deletes a file, or with wildcards every file that matches (`ERASE \"*.bak\"`). Folders are not deleted (use `RMDIR`). There is no undo."
+    },
+    "err-erl": {
+      "title": "ERR, ERL",
+      "syntax": "ERR\nERL",
+      "summary": "After an error caught by `ON ERROR`, `ERR` is the error code as a number (the digits are themselves, and the letters count on from 10: `A` is 10, `B` 11... `Z` 35; the table below gives them all) and `ERL` is the line where it happened."
+    },
+    "exp-ln": {
+      "title": "EXP, LN",
+      "syntax": "EXP x     LN x",
+      "summary": "`EXP x` is e (2.7182818...) to the power `x`. `LN x` is the natural logarithm; `x` must be greater than 0 (otherwise `A Invalid argument`). For a logarithm in base 10 use `LN x/LN 10`."
+    },
+    "find": {
+      "title": "FIND",
+      "syntax": "FIND [text]",
+      "summary": "Moves the editor's cursor to the next program line where `text` appears, starting with the line after the cursor and going round at the end, with the cursor on the text. Upper and lower case are the same, and it searches the listing as you see it (not the line numbers). Without text, it searches for the same as last time, like the F3 key. If it is not there, the status line says `Not found`. Only as a direct command."
+    },
+    "floor": {
+      "title": "FLOOR",
+      "syntax": "FLOOR n, x, y, height, angle, horizon [, focal]",
+      "summary": "Draws a floor in perspective with texture `n`, as seen from point `x`, `y` of the texture at that `height`, looking in direction `angle` (in radians; 0 looks towards growing `x`). The horizon is at line `horizon` of the page, and the floor fills from the line below it to the bottom of the page. `focal` is the focal distance (half the page width if omitted): smaller values give a wider view. This is the \"mode 7\" effect of racing and flying games."
+    },
+    "for-next": {
+      "title": "FOR, NEXT",
+      "syntax": "FOR var = first TO last [STEP step]\nNEXT var",
+      "summary": "Repeats the statements between `FOR` and `NEXT`, with the variable going from `first` to `last`, adding `step` each time (1 if there is no `STEP`). The variable is a single letter. With a negative step it counts down. If the loop should not run at all (`FOR i=1 TO 0`), the program jumps to after the matching `NEXT`; if there is none, `I FOR without NEXT`."
+    },
+    "format": {
+      "title": "FORMAT",
+      "syntax": "",
+      "summary": "`FORMAT` exists only for compatibility with old Spectrum programs and gives `O Invalid stream`."
+    },
+    "go-sub-return": {
+      "title": "GO SUB, RETURN",
+      "syntax": "GO SUB line\nGO SUB @label\nRETURN",
+      "summary": "`GO SUB` jumps to a subroutine, like `GO TO`, but remembers where it came from; `RETURN` goes back to the statement after the `GO SUB`. Subroutines can call other subroutines (up to 512 levels). `RETURN` without a `GO SUB` gives `7 RETURN without GOSUB`."
+    },
+    "go-to": {
+      "title": "GO TO",
+      "syntax": "GO TO line\nGO TO @label",
+      "summary": "Jumps to a line and carries on from there. `line` can be any expression (`GO TO n*100`). If that line does not exist, it goes to the next one after it; if there is none, the program ends. With a [label](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#label) it jumps to that exact statement."
+    },
+    "grab": {
+      "title": "GRAB",
+      "syntax": "GRAB n, x, y, width, height [, t]\nGRAB n, width, a$",
+      "summary": "Defines sprite `n` (0 to 255)."
+    },
+    "hit": {
+      "title": "HIT",
+      "syntax": "HIT(a, ax, ay, b, bx, by)",
+      "summary": "Collision test: 1 if any solid (not transparent) pixel of sprite `a` drawn at `ax`, `ay` would land on a solid pixel of sprite `b` drawn at `bx`, `by`; otherwise 0. Nothing is drawn."
+    },
+    "if-then-else": {
+      "title": "IF, THEN, ELSE",
+      "syntax": "IF condition THEN statements\nIF condition THEN statements ELSE statements\n\nIF condition THEN\n  lines\nELSE IF condition THEN\n  lines\nELSE\n  lines\nEND IF",
+      "summary": "If the condition is true (not 0), the statements after `THEN` run. If it is false, they are skipped: the program carries on at the statements after `ELSE`, if there is one on the same line, or at the next line. A number after `THEN` is an error (`IF a THEN 100`; write `IF a THEN GO TO 100`)."
+    },
+    "in-out": {
+      "title": "IN, OUT",
+      "syntax": "IN port\nOUT port, value",
+      "summary": "Read and write the ports of the Spectrum, as emulated by ZX-V:"
+    },
+    "ink-paper": {
+      "title": "INK, PAPER",
+      "syntax": "INK n     PAPER n",
+      "summary": "Ink and paper colour, from 0 to 7 (see the table), or:"
+    },
+    "inkey": {
+      "title": "INKEY$",
+      "syntax": "INKEY$",
+      "summary": "The key being pressed at this moment, as a one-character string, or `\"\"` if none. It does not wait. Letters come out in lower case (upper case with Shift or Caps Lock), digits as digits, Enter as `CHR$ 13`, and the cursor keys as `CHR$ 8` (left), `CHR$ 9` (right), `CHR$ 10` (down) and `CHR$ 11` (up). Shift works as the Spectrum's CAPS SHIFT and Ctrl as its SYMBOL SHIFT. A joystick set up as keys with [`JOY`](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#joy) also counts."
+    },
+    "input": {
+      "title": "INPUT",
+      "syntax": "INPUT [prompt items] var [, var]...\nINPUT ... LINE a$",
+      "summary": "Stops the program and lets the user type values into variables, in the lower part of the screen. The items are as in `PRINT`: string literals and expressions in brackets are shown as a prompt, `AT`, `TAB` and colours work, and each variable waits for a value."
+    },
+    "inverse-over": {
+      "title": "INVERSE, OVER",
+      "syntax": "INVERSE n     OVER n",
+      "summary": "`INVERSE 1` prints with ink and paper swapped. `OVER 1` prints over what is already there, changing each pixel of the character between ink and paper (printing the same thing twice with `OVER 1` rubs it out). 0 turns them off; other values give `K Invalid colour`."
+    },
+    "joy": {
+      "title": "JOY",
+      "syntax": "JOY n\nJOY n, mode",
+      "summary": "The function `JOY n` gives the state of joystick or gamepad `n` (0 for the first one connected, 1 for the second) as a number made of these bits; 0 if it is not connected:"
+    },
+    "key": {
+      "title": "KEY",
+      "syntax": "KEY n",
+      "summary": "1 if key `n` is held down right now, 0 if not. Several keys can be held at once, so this is the way to read the keyboard in games. `n` is:"
+    },
+    "label": {
+      "title": "@label",
+      "syntax": "@name",
+      "summary": "A statement made of `@` and a name marks a place in the program. `GO TO`, `GO SUB`, `RUN`, `RESTORE` and `ON ERROR GO TO` can jump to it by name instead of by line number, to the exact statement (it does not need to be the first one on its line). Labels do not change when you renumber. A label that does not exist gives `X Label not found`."
+    },
+    "language": {
+      "title": "LANGUAGE",
+      "syntax": "LANGUAGE code$",
+      "summary": "Sets the language of the machine with a two-letter code: `\"en\"` English or `\"es\"` Spanish. Error reports and the editor's bar and menu use it from then on, and the machine remembers it (on the real hardware, in its battery-backed clock; in the emulator, in its settings). Any other two-letter code is accepted and shows English (a program can read it to choose its own texts: `PEEK 536872736` and `PEEK 536872737` are the codes of the two letters). Something that is not two letters gives `A Invalid argument`."
+    },
+    "len": {
+      "title": "LEN",
+      "syntax": "LEN a$",
+      "summary": "The number of characters in a string. `LEN \"\"` is 0."
+    },
+    "let": {
+      "title": "LET",
+      "syntax": "LET var = value",
+      "summary": "Gives a value to a variable, creating it if needed. `LET` is needed (`a=1` on its own is an error). The value must match the type: a number for numeric variables, a string for `$` variables."
+    },
+    "list": {
+      "title": "LIST",
+      "syntax": "LIST [line]\nLIST #stream [, line]",
+      "summary": "As a direct command, `LIST` takes you to the editor with the cursor on that line (or the next one that exists), ready to change it. Inside a program, or with a stream, it prints the listing from that line: `LIST #2` on the program screen, `LIST #3` to the printer, `LIST #4` to a file. The listing is indented: whatever is inside a loop, a procedure or a block shows two spaces further right for each level (the spaces are not stored)."
+    },
+    "load": {
+      "title": "LOAD",
+      "syntax": "LOAD name$\nLOAD name$ CODE [start [, length]]\nLOAD name$ SCREEN$\nLOAD name$ DATA letter()\nLOAD name$ DATA letter$()\nLOAD name$ GRAPHICS\nLOAD name$ MUSIC\nLOAD name$ SFX",
+      "summary": "Loads from the SD card (or the `ROM:` drive):"
+    },
+    "local": {
+      "title": "LOCAL",
+      "syntax": "LOCAL var [, var]...",
+      "summary": "Inside a procedure, makes the variables local: they start as 0 (or `\"\"`) and get their old values back at `END PROC`. Outside a procedure, `Y Structure error`."
+    },
+    "lprint-llist": {
+      "title": "LPRINT, LLIST",
+      "syntax": "LPRINT [items]\nLLIST [line]",
+      "summary": "Like `PRINT` and `LIST`, but to the **printer**. ZX-V has no paper printer: the printer is the text file `printer.txt` at the root of the SD card, and everything printed is added to its end. Colours and `AT` (except its column) are ignored. Lines are up to 64 characters long (32 in mode 0)."
+    },
+    "map": {
+      "title": "MAP",
+      "syntax": "MAP m [, mx, my [, x, y, width, height [, filter]]]",
+      "summary": "Draws tile map `m`, starting at pixel `mx`, `my` of the map (0, 0 if omitted), on the whole page or in the rectangle `x`, `y`, `width`, `height`. Changing `mx` and `my` scrolls the map. `filter`: 0 draws all cells, 1 only those without priority and 2 only those with priority (so you can draw the background, then the sprites, then the parts of the scenery in front). All the tiles the map uses must exist (otherwise `A Invalid argument`)."
+    },
+    "map-dim-map-poke": {
+      "title": "MAP DIM, MAP POKE",
+      "syntax": "MAP DIM m, width, height [, size [, wrap]]\nMAP POKE m, x, y, value\nMAP POKE m, x, y, a$",
+      "summary": "`MAP DIM` creates tile map `m` (0 to 15) with `width` × `height` cells, all set to tile 0. `size` is the tile size, 8 (the default) or 16. With `wrap` = 1 the map repeats endlessly in both directions."
+    },
+    "merge": {
+      "title": "MERGE",
+      "syntax": "MERGE name$",
+      "summary": "Adds the lines of a saved program to the one in memory; lines with the same number are replaced. The variables are deleted. It also works with a [listing in text](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#listings-in-text) (`.bas`)."
+    },
+    "mkdir-rmdir": {
+      "title": "MKDIR, RMDIR",
+      "syntax": "MKDIR folder$\nRMDIR folder$",
+      "summary": "`MKDIR` creates a folder; `RMDIR` deletes an empty folder (otherwise `V Disk error (folder not empty)`)."
+    },
+    "mode": {
+      "title": "MODE",
+      "syntax": "MODE n\nMODE 0, width, height",
+      "summary": "Chooses the screen mode and clears the screen:"
+    },
+    "monitor": {
+      "title": "MONITOR",
+      "syntax": "MONITOR",
+      "summary": "Opens the test monitor, a screen for checking the hardware (keyboard, joystick, video modes, sound). To leave it, reset the machine (Ctrl+Alt+Del)."
+    },
+    "mouse": {
+      "title": "MOUSE",
+      "syntax": "MOUSE n\nMOUSE x, y",
+      "summary": "The function `MOUSE n` reads the mouse:"
+    },
+    "move": {
+      "title": "MOVE",
+      "syntax": "MOVE from$ TO to$",
+      "summary": "Renames a file or folder, or moves it to another folder: if `to$` is a folder, it goes inside it with the same name. With wildcards, `to$` must be a folder and every file that matches is moved."
+    },
+    "music": {
+      "title": "MUSIC",
+      "syntax": "LOAD name$ MUSIC\nMUSIC PLAY\nMUSIC STOP\nMUSIC PAUSE\nMUSIC CONTINUE\nMUSIC                          (function)",
+      "summary": "Plays music made with a tracker, in the background: the program carries on while it plays, as in games. `LOAD name$ MUSIC` loads a module (without an extension, `name.pt3`): Pro Tracker 3 or Vortex Tracker II (`.pt3`, the one the ZX-V tracker, [`zxv-tracker`](https://github.com/cronomantic/ZX-V/blob/main/docs/en/sdk/README.md#the-tracker-for-the-pc-zxv-tracker), saves), a TurboSound (two modules, one on each AY chip: six voices), Pro Tracker 2, Sound Tracker, ASC Sound Master or a PSG dump. A file that is none of those gives `R Tape loading error`."
+    },
+    "new": {
+      "title": "NEW",
+      "syntax": "NEW",
+      "summary": "Deletes the program, the variables and the graphics store, and starts afresh (the inserted tape stays). There is no undo: save first."
+    },
+    "on-error": {
+      "title": "ON ERROR",
+      "syntax": "ON ERROR GO TO line | @label\nON ERROR GO TO 0",
+      "summary": "From now on, if an error stops the program, it jumps to that line or label instead. There, `ERR` and `ERL` say what happened. `ON ERROR GO TO 0` turns it off, as do `RUN` and `CLEAR`."
+    },
+    "open-close": {
+      "title": "OPEN, CLOSE",
+      "syntax": "OPEN #stream, name$ IN\nOPEN #stream, name$ OUT\nOPEN #stream, channel$\nCLOSE #stream",
+      "summary": "`OPEN # ... OUT` creates a text file (emptying it if it exists) to write to; `OPEN # ... IN` opens one to read. Files can only use streams 4 to 15, and up to 8 files can be open at once (otherwise `O Invalid stream`). Opening a stream that already has a file closes it first."
+    },
+    "page-screen": {
+      "title": "PAGE, SCREEN",
+      "syntax": "PAGE n\nSCREEN n",
+      "summary": "ZX-V has two screen pages, 0 and 1. `PAGE` chooses the one that is shown; `SCREEN` chooses the one where `PRINT`, `CLS`, `PLOT`, sprites and so on draw. Drawing on the hidden page and then showing it gives smooth animation without flicker (double buffering). Values other than 0 and 1 give `A Invalid argument`."
+    },
+    "pause": {
+      "title": "PAUSE",
+      "syntax": "PAUSE n",
+      "summary": "Waits `n` fiftieths of a second (`PAUSE 50` is one second, as on the Spectrum), or until a key is pressed, whichever comes first. `PAUSE 0` waits for a key for ever. Only keys pressed after the `PAUSE` starts count. `n` goes from 0 to 65535."
+    },
+    "peek-poke": {
+      "title": "PEEK, POKE",
+      "syntax": "PEEK address\nPOKE address, value",
+      "summary": "`PEEK` reads a byte (0 to 255) from memory and `POKE` writes one (a negative value from -255 to -1 is written as 256 plus that value)."
+    },
+    "pi": {
+      "title": "PI",
+      "syntax": "PI",
+      "summary": "The number π, 3.1415927."
+    },
+    "pixel": {
+      "title": "PIXEL",
+      "syntax": "PIXEL(x, y)",
+      "summary": "The colour (0 to 15) of the pixel at `x`, `y` of the drawing page, counting from the top left, whatever drew it; -1 outside the page. It ignores `REMAP`. Useful for collisions with anything drawn on the screen."
+    },
+    "play": {
+      "title": "PLAY",
+      "syntax": "PLAY a$ [, b$]...",
+      "summary": "Plays music written as text, with up to six voices at once: the first three strings play on the three channels of the first AY chip, and the next three on the second. The program waits until all the strings have finished; BREAK stops them. A badly written string gives `A Invalid argument`, and a number out of range `B Integer out of range`; all strings are checked before any sound starts."
+    },
+    "plot": {
+      "title": "PLOT",
+      "syntax": "PLOT [colour items;] x, y",
+      "summary": "Draws a point and makes it the start for the next `DRAW`."
+    },
+    "point": {
+      "title": "POINT",
+      "syntax": "POINT (x, y)",
+      "summary": "1 if the pixel at `x`, `y` was drawn with ink, 0 if it is paper. It sees what `PRINT`, `PLOT`, `DRAW` and `CIRCLE` draw, but not the fast graphics commands (use [`PIXEL`](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#pixel) for those)."
+    },
+    "poly": {
+      "title": "POLY",
+      "syntax": "POLY colour, x1, y1 [, x2, y2]...",
+      "summary": "With one point, draws a pixel; with two, a line; with three or more (up to 64), a filled polygon."
+    },
+    "print": {
+      "title": "PRINT",
+      "syntax": "PRINT [item] [separator] [item]...",
+      "summary": "Shows numbers and text on the screen. The items can be:"
+    },
+    "raster": {
+      "title": "RASTER",
+      "syntax": "RASTER BORDER y1, y2, colour\nRASTER REMAP y1, y2, table\nRASTER SCROLL y1, y2, x [, y]\nRASTER",
+      "summary": "Changes things line by line on the screen, without using any processor time while the program runs:"
+    },
+    "read-data-restore": {
+      "title": "READ, DATA, RESTORE",
+      "syntax": "DATA value [, value]...\nREAD var [, var]...\nRESTORE [line | @label]",
+      "summary": "`DATA` lines hold a list of values inside the program; `READ` takes them one by one, in order, into variables. The values can be any expression of the right type. `RESTORE` makes the next `READ` start again from the first `DATA` (or from the first `DATA` at or after that line or label). Reading past the last value gives `E Out of DATA`."
+    },
+    "rem": {
+      "title": "REM",
+      "syntax": "REM any text",
+      "summary": "A remark: everything after `REM` up to the end of the line is ignored, so it is the place for comments."
+    },
+    "remap": {
+      "title": "REMAP",
+      "syntax": "REMAP colour, newcolour [; colour, newcolour]...\nREMAP #table; colour, newcolour [; colour, newcolour]...\nREMAP #table\nREMAP",
+      "summary": "Shows one colour as another everywhere on the screen, instantly and without redrawing: after `REMAP 1,10`, everything blue is shown bright red. Colours go from 0 to 15 (otherwise `K Invalid colour`). This is useful for fades, flashing and colour cycling."
+    },
+    "renum": {
+      "title": "RENUM",
+      "syntax": "RENUM [first [, step]]",
+      "summary": "Renumbers the program (from 10 in tens by default), and corrects the line numbers after `GO TO`, `GO SUB`, `RESTORE`, `RUN`, `LIST`, `LLIST` and `LINE`. Only numbers written directly are corrected: in `GO TO n*10` the expression is not changed. Labels do not need correcting. If the numbers would go past 9999, `B Integer out of range`. Only as a direct command. The editor's options menu has the same thing."
+    },
+    "repeat-until": {
+      "title": "REPEAT, UNTIL",
+      "syntax": "REPEAT\nUNTIL condition",
+      "summary": "Repeats the statements between `REPEAT` and `UNTIL` until the condition is true. The condition is checked at the end, so the loop runs at least once."
+    },
+    "replace": {
+      "title": "REPLACE",
+      "syntax": "REPLACE old, new",
+      "summary": "Changes the text `old` to `new` in the whole program, with upper and lower case the same. Each changed line is checked as if it were typed, and lines that would have a mistake are left alone. The status line says how many changes were made and how many lines were left unchanged. With an empty `old`, `A Invalid argument`. Only as a direct command."
+    },
+    "rnd-randomize": {
+      "title": "RND, RANDOMIZE",
+      "syntax": "RND\nRANDOMIZE [n]",
+      "summary": "`RND` gives a random number from 0 up to (not including) 1. For a whole number from 1 to 6, use `INT (RND*6)+1`."
+    },
+    "run": {
+      "title": "RUN",
+      "syntax": "RUN [line | @label]",
+      "summary": "Starts the program from the beginning, or from that line or label. Before starting it clears everything like [`CLEAR`](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#clear): deletes the variables, clears the screen, closes open files and turns off `ON ERROR`. To start without losing the variables, use `GO TO`."
+    },
+    "save": {
+      "title": "SAVE",
+      "syntax": "SAVE name$ [LINE line]\nSAVE name$ CODE start, length\nSAVE name$ SCREEN$\nSAVE name$ DATA letter()\nSAVE name$ DATA letter$()\nSAVE name$ GRAPHICS",
+      "summary": "Saves to the SD card:"
+    },
+    "screen-attr": {
+      "title": "SCREEN$, ATTR",
+      "syntax": "SCREEN$ (row, column)\nATTR (row, column)",
+      "summary": "`SCREEN$` gives the character printed at that position (`\"\"` if it does not recognise it, for example a drawing). `ATTR` gives the colours of that character cell as one number: `FLASH`×128 + `BRIGHT`×64 + `PAPER`×8 + `INK`. Positions outside the screen give `B Integer out of range`."
+    },
+    "scroll": {
+      "title": "SCROLL",
+      "syntax": "SCROLL x, y\nSCROLL",
+      "summary": "Moves the picture without redrawing it: pixel (`x`, `y`) of the page appears at the top left corner of the screen, and the page wraps round at the edges. `SCROLL` alone puts it back. This is how a game scrolls a large [`MODE 0`](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#mode) page."
+    },
+    "select-case": {
+      "title": "SELECT CASE",
+      "syntax": "SELECT CASE value\nCASE values\n  lines\nCASE ELSE\n  lines\nEND SELECT",
+      "summary": "Chooses a part by `value`, a number or a string: the part of the first `CASE` that matches runs (or the `CASE ELSE` part if none does), and the program carries on after `END SELECT`. If none matches and there is no `CASE ELSE`, nothing runs. Each `CASE` has a list of values separated by commas, which can be:"
+    },
+    "sfx": {
+      "title": "SFX",
+      "syntax": "LOAD name$ SFX\nSFX n [, channel]\nSFX STOP\nSFX                            (function)",
+      "summary": "Sound effects as in games: an AYFX effect bank (`.afb`, the one the effects tab of `zxv-tracker` or the AY Sound FX Editor saves; without an extension, `name.afb`) or a single effect (`.afx`). A file that is not a bank gives `R Tape loading error`."
+    },
+    "sin-cos-tan": {
+      "title": "SIN, COS, TAN",
+      "syntax": "SIN x     COS x     TAN x",
+      "summary": "Sine, cosine and tangent of an angle `x` in **radians** (a full turn is `2*PI`). To use degrees, multiply by `PI/180`."
+    },
+    "sound": {
+      "title": "SOUND",
+      "syntax": "SOUND register, value [; register, value]...",
+      "summary": "Writes directly to the registers of the AY chips, for sound effects. Registers 0 to 15 belong to the first chip and 16 to 31 to the second (same meaning, 16 higher); values are 0 to 255. A register above 31 gives `B Integer out of range`."
+    },
+    "speed": {
+      "title": "SPEED",
+      "syntax": "SPEED n",
+      "summary": "`SPEED 1` (the default) runs BASIC at full speed, about 200 times faster than a Spectrum. `SPEED 0` makes each statement take about as long as on a 48K Spectrum, for old programs that use loops as delays or would be unplayable at full speed. Other values give `A Invalid argument`. The new commands (sprites, maps...) are not slowed down."
+    },
+    "sprite": {
+      "title": "SPRITE",
+      "syntax": "SPRITE n, x, y [, flip [, c$ [, width, height]]]",
+      "summary": "Draws sprite `n` with its top left corner at `x`, `y`. Its transparent pixels let the background show through."
+    },
+    "sqr": {
+      "title": "SQR",
+      "syntax": "SQR x",
+      "summary": "Square root. `x` must not be negative (`A Invalid argument`)."
+    },
+    "stop": {
+      "title": "STOP",
+      "syntax": "STOP",
+      "summary": "Stops the program with the report `9 STOP statement`. [`CONTINUE`](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#continue) carries on from the next statement. `ON ERROR` does not catch `STOP`."
+    },
+    "str-val-val": {
+      "title": "STR$, VAL, VAL$",
+      "syntax": "STR$ x     VAL a$     VAL$ a$",
+      "summary": "`STR$ 3.5` is `\"3.5\"`. - `VAL a$` works out the string as a numeric expression: `VAL \"2*3\"` is 6. If the text is not a valid expression, `C Nonsense in BASIC`. - `VAL$ a$` works out the string as a string expression: `VAL$ \"\"\"x\"\"\"` is `\"x\"`."
+    },
+    "strings": {
+      "title": "Strings",
+      "syntax": "",
+      "summary": "A string is a piece of text between double quotes: `\"Hello\"`. To put a quote inside a string, write it twice: `PRINT \"say \"\"hi\"\"\"` shows `say \"hi\"`. The empty string is `\"\"`. Strings can be as long as memory allows."
+    },
+    "texture": {
+      "title": "TEXTURE",
+      "syntax": "TEXTURE n, x, y, size [, c]",
+      "summary": "Defines texture `n` (0 to 3) for [`FLOOR`](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#floor): the square of `size` × `size` pixels (a power of 2 from 2 to 256: 2, 4, 8... 256; any other size gives `A Invalid argument`) of the drawing page with its top left corner at `x`, `y`. The texture repeats for ever; if colour `c` is given, everything outside it is that colour instead."
+    },
+    "tile": {
+      "title": "TILE",
+      "syntax": "TILE size, n, x, y [, width, height [, t]]\nTILE size, n, a$",
+      "summary": "Defines tiles for tile maps. There are two tile sets, one of 8 × 8 pixel tiles and one of 16 × 16 (`size` is 8 or 16, otherwise `A Invalid argument`), each with tiles numbered 0 to 4095."
+    },
+    "time": {
+      "title": "TIME",
+      "syntax": "TIME",
+      "summary": "The number of frames since the machine was switched on, 60 per second. To time something, subtract two readings:"
+    },
+    "trace": {
+      "title": "TRACE",
+      "syntax": "TRACE ON\nTRACE #stream\nTRACE OFF",
+      "summary": "To follow where a program goes: each time a line starts running (also when it comes back to it with `GO TO`, `NEXT` or `RETURN`), its number is printed in brackets, like `[10][20][30]`. With `TRACE ON` it goes to the program screen, mixed with what the program prints; with `TRACE #3`, to the printer (the file `printer.txt`), or to the file of a stream opened with `OPEN #`, so that the screen is not spoilt. `TRACE OFF` turns it off; it can also go inside the program, to follow only one part. `NEW` turns it off. With a stream that is not open, `O Invalid stream`."
+    },
+    "true-and-false": {
+      "title": "True and false",
+      "syntax": "",
+      "summary": "Comparisons give 1 when true and 0 when false: `PRINT 3>2` shows 1. `IF`, `WHILE` and `UNTIL` take any number, and treat 0 as false and anything else as true."
+    },
+    "usr": {
+      "title": "USR",
+      "syntax": "USR address\nUSR \"letter\"",
+      "summary": "With an address of 65536 or more, calls native RISC-V machine code at that address and gives back the value it returns (in register `a0`). If the code fails, `W Native code error`. Spectrum Z80 machine code cannot run: an address below 65536 gives `S Z80 code not supported`. To call code without using the result: `RANDOMIZE USR address`."
+    },
+    "verify": {
+      "title": "VERIFY",
+      "syntax": "VERIFY name$ [CODE ... | SCREEN$ | DATA ... | GRAPHICS]",
+      "summary": "Checks that a file is the same as what is in memory, with the same forms as `LOAD`, without changing anything. If it differs, `R Tape loading error`."
+    },
+    "wait": {
+      "title": "WAIT",
+      "syntax": "WAIT [n]",
+      "summary": "Waits for the next frame, and until `n` frames (1 if omitted) have passed since the previous `WAIT`. There are 60 frames a second. This keeps a game loop at a steady speed even if some turns of the loop take longer than others: `WAIT 2` gives 30 turns a second. `n` goes from 0 to 65535."
+    },
+    "while-wend": {
+      "title": "WHILE, WEND",
+      "syntax": "WHILE condition\nWEND",
+      "summary": "Repeats the statements between `WHILE` and `WEND` while the condition is true. The condition is checked at the start, so if it is false the first time, the loop is skipped entirely."
+    }
+  },
+  "es": {
+    "abs-sgn-int": {
+      "title": "ABS, SGN, INT",
+      "syntax": "ABS x     SGN x     INT x",
+      "summary": "-3. Para redondear al más cercano, `INT (x+0.5)`."
+    },
+    "asn-acs-atn": {
+      "title": "ASN, ACS, ATN",
+      "syntax": "ASN x     ACS x     ATN x",
+      "summary": "Arcoseno, arcocoseno y arcotangente: el ángulo, en radianes, cuyo seno, coseno o tangente es `x`. `ASN` y `ACS` necesitan una `x` entre -1 y 1 (si no, `A Argumento no válido`)."
+    },
+    "auto": {
+      "title": "AUTO",
+      "syntax": "AUTO [primera [, paso]]",
+      "summary": "Números de línea automáticos: cada línea nueva del editor empieza con el número siguiente. Sin valores, empieza en la última línea más 10 y va de diez en diez. Se acaba al pulsar Enter en una línea que solo tiene el número, al pulsar Esc o al pasar a otra línea. Solo como orden directa (en un programa, `C Sintaxis incorrecta`)."
+    },
+    "beep": {
+      "title": "BEEP",
+      "syntax": "BEEP duración, tono",
+      "summary": "Toca una nota con el beeper. `duración` va en segundos (de 0 a 10); `tono`, en semitonos por encima del do central (0 es el do central, 12 el do de arriba y -12 el de abajo), de -60 a 69, y puede llevar decimales. El programa espera a que acabe la nota."
+    },
+    "bin": {
+      "title": "BIN",
+      "syntax": "BIN cifras",
+      "summary": "Escribe un número en binario: `BIN 1010` es 10. Viene bien para diseñar gráficos con [`POKE USR`](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#gráficos-definidos-por-el-usuario-udg)."
+    },
+    "border": {
+      "title": "BORDER",
+      "syntax": "BORDER n",
+      "summary": "El color del borde que rodea la pantalla, del 0 al 7. La parte inferior de la pantalla (las dos líneas de `INPUT` y de los informes) usa el color del borde como papel."
+    },
+    "box": {
+      "title": "BOX",
+      "syntax": "BOX color, x, y, ancho, alto",
+      "summary": "Un rectángulo relleno con su esquina superior izquierda en `x`, `y`."
+    },
+    "bright-flash": {
+      "title": "BRIGHT, FLASH",
+      "syntax": "BRIGHT n     FLASH n",
+      "summary": "`BRIGHT 1` usa la versión brillante de la tinta y del papel; `BRIGHT 0`, la normal. `FLASH 1` hace que la celda intercambie su tinta y su papel cada tercio de segundo, más o menos. El 8 es transparente (conserva lo que tenía la celda). Otros valores dan `K Color no válido`."
+    },
+    "cadenas": {
+      "title": "Cadenas",
+      "syntax": "",
+      "summary": "Una cadena es un trozo de texto entre comillas dobles: `\"Hola\"`. Para meter unas comillas dentro de una cadena, se escriben dos veces: `PRINT \"di \"\"hola\"\"\"` enseña `di \"hola\"`. La cadena vacía es `\"\"`. Una cadena puede ser tan larga como quepa en la memoria."
+    },
+    "cat": {
+      "title": "CAT",
+      "syntax": "CAT [nombre$]",
+      "summary": "Lista una carpeta: primero el nombre de la carpeta, después cada fichero con su tamaño en bytes, y cada carpeta con `/` y `<DIR>`. Sin nombre, la carpeta actual. Con comodines o con el nombre de un fichero, solo lo que encaja."
+    },
+    "cd-dir": {
+      "title": "CD, DIR$",
+      "syntax": "CD carpeta$\nDIR$",
+      "summary": "`CD` cambia la carpeta actual: `CD \"juegos\"`, `CD \"..\"` (la de arriba), `CD \"/\"` (la raíz de la unidad), `CD \"ROM:\"` (la unidad de los ejemplos) y `CD \"SD:\"` (vuelta a la tarjeta). La función `DIR$` da la carpeta actual, como `\"/juegos\"` o `\"ROM:/\"`."
+    },
+    "cell": {
+      "title": "CELL",
+      "syntax": "CELL(m, x, y)",
+      "summary": "El valor de la celda de la columna `x` y la fila `y` del mapa `m`, con los bits de espejo, transparencia y prioridad. Fuera de un mapa que no se repite, 0. Sirve para saber qué hay en el escenario en un sitio: la celda que hay bajo un sprite en el píxel `px`, `py` es `CELL(m, INT (px/8), INT (py/8))` con tiles de 8 píxeles."
+    },
+    "chr-code": {
+      "title": "CHR$, CODE",
+      "syntax": "CHR$ n     CODE a$",
+      "summary": "`CHR$ n` es el carácter de código `n` (de 0 a 255) y `CODE a$`, el código del primer carácter de `a$` (0 si está vacía). Ver el [Juego de caracteres](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#juego-de-caracteres)."
+    },
+    "circle": {
+      "title": "CIRCLE",
+      "syntax": "CIRCLE [colores;] x, y, radio",
+      "summary": "Dibuja una circunferencia con el centro en `x`, `y`."
+    },
+    "clear": {
+      "title": "CLEAR",
+      "syntax": "CLEAR [dirección]",
+      "summary": "Borra todas las variables y la pantalla, cierra los ficheros abiertos con `OPEN #`, olvida las vueltas pendientes de `GO SUB` y de los bucles, quita `ON ERROR` y `CLIP`, y hace que `READ` empiece por el primer `DATA`. Los sprites y demás gráficos se conservan. [`RUN`](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#run) hace primero un `CLEAR`."
+    },
+    "clip": {
+      "title": "CLIP",
+      "syntax": "CLIP x, y, ancho, alto\nCLIP",
+      "summary": "A partir de ese momento, las órdenes de esta sección solo dibujan dentro de ese rectángulo. `CLIP` sin nada quita el límite (también lo quitan `MODE`, `RUN` y `CLEAR`)."
+    },
+    "clock": {
+      "title": "CLOCK",
+      "syntax": "CLOCK n\nCLOCK año, mes, día, hora, minutos [, segundos]",
+      "summary": "La función `CLOCK n` lee la fecha y la hora: 0 el año, 1 el mes, 2 el día, 3 la hora, 4 los minutos, 5 los segundos y 6 el día de la semana (1 lunes ... 7 domingo). Da 0 si el reloj no está en hora. La orden pone el reloj en hora (años de 2000 a 2099); una fecha que no existe da `A Argumento no válido`. Los ficheros que se graban en la tarjeta llevan esa fecha."
+    },
+    "cls": {
+      "title": "CLS",
+      "syntax": "CLS",
+      "summary": "Borra la pantalla con el color de `PAPER` actual y lleva la posición de escritura a la esquina superior izquierda."
+    },
+    "continue": {
+      "title": "CONTINUE",
+      "syntax": "CONTINUE",
+      "summary": "Sigue después de una parada: tras `STOP` o BREAK, por la orden siguiente; tras un error, repite la orden que falló (útil cuando ya has arreglado la causa, por ejemplo dando valor a una variable que faltaba)."
+    },
+    "copy": {
+      "title": "COPY",
+      "syntax": "COPY de$ TO a$\nCOPY",
+      "summary": "Con dos nombres, copia un fichero (si `a$` existe, lo sustituye; si es una carpeta, la copia va dentro). Con comodines, `a$` tiene que ser una carpeta. Copiar un fichero sobre sí mismo da `V Error de disco (ya existe)`. Para copiar un ejemplo a la tarjeta: `COPY \"ROM:hello.zxv\" TO \"hello.zxv\"`."
+    },
+    "def-fn-fn": {
+      "title": "DEF FN, FN",
+      "syntax": "DEF FN letra([parámetro [, parámetro]...]) = expresión\nDEF FN letra$([parámetro [, parámetro]...]) = expresión de cadena\nFN letra(valores)",
+      "summary": "Define una función propia, con un nombre de una letra y parámetros de una letra (`x`, o `a$` para las cadenas). `FN` la usa. `DEF FN` puede ir en cualquier sitio del programa y no hace nada cuando se llega a él. Usar una función que no está definida da `P FN sin DEF FN`; dar un número o un tipo de valores que no encajan, `Q Error en los parámetros`."
+    },
+    "def-proc-proc-end-proc": {
+      "title": "DEF PROC, PROC, END PROC",
+      "syntax": "DEF PROC nombre [(parámetro [, parámetro]...)]\nEND PROC\nPROC nombre [(valor [, valor]...)]",
+      "summary": "Un **procedimiento** es un trozo de programa con nombre. `DEF PROC` lo empieza y `END PROC` lo acaba; `PROC` lo ejecuta y luego vuelve. Los parámetros reciben los valores que se dan en `PROC` y son locales: al llegar a `END PROC` recuperan el valor que tenían antes. Un parámetro numérico es un nombre de variable numérica; uno de cadena, una letra con `$`. Un procedimiento puede llamarse a sí mismo."
+    },
+    "delete": {
+      "title": "DELETE",
+      "syntax": "DELETE primera [, última]",
+      "summary": "Borra las líneas de `primera` a `última` (o solo la `primera`). Solo como orden directa."
+    },
+    "dim": {
+      "title": "DIM",
+      "syntax": "DIM letra(tamaño [, tamaño]...)\nDIM letra$(tamaño [, tamaño]...)",
+      "summary": "Crea una matriz (ver [Matrices](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#matrices)), y sustituye a la que tuviera el mismo nombre. Hasta 16 dimensiones; cada tamaño va de 1 a 65535. Las matrices numéricas empiezan llenas de ceros y las de cadenas, de espacios. Un subíndice fuera de rango da `3 Subíndice incorrecto`."
+    },
+    "disc": {
+      "title": "DISC",
+      "syntax": "DISC color, x, y, radio",
+      "summary": "Un círculo relleno con el centro en `x`, `y`."
+    },
+    "draw": {
+      "title": "DRAW",
+      "syntax": "DRAW [colores;] dx, dy [, ángulo]",
+      "summary": "Dibuja una línea desde el último punto hasta el que está `dx` píxeles a la derecha y `dy` píxeles más arriba (los valores negativos van a la izquierda y hacia abajo). Con `ángulo` (en radianes) dibuja un arco, que gira eso por el camino: `PI` dibuja media circunferencia, y un ángulo positivo curva en el sentido contrario a las agujas del reloj."
+    },
+    "edit": {
+      "title": "EDIT",
+      "syntax": "EDIT [línea]",
+      "summary": "Pone el cursor del editor en esa línea (sin número, en la línea actual). No hay que confundirla con la tecla EDIT (Tab), que abre el menú de opciones del editor."
+    },
+    "erase": {
+      "title": "ERASE",
+      "syntax": "ERASE nombre$",
+      "summary": "Borra un fichero, o con comodines todos los que encajan (`ERASE \"*.bak\"`). Las carpetas no se borran (para eso, `RMDIR`). No se puede deshacer."
+    },
+    "err-erl": {
+      "title": "ERR, ERL",
+      "syntax": "ERR\nERL",
+      "summary": "Tras un error atrapado con `ON ERROR`, `ERR` es el código del error como número (las cifras son ellas mismas y las letras siguen contando desde el 10: la `A` es el 10, la `B` el 11... la `Z` el 35; la tabla de abajo los da todos) y `ERL`, la línea en la que pasó."
+    },
+    "etiqueta": {
+      "title": "@etiqueta",
+      "syntax": "@nombre",
+      "summary": "Una orden formada por `@` y un nombre marca un sitio del programa. `GO TO`, `GO SUB`, `RUN`, `RESTORE` y `ON ERROR GO TO` pueden saltar a ella por su nombre en vez de por su número de línea, a la orden exacta (no hace falta que sea la primera de su línea). Las etiquetas no cambian al renumerar. Una etiqueta que no existe da `X Etiqueta no encontrada`."
+    },
+    "exp-ln": {
+      "title": "EXP, LN",
+      "syntax": "EXP x     LN x",
+      "summary": "`EXP x` es e (2,7182818...) elevado a `x`. `LN x` es el logaritmo neperiano; `x` tiene que ser mayor que 0 (si no, `A Argumento no válido`). Para el logaritmo en base 10, `LN x/LN 10`."
+    },
+    "find": {
+      "title": "FIND",
+      "syntax": "FIND [texto]",
+      "summary": "Lleva el cursor del editor a la siguiente línea del programa donde aparece `texto`, desde la línea que va detrás de la del cursor y dando la vuelta al final, con el cursor sobre el texto. No distingue mayúsculas de minúsculas, y busca en el listado tal como se ve (no en los números de línea). Sin texto, busca lo mismo que la última vez, como la tecla F3. Si no está, la línea de estado dice `No encontrado`. Solo como orden directa."
+    },
+    "floor": {
+      "title": "FLOOR",
+      "syntax": "FLOOR n, x, y, altura, ángulo, horizonte [, focal]",
+      "summary": "Dibuja un suelo en perspectiva con la textura `n`, visto desde el punto `x`, `y` de la textura a esa `altura`, mirando en la dirección `ángulo` (en radianes; 0 mira hacia donde crece `x`). El horizonte está en la línea `horizonte` de la página, y el suelo ocupa desde la línea de debajo hasta el final de la página. `focal` es la distancia focal (media página si no se pone): con valores más pequeños se ve más ancho. Es el efecto «modo 7» de los juegos de carreras y de vuelo."
+    },
+    "for-next": {
+      "title": "FOR, NEXT",
+      "syntax": "FOR var = primero TO último [STEP paso]\nNEXT var",
+      "summary": "Repite las órdenes que hay entre `FOR` y `NEXT`, con la variable yendo de `primero` a `último` y sumando `paso` cada vez (1 si no hay `STEP`). La variable es una sola letra. Con un paso negativo cuenta hacia atrás. Si el bucle no tiene que ejecutarse ninguna vez (`FOR i=1 TO 0`), el programa salta tras el `NEXT` que le corresponde; si no lo hay, `I FOR sin NEXT`."
+    },
+    "format": {
+      "title": "FORMAT",
+      "syntax": "",
+      "summary": "`FORMAT` solo existe por compatibilidad con programas antiguos del Spectrum, y da `O Canal no válido`."
+    },
+    "go-sub-return": {
+      "title": "GO SUB, RETURN",
+      "syntax": "GO SUB línea\nGO SUB @etiqueta\nRETURN",
+      "summary": "`GO SUB` salta a una subrutina, como `GO TO`, pero recuerda de dónde venía; `RETURN` vuelve a la orden que sigue al `GO SUB`. Una subrutina puede llamar a otras (hasta 512 niveles). Un `RETURN` sin `GO SUB` da `7 RETURN sin GO SUB`."
+    },
+    "go-to": {
+      "title": "GO TO",
+      "syntax": "GO TO línea\nGO TO @etiqueta",
+      "summary": "Salta a una línea y sigue desde ahí. `línea` puede ser cualquier expresión (`GO TO n*100`). Si esa línea no existe, va a la siguiente que haya; si no hay ninguna, el programa termina. Con una [etiqueta](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#etiqueta), salta a esa orden exacta."
+    },
+    "grab": {
+      "title": "GRAB",
+      "syntax": "GRAB n, x, y, ancho, alto [, t]\nGRAB n, ancho, a$",
+      "summary": "Define el sprite `n` (del 0 al 255)."
+    },
+    "hit": {
+      "title": "HIT",
+      "syntax": "HIT(a, ax, ay, b, bx, by)",
+      "summary": "Comprueba un choque: 1 si algún píxel sólido (no transparente) del sprite `a` dibujado en `ax`, `ay` caería sobre un píxel sólido del sprite `b` dibujado en `bx`, `by`; si no, 0. No dibuja nada."
+    },
+    "if-then-else": {
+      "title": "IF, THEN, ELSE",
+      "syntax": "IF condición THEN órdenes\nIF condición THEN órdenes ELSE órdenes\n\nIF condición THEN\n  líneas\nELSE IF condición THEN\n  líneas\nELSE\n  líneas\nEND IF",
+      "summary": "Si la condición es cierta (no es 0), se ejecutan las órdenes que siguen a `THEN`. Si es falsa, se saltan: el programa sigue por las órdenes que hay tras `ELSE`, si hay uno en la misma línea, o por la línea siguiente. Un número tras `THEN` es un error (`IF a THEN 100`; se escribe `IF a THEN GO TO 100`)."
+    },
+    "in-out": {
+      "title": "IN, OUT",
+      "syntax": "IN puerto\nOUT puerto, valor",
+      "summary": "Leen y escriben los puertos del Spectrum, tal como los imita ZX-V:"
+    },
+    "ink-paper": {
+      "title": "INK, PAPER",
+      "syntax": "INK n     PAPER n",
+      "summary": "El color de la tinta y del papel, del 0 al 7 (ver la tabla), o:"
+    },
+    "inkey": {
+      "title": "INKEY$",
+      "syntax": "INKEY$",
+      "summary": "La tecla que está pulsada en ese momento, como una cadena de un carácter, o `\"\"` si no hay ninguna. No espera. Las letras salen en minúscula (en mayúscula con Mayúsculas o con el bloqueo de mayúsculas), las cifras como cifras, Enter como `CHR$ 13` y los cursores como `CHR$ 8` (izquierda), `CHR$ 9` (derecha), `CHR$ 10` (abajo) y `CHR$ 11` (arriba). La tecla Mayúsculas hace de CAPS SHIFT del Spectrum, y Ctrl, de SYMBOL SHIFT. También cuenta un mando que se presenta como teclas con [`JOY`](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#joy)."
+    },
+    "input": {
+      "title": "INPUT",
+      "syntax": "INPUT [elementos de aviso] var [, var]...\nINPUT ... LINE a$",
+      "summary": "Para el programa y deja que el usuario teclee los valores de unas variables, en la parte inferior de la pantalla. Los elementos son como los de `PRINT`: las cadenas escritas en el programa y las expresiones entre paréntesis se enseñan como aviso, `AT`, `TAB` y los colores funcionan, y cada variable espera un valor."
+    },
+    "inverse-over": {
+      "title": "INVERSE, OVER",
+      "syntax": "INVERSE n     OVER n",
+      "summary": "`INVERSE 1` escribe con la tinta y el papel intercambiados. `OVER 1` escribe encima de lo que ya hay, cambiando cada píxel del carácter entre la tinta y el papel (si escribes dos veces lo mismo con `OVER 1`, se borra). El 0 los quita; otros valores dan `K Color no válido`."
+    },
+    "joy": {
+      "title": "JOY",
+      "syntax": "JOY n\nJOY n, modo",
+      "summary": "La función `JOY n` da el estado del mando `n` (0 para el primero que se conecta y 1 para el segundo) como un número formado por estos bits; 0 si no está conectado:"
+    },
+    "key": {
+      "title": "KEY",
+      "syntax": "KEY n",
+      "summary": "1 si la tecla `n` está pulsada ahora mismo, 0 si no. Se pueden mirar varias teclas pulsadas a la vez, así que es la forma de leer el teclado en los juegos. `n` es:"
+    },
+    "language": {
+      "title": "LANGUAGE",
+      "syntax": "LANGUAGE código$",
+      "summary": "Elige el idioma de la máquina con un código de dos letras: `\"en\"` inglés o `\"es\"` español. Los informes de error y la barra y el menú del editor lo usan desde ese momento, y la máquina lo recuerda (en el hardware de verdad, en su reloj con pila; en el emulador, en sus ajustes). Se admite cualquier otro código de dos letras, que saca los textos en inglés (un programa puede leerlo para elegir los suyos: `PEEK 536872736` y `PEEK 536872737` son los códigos de las dos letras). Algo que no son dos letras da `A Argumento no válido`."
+    },
+    "len": {
+      "title": "LEN",
+      "syntax": "LEN a$",
+      "summary": "El número de caracteres de una cadena. `LEN \"\"` es 0."
+    },
+    "let": {
+      "title": "LET",
+      "syntax": "LET var = valor",
+      "summary": "Da un valor a una variable, y la crea si hace falta. El `LET` es obligatorio (`a=1` sin más es un error). El valor tiene que ser del tipo de la variable: un número para las numéricas y una cadena para las de `$`."
+    },
+    "list": {
+      "title": "LIST",
+      "syntax": "LIST [línea]\nLIST #stream [, línea]",
+      "summary": "Como orden directa, `LIST` te lleva al editor con el cursor en esa línea (o en la siguiente que haya), lista para cambiarla. Dentro de un programa, o con un stream, escribe el listado desde esa línea: `LIST #2` en la pantalla del programa, `LIST #3` en la impresora, `LIST #4` en un fichero. El listado sale sangrado: lo que va dentro de un bucle, un procedimiento o un bloque, dos espacios más a la derecha por nivel (los espacios no se guardan)."
+    },
+    "load": {
+      "title": "LOAD",
+      "syntax": "LOAD nombre$\nLOAD nombre$ CODE [inicio [, longitud]]\nLOAD nombre$ SCREEN$\nLOAD nombre$ DATA letra()\nLOAD nombre$ DATA letra$()\nLOAD nombre$ GRAPHICS\nLOAD nombre$ MUSIC\nLOAD nombre$ SFX",
+      "summary": "Carga de la tarjeta SD (o de la unidad `ROM:`):"
+    },
+    "local": {
+      "title": "LOCAL",
+      "syntax": "LOCAL var [, var]...",
+      "summary": "Dentro de un procedimiento, hace locales esas variables: empiezan valiendo 0 (o `\"\"`) y recuperan su valor anterior en `END PROC`. Fuera de un procedimiento, `Y Error de estructura`."
+    },
+    "lprint-llist": {
+      "title": "LPRINT, LLIST",
+      "syntax": "LPRINT [elementos]\nLLIST [línea]",
+      "summary": "Como `PRINT` y `LIST`, pero a la **impresora**. ZX-V no tiene impresora de papel: la impresora es el fichero de texto `printer.txt` de la raíz de la tarjeta SD, y todo lo que se imprime se añade al final. Se ignoran los colores y `AT` (salvo su columna). Las líneas tienen hasta 64 caracteres (32 en el modo 0)."
+    },
+    "map": {
+      "title": "MAP",
+      "syntax": "MAP m [, mx, my [, x, y, ancho, alto [, filtro]]]",
+      "summary": "Dibuja el mapa `m` a partir de su píxel `mx`, `my` (0, 0 si no se ponen), en toda la página o en el rectángulo `x`, `y`, `ancho`, `alto`. Cambiando `mx` y `my`, el mapa se desplaza. `filtro`: 0 dibuja todas las celdas, 1 solo las que no tienen prioridad y 2 solo las que la tienen (así se puede dibujar el fondo, después los sprites y por último las partes del escenario que van delante). Tienen que existir todos los tiles que usa el mapa (si no, `A Argumento no válido`)."
+    },
+    "map-dim-map-poke": {
+      "title": "MAP DIM, MAP POKE",
+      "syntax": "MAP DIM m, ancho, alto [, lado [, repetir]]\nMAP POKE m, x, y, valor\nMAP POKE m, x, y, a$",
+      "summary": "`MAP DIM` crea el mapa de tiles `m` (del 0 al 15) con `ancho` × `alto` celdas, todas con el tile 0. `lado` es el tamaño de los tiles, 8 (el de por defecto) o 16. Con `repetir` = 1, el mapa se repite sin fin en las dos direcciones."
+    },
+    "merge": {
+      "title": "MERGE",
+      "syntax": "MERGE nombre$",
+      "summary": "Añade las líneas de un programa grabado al que hay en la memoria; las líneas con el mismo número se sustituyen. Las variables se borran. También vale con un [listado en texto](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#listados-en-texto) (`.bas`)."
+    },
+    "mkdir-rmdir": {
+      "title": "MKDIR, RMDIR",
+      "syntax": "MKDIR carpeta$\nRMDIR carpeta$",
+      "summary": "`MKDIR` crea una carpeta; `RMDIR` borra una carpeta vacía (si no lo está, `V Error de disco (la carpeta no está vacía)`)."
+    },
+    "mode": {
+      "title": "MODE",
+      "syntax": "MODE n\nMODE 0, ancho, alto",
+      "summary": "Elige el modo de la pantalla y la borra:"
+    },
+    "monitor": {
+      "title": "MONITOR",
+      "syntax": "MONITOR",
+      "summary": "Abre el monitor de pruebas, una pantalla para comprobar el hardware (teclado, mando, modos de vídeo, sonido). Para salir, reinicia la máquina (Ctrl+Alt+Supr)."
+    },
+    "mouse": {
+      "title": "MOUSE",
+      "syntax": "MOUSE n\nMOUSE x, y",
+      "summary": "La función `MOUSE n` lee el ratón:"
+    },
+    "move": {
+      "title": "MOVE",
+      "syntax": "MOVE de$ TO a$",
+      "summary": "Cambia el nombre de un fichero o de una carpeta, o lo lleva a otra carpeta: si `a$` es una carpeta, va dentro con el mismo nombre. Con comodines, `a$` tiene que ser una carpeta y se mueven todos los ficheros que encajan."
+    },
+    "music": {
+      "title": "MUSIC",
+      "syntax": "LOAD nombre$ MUSIC\nMUSIC PLAY\nMUSIC STOP\nMUSIC PAUSE\nMUSIC CONTINUE\nMUSIC                          (función)",
+      "summary": "Toca música hecha con un tracker, de fondo: el programa sigue mientras suena, como en los juegos. `LOAD nombre$ MUSIC` carga un módulo (sin extensión, `nombre.pt3`): de Pro Tracker 3 o Vortex Tracker II (`.pt3`, el que guarda el tracker de ZX-V, [`zxv-tracker`](https://github.com/cronomantic/ZX-V/blob/main/docs/es/sdk/README.md#el-tracker-para-el-pc-zxv-tracker)), un TurboSound (dos módulos, uno en cada chip AY: seis voces), de Pro Tracker 2, Sound Tracker, ASC Sound Master o un volcado PSG. Un fichero que no es ninguno de esos da `R Error al cargar`."
+    },
+    "new": {
+      "title": "NEW",
+      "syntax": "NEW",
+      "summary": "Borra el programa, las variables y el almacén de gráficos, y empieza de cero (la cinta puesta se queda). No se puede deshacer: graba antes."
+    },
+    "on-error": {
+      "title": "ON ERROR",
+      "syntax": "ON ERROR GO TO línea | @etiqueta\nON ERROR GO TO 0",
+      "summary": "A partir de ese momento, si un error para el programa, salta a esa línea o etiqueta. Ahí, `ERR` y `ERL` dicen qué ha pasado. `ON ERROR GO TO 0` lo quita, y también `RUN` y `CLEAR`."
+    },
+    "open-close": {
+      "title": "OPEN, CLOSE",
+      "syntax": "OPEN #stream, nombre$ IN\nOPEN #stream, nombre$ OUT\nOPEN #stream, canal$\nCLOSE #stream",
+      "summary": "`OPEN # ... OUT` crea un fichero de texto (y lo vacía si ya existe) para escribir en él; `OPEN # ... IN` abre uno para leer. Los ficheros solo pueden usar los streams 4 a 15, y puede haber hasta 8 abiertos a la vez (si no, `O Canal no válido`). Abrir un stream que ya tiene un fichero lo cierra antes."
+    },
+    "page-screen": {
+      "title": "PAGE, SCREEN",
+      "syntax": "PAGE n\nSCREEN n",
+      "summary": "ZX-V tiene dos páginas de pantalla, la 0 y la 1. `PAGE` elige la que se ve; `SCREEN`, aquella en la que dibujan `PRINT`, `CLS`, `PLOT`, los sprites y las demás. Dibujar en la página oculta y luego enseñarla da animaciones suaves, sin parpadeo (el doble buffer). Los valores que no son 0 ni 1 dan `A Argumento no válido`."
+    },
+    "pause": {
+      "title": "PAUSE",
+      "syntax": "PAUSE n",
+      "summary": "Espera `n` cincuentavos de segundo (`PAUSE 50` es un segundo, como en el Spectrum), o hasta que se pulse una tecla, lo que llegue antes. `PAUSE 0` espera una tecla sin límite. Solo cuentan las teclas que se pulsan después de empezar el `PAUSE`. `n` va de 0 a 65535."
+    },
+    "peek-poke": {
+      "title": "PEEK, POKE",
+      "syntax": "PEEK dirección\nPOKE dirección, valor",
+      "summary": "`PEEK` lee un byte (de 0 a 255) de la memoria y `POKE` escribe uno (un valor negativo, de -255 a -1, se escribe como 256 más ese valor)."
+    },
+    "pi": {
+      "title": "PI",
+      "syntax": "PI",
+      "summary": "El número π, 3.1415927."
+    },
+    "pixel": {
+      "title": "PIXEL",
+      "syntax": "PIXEL(x, y)",
+      "summary": "El color (del 0 al 15) del píxel de `x`, `y` de la página de dibujo, contando desde arriba a la izquierda, lo haya dibujado quien lo haya dibujado; -1 fuera de la página. No tiene en cuenta `REMAP`. Sirve para los choques con cualquier cosa dibujada en la pantalla."
+    },
+    "play": {
+      "title": "PLAY",
+      "syntax": "PLAY a$ [, b$]...",
+      "summary": "Toca música escrita como texto, con hasta seis voces a la vez: las tres primeras cadenas suenan en los tres canales del primer chip AY y las tres siguientes, en los del segundo. El programa espera a que acaben todas; BREAK las corta. Una cadena mal escrita da `A Argumento no válido`, y un número fuera de rango, `B Entero fuera de rango`; se comprueban todas antes de que empiece a sonar nada."
+    },
+    "plot": {
+      "title": "PLOT",
+      "syntax": "PLOT [colores;] x, y",
+      "summary": "Dibuja un punto, que será el de partida del siguiente `DRAW`."
+    },
+    "point": {
+      "title": "POINT",
+      "syntax": "POINT (x, y)",
+      "summary": "1 si el píxel de `x`, `y` está pintado con la tinta, 0 si es papel. Ve lo que dibujan `PRINT`, `PLOT`, `DRAW` y `CIRCLE`, pero no las órdenes de gráficos rápidos (para esas, [`PIXEL`](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#pixel))."
+    },
+    "poly": {
+      "title": "POLY",
+      "syntax": "POLY color, x1, y1 [, x2, y2]...",
+      "summary": "Con un punto, dibuja un píxel; con dos, una línea; con tres o más (hasta 64), un polígono relleno."
+    },
+    "print": {
+      "title": "PRINT",
+      "syntax": "PRINT [elemento] [separador] [elemento]...",
+      "summary": "Escribe números y textos en la pantalla. Los elementos pueden ser:"
+    },
+    "raster": {
+      "title": "RASTER",
+      "syntax": "RASTER BORDER y1, y2, color\nRASTER REMAP y1, y2, tabla\nRASTER SCROLL y1, y2, x [, y]\nRASTER",
+      "summary": "Cambia cosas línea a línea en la pantalla, sin gastar nada de tiempo del procesador mientras el programa sigue:"
+    },
+    "read-data-restore": {
+      "title": "READ, DATA, RESTORE",
+      "syntax": "DATA valor [, valor]...\nREAD var [, var]...\nRESTORE [línea | @etiqueta]",
+      "summary": "Las líneas `DATA` guardan una lista de valores dentro del programa; `READ` los va cogiendo uno a uno, en orden, y los guarda en variables. Los valores pueden ser cualquier expresión del tipo adecuado. `RESTORE` hace que el siguiente `READ` vuelva a empezar por el primer `DATA` (o por el primero que haya desde esa línea o etiqueta). Leer después del último valor da `E No quedan DATA`."
+    },
+    "rem": {
+      "title": "REM",
+      "syntax": "REM cualquier texto",
+      "summary": "Un comentario: todo lo que va detrás de `REM` hasta el final de la línea se ignora."
+    },
+    "remap": {
+      "title": "REMAP",
+      "syntax": "REMAP color, nuevo [; color, nuevo]...\nREMAP #tabla; color, nuevo [; color, nuevo]...\nREMAP #tabla\nREMAP",
+      "summary": "Hace que un color se vea como otro en toda la pantalla, al instante y sin volver a dibujar nada: tras `REMAP 1,10`, todo lo azul se ve rojo brillante. Los colores van del 0 al 15 (si no, `K Color no válido`). Sirve para fundidos, destellos y ciclos de color."
+    },
+    "renum": {
+      "title": "RENUM",
+      "syntax": "RENUM [primera [, paso]]",
+      "summary": "Renumera el programa (desde 10 y de diez en diez si no se dice otra cosa), y corrige los números de línea que van detrás de `GO TO`, `GO SUB`, `RESTORE`, `RUN`, `LIST`, `LLIST` y `LINE`. Solo se corrigen los números escritos tal cual: en `GO TO n*10` la expresión no cambia. Las etiquetas no hace falta corregirlas. Si los números pasaran de 9999, `B Entero fuera de rango`. Solo como orden directa. El menú de opciones del editor tiene lo mismo."
+    },
+    "repeat-until": {
+      "title": "REPEAT, UNTIL",
+      "syntax": "REPEAT\nUNTIL condición",
+      "summary": "Repite las órdenes que hay entre `REPEAT` y `UNTIL` hasta que la condición sea cierta. La condición se mira al final, así que el bucle se ejecuta al menos una vez."
+    },
+    "replace": {
+      "title": "REPLACE",
+      "syntax": "REPLACE viejo, nuevo",
+      "summary": "Cambia el texto `viejo` por `nuevo` en todo el programa, sin distinguir mayúsculas de minúsculas. Cada línea cambiada se comprueba como si se tecleara, y las que quedarían con un error no se tocan. La línea de estado dice cuántos cambios ha hecho y cuántas líneas se quedaron sin cambiar. Con `viejo` vacío, `A Argumento no válido`. Solo como orden directa."
+    },
+    "rnd-randomize": {
+      "title": "RND, RANDOMIZE",
+      "syntax": "RND\nRANDOMIZE [n]",
+      "summary": "`RND` da un número al azar desde 0 hasta 1 (sin llegar a 1). Para un entero del 1 al 6, `INT (RND*6)+1`."
+    },
+    "run": {
+      "title": "RUN",
+      "syntax": "RUN [línea | @etiqueta]",
+      "summary": "Ejecuta el programa desde el principio, o desde esa línea o etiqueta. Antes de empezar lo limpia todo como [`CLEAR`](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#clear): borra las variables y la pantalla, cierra los ficheros abiertos y quita el `ON ERROR`. Para empezar sin perder las variables, usa `GO TO`."
+    },
+    "save": {
+      "title": "SAVE",
+      "syntax": "SAVE nombre$ [LINE línea]\nSAVE nombre$ CODE inicio, longitud\nSAVE nombre$ SCREEN$\nSAVE nombre$ DATA letra()\nSAVE nombre$ DATA letra$()\nSAVE nombre$ GRAPHICS",
+      "summary": "Graba en la tarjeta SD:"
+    },
+    "screen-attr": {
+      "title": "SCREEN$, ATTR",
+      "syntax": "SCREEN$ (fila, columna)\nATTR (fila, columna)",
+      "summary": "`SCREEN$` da el carácter escrito en esa posición (`\"\"` si no lo reconoce, por ejemplo un dibujo). `ATTR` da los colores de esa celda en un solo número: `FLASH`×128 + `BRIGHT`×64 + `PAPER`×8 + `INK`. Las posiciones fuera de la pantalla dan `B Entero fuera de rango`."
+    },
+    "scroll": {
+      "title": "SCROLL",
+      "syntax": "SCROLL x, y\nSCROLL",
+      "summary": "Desplaza la imagen sin volver a dibujarla: el píxel (`x`, `y`) de la página se ve en la esquina superior izquierda de la pantalla, y la página da la vuelta por los bordes. `SCROLL` sin nada la deja como estaba. Así es como un juego recorre una página grande de [`MODE 0`](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#mode)."
+    },
+    "select-case": {
+      "title": "SELECT CASE",
+      "syntax": "SELECT CASE valor\nCASE valores\n  líneas\nCASE ELSE\n  líneas\nEND SELECT",
+      "summary": "Elige una parte según `valor`, un número o una cadena: se ejecuta la del primer `CASE` que le encaja (o la de `CASE ELSE` si no encaja ninguno), y el programa sigue tras `END SELECT`. Si no encaja ninguno y no hay `CASE ELSE`, no se ejecuta nada. Cada `CASE` lleva una lista de valores separados por comas, que pueden ser:"
+    },
+    "sfx": {
+      "title": "SFX",
+      "syntax": "LOAD nombre$ SFX\nSFX n [, canal]\nSFX STOP\nSFX                            (función)",
+      "summary": "Efectos de sonido como los de los juegos: un banco de efectos AYFX (`.afb`, el que guarda la pestaña de efectos de `zxv-tracker` o el AY Sound FX Editor; sin extensión, `nombre.afb`) o un efecto suelto (`.afx`). Un fichero que no es un banco da `R Error al cargar`."
+    },
+    "sin-cos-tan": {
+      "title": "SIN, COS, TAN",
+      "syntax": "SIN x     COS x     TAN x",
+      "summary": "Seno, coseno y tangente de un ángulo `x` en **radianes** (una vuelta entera es `2*PI`). Para usar grados, multiplica por `PI/180`."
+    },
+    "sound": {
+      "title": "SOUND",
+      "syntax": "SOUND registro, valor [; registro, valor]...",
+      "summary": "Escribe directamente en los registros de los chips AY, para hacer efectos de sonido. Los registros del 0 al 15 son los del primer chip y del 16 al 31, los del segundo (con el mismo significado, 16 más arriba); los valores van de 0 a 255. Un registro mayor que 31 da `B Entero fuera de rango`."
+    },
+    "speed": {
+      "title": "SPEED",
+      "syntax": "SPEED n",
+      "summary": "`SPEED 1` (el de partida) ejecuta el BASIC a toda velocidad, unas 200 veces más deprisa que un Spectrum. `SPEED 0` hace que cada orden tarde más o menos lo que tardaría en un Spectrum 48K, para los programas antiguos que usan bucles como pausa o que serían injugables a toda velocidad. Otros valores dan `A Argumento no válido`. Las órdenes nuevas (sprites, mapas...) no se frenan."
+    },
+    "sprite": {
+      "title": "SPRITE",
+      "syntax": "SPRITE n, x, y [, espejo [, c$ [, ancho, alto]]]",
+      "summary": "Dibuja el sprite `n` con su esquina superior izquierda en `x`, `y`. Sus píxeles transparentes dejan ver el fondo."
+    },
+    "sqr": {
+      "title": "SQR",
+      "syntax": "SQR x",
+      "summary": "Raíz cuadrada. `x` no puede ser negativo (`A Argumento no válido`)."
+    },
+    "stop": {
+      "title": "STOP",
+      "syntax": "STOP",
+      "summary": "Para el programa con el informe `9 Sentencia STOP`. [`CONTINUE`](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#continue) sigue por la orden siguiente. `ON ERROR` no atrapa `STOP`."
+    },
+    "str-val-val": {
+      "title": "STR$, VAL, VAL$",
+      "syntax": "STR$ x     VAL a$     VAL$ a$",
+      "summary": "`STR$ 3.5` es `\"3.5\"`. - `VAL a$` calcula la cadena como una expresión numérica: `VAL \"2*3\"` es 6. Si el texto no es una expresión válida, `C Sintaxis incorrecta`. - `VAL$ a$` calcula la cadena como una expresión de cadena: `VAL$ \"\"\"x\"\"\"` es `\"x\"`."
+    },
+    "texture": {
+      "title": "TEXTURE",
+      "syntax": "TEXTURE n, x, y, lado [, c]",
+      "summary": "Define la textura `n` (de la 0 a la 3) para [`FLOOR`](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#floor): el cuadrado de `lado` × `lado` píxeles (una potencia de 2 de 2 a 256: 2, 4, 8... 256; otro tamaño da `A Invalid argument`) de la página de dibujo con su esquina superior izquierda en `x`, `y`. La textura se repite sin fin; si se da el color `c`, todo lo que queda fuera de ella es de ese color."
+    },
+    "tile": {
+      "title": "TILE",
+      "syntax": "TILE lado, n, x, y [, ancho, alto [, t]]\nTILE lado, n, a$",
+      "summary": "Define tiles para los mapas. Hay dos juegos de tiles, uno de 8 × 8 píxeles y otro de 16 × 16 (`lado` es 8 o 16; si no, `A Argumento no válido`), cada uno con tiles del 0 al 4095."
+    },
+    "time": {
+      "title": "TIME",
+      "syntax": "TIME",
+      "summary": "El número de frames desde que se encendió la máquina, 60 por segundo. Para medir un tiempo, resta dos lecturas:"
+    },
+    "trace": {
+      "title": "TRACE",
+      "syntax": "TRACE ON\nTRACE #stream\nTRACE OFF",
+      "summary": "Para seguir por dónde va un programa: cada vez que empieza a ejecutarse una línea (también al volver a ella con un `GO TO`, un `NEXT` o un `RETURN`), se escribe su número entre corchetes, como `[10][20][30]`. Con `TRACE ON` sale en la pantalla del programa, mezclado con lo que escribe; con `TRACE #3`, en la impresora (el fichero `printer.txt`), o en el fichero de un stream abierto con `OPEN #`, para no estropear la pantalla. `TRACE OFF` lo apaga; también se puede poner dentro del programa, para seguir solo una parte. `NEW` lo apaga. Con un stream que no está abierto, `O Canal no válido`."
+    },
+    "usr": {
+      "title": "USR",
+      "syntax": "USR dirección\nUSR \"letra\"",
+      "summary": "Con una dirección de 65536 o más, llama al código máquina nativo RISC-V de esa dirección y devuelve el valor que da (en el registro `a0`). Si el código falla, `W Error en el código nativo`. El código máquina Z80 del Spectrum no se puede ejecutar: una dirección por debajo de 65536 da `S Código Z80 no admitido`. Para llamar a un código sin usar el resultado, `RANDOMIZE USR dirección`."
+    },
+    "verdadero-y-falso": {
+      "title": "Verdadero y falso",
+      "syntax": "",
+      "summary": "Las comparaciones dan 1 si son ciertas y 0 si son falsas: `PRINT 3>2` enseña 1. `IF`, `WHILE` y `UNTIL` admiten cualquier número: el 0 es falso y todo lo demás, cierto."
+    },
+    "verify": {
+      "title": "VERIFY",
+      "syntax": "VERIFY nombre$ [CODE ... | SCREEN$ | DATA ... | GRAPHICS]",
+      "summary": "Comprueba que un fichero es igual que lo que hay en la memoria, con las mismas formas que `LOAD` y sin cambiar nada. Si hay diferencias, `R Error al cargar`."
+    },
+    "wait": {
+      "title": "WAIT",
+      "syntax": "WAIT [n]",
+      "summary": "Espera al frame siguiente, y hasta que hayan pasado `n` frames (1 si no se pone) desde el `WAIT` anterior. Hay 60 frames por segundo. Así el bucle de un juego va a un ritmo fijo aunque unas vueltas tarden más que otras: `WAIT 2` da 30 vueltas por segundo. `n` va de 0 a 65535."
+    },
+    "while-wend": {
+      "title": "WHILE, WEND",
+      "syntax": "WHILE condición\nWEND",
+      "summary": "Repite las órdenes que hay entre `WHILE` y `WEND` mientras la condición sea cierta. La condición se mira al principio, así que si es falsa la primera vez, el bucle se salta entero."
+    }
+  }
+}

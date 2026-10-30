@@ -336,8 +336,100 @@ function romBasic(zxv) {
             kind: { en: e ? e.kind : '', es: s ? s.kind : '' },
             docs: { en: e ? e.entries : [], es: s ? s.entries : [] },
         };
-    }).sort((a, b) => a.keyword.localeCompare(b.keyword));
-    return { grammar, data, warnings };
+    });
+    /* @etiqueta no es un token, pero tiene su entrada. */
+    if (en.has('@'))
+        data.push({
+            keyword: '@', class: 'label', zxv: true, anywhere: false,
+            kind: { en: en.get('@').kind, es: (es.get('@') || { kind: '' }).kind },
+            docs: { en: en.get('@').entries, es: (es.get('@') || { entries: [] }).entries },
+        });
+    data.sort((a, b) => a.keyword.localeCompare(b.keyword));
+
+    /* La ayuda: de cada entrada que cita el índice, su sintaxis y su primer
+     * párrafo. */
+    const docs = {};
+    for (const [lang, file] of [['en', 'docs/en/basic/reference.md'], ['es', 'docs/es/basic/reference.md']]) {
+        const all = referenceSections(read(path.join(zxv, file)), lang);
+        const wanted = new Set(data.flatMap(k => k.docs[lang].map(e => e.anchor)));
+        docs[lang] = {};
+        for (const a of [...wanted].sort()) {
+            if (all[a])
+                docs[lang][a] = all[a];
+            else
+                warnings.push(`${lang}: el índice enlaza #${a}, que no es ninguna entrada`);
+        }
+    }
+    return { grammar, data, docs, warnings };
+}
+
+export const REFERENCE_URL = lang => `https://github.com/cronomantic/ZX-V/blob/main/docs/${lang}/basic/reference.md`;
+
+/* El ancla de un título, como la hace GitHub: minúsculas, sin signos (salvo
+ * - y _), los espacios como guiones; las repetidas, con -1, -2... */
+function slugger() {
+    const seen = new Map();
+    return title => {
+        const base = title.toLowerCase().replace(/[^\p{L}\p{N}\s_-]/gu, '').trim().replace(/\s/g, '-');
+        const n = seen.get(base) ?? 0;
+        seen.set(base, n + 1);
+        return n ? `${base}-${n}` : base;
+    };
+}
+
+/* Los enlaces de un párrafo, a GitHub: los del mismo fichero (#ancla) y los
+ * relativos a otros .md de docs/LANG/basic. */
+function absoluteLinks(text, lang) {
+    return text.replace(/\]\(([^)\s]+)\)/g, (all, href) => {
+        if (/^[a-z]+:/i.test(href))
+            return all;
+        if (href.startsWith('#'))
+            return `](${REFERENCE_URL(lang)}${href})`;
+        const [file, anchor] = href.split('#');
+        const p = path.posix.normalize(path.posix.join(`docs/${lang}/basic`, file));
+        if (p.startsWith('..'))
+            return all;
+        return `](https://github.com/cronomantic/ZX-V/blob/main/${p}${anchor ? '#' + anchor : ''})`;
+    });
+}
+
+/* Las entradas ### de reference.md: { ancla: { title, syntax, summary } }. */
+function referenceSections(md, lang) {
+    const out = {};
+    const slug = slugger();
+    const lines = md.split('\n');
+    for (let i = 0; i < lines.length; i++) {
+        const h = /^(#{2,4})\s+(.+?)\s*$/.exec(lines[i]);
+        if (!h)
+            continue;
+        const anchor = slug(h[2]);
+        if (h[1] !== '###')
+            continue;
+        let j = i + 1;
+        let syntax = '';
+        const paragraphs = [];
+        for (; j < lines.length && !/^#{2,4}\s/.test(lines[j]); j++) {
+            if (lines[j].startsWith('```')) {
+                const code = [];
+                for (j++; j < lines.length && !lines[j].startsWith('```'); j++)
+                    code.push(lines[j]);
+                if (!syntax && !paragraphs.length)
+                    syntax = code.join('\n');
+                continue;
+            }
+            if (!lines[j].trim() || /^[|>-]|^\*\*|^<!--/.test(lines[j]))
+                continue;
+            const para = [];
+            for (; j < lines.length && lines[j].trim() && !lines[j].startsWith('```'); j++)
+                para.push(lines[j].trim());
+            j--;
+            paragraphs.push(para.join(' '));
+            if (paragraphs.length)
+                break;
+        }
+        out[anchor] = { title: h[2], syntax, summary: absoluteLinks(paragraphs[0] ?? '', lang) };
+    }
+    return out;
 }
 
 /* --- ZX Basic -------------------------------------------------------------- */
@@ -605,6 +697,7 @@ const outputs = {
     'syntaxes/zxv-basic.tmLanguage.json': rom.grammar,
     'syntaxes/zxbasic.tmLanguage.json': zxb.grammar,
     'data/zxv-basic-keywords.json': rom.data,
+    'data/zxv-basic-docs.json': rom.docs,
     'data/zxbasic-keywords.json': zxb.data,
     'data/sources.json': { zxv: gitDescribe(o.zxv), zxbasic: gitDescribe(o.zxbasic) },
 };

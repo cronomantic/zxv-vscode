@@ -73,6 +73,26 @@ function suite(): void {
             assert.strictEqual(await langOf(rel, 'zxv-basic'), 'zxv-basic');
         });
 
+        it('la ayuda al pasar el ratón, en los dos', async () => {
+            const hoverText = async (rel: string, find: RegExp, lang: string) => {
+                assert.strictEqual(await langOf(rel, lang), lang);
+                const doc = vscode.workspace.textDocuments.find(x => x.uri.fsPath === file(rel).fsPath)!;
+                const line = doc.getText().split(/\r?\n/).findIndex(l => find.test(l));
+                assert.ok(line >= 0, `no hay ${find} en ${rel}`);
+                const col = doc.lineAt(line).text.search(find);
+                const hovers = await vscode.commands.executeCommand<vscode.Hover[]>('vscode.executeHoverProvider',
+                    doc.uri, new vscode.Position(line, col + 1));
+                return hovers.flatMap(h => h.contents.map(c => (typeof c === 'string' ? c : c.value))).join('\n');
+            };
+            const rom = await hoverText('examples/basic/cascade/cascade.bas', /\bGO TO\b/, 'zxv-basic');
+            assert.match(rom, /\*\*GO TO\*\*/);
+            assert.match(rom, /GO TO @/);
+            assert.match(rom, /reference\.md#go-to/);
+            const zxb = await hoverText('examples/zxbasic/stardust/stardust.bas', /\bSPRITE\b/, 'zxv-zxbasic');
+            assert.match(zxb, /SUB SPRITE\(/);
+            assert.match(zxb, /zxbasic\.md/);
+        });
+
         it('los snippets del BASIC de la ROM llevan números de línea', async () => {
             const doc = await open('examples/basic/cascade/otro.bas');
             const ed = vscode.window.activeTextEditor!;

@@ -1,12 +1,14 @@
 /*
  * extension.ts - La extensión de ZX-V para VS Code: los dos BASIC, compilar y
- * ejecutar, el emulador en un panel y depurar C con GDB.
+ * ejecutar, el emulador en un panel, depurar C con GDB y la ayuda al pasar
+ * el ratón.
  */
 import * as path from 'path';
 import * as vscode from 'vscode';
 import { TASK_TYPE, ZxvTaskProvider, buildProgram, runInEmulator, stopEmulator, targetDocument } from './build';
 import { lastError, registerDebug } from './debug';
 import { DialectService } from './dialectService';
+import { registerHovers } from './hover';
 import { EmulatorPanel, PanelStatus } from './panel';
 import { registerRomSnippets } from './snippets';
 
@@ -21,6 +23,7 @@ export function activate(ctx: vscode.ExtensionContext): ZxvApi {
     ctx.subscriptions.push(
         new DialectService(ctx),
         registerRomSnippets(ctx),
+        ...registerHovers(ctx),
         vscode.tasks.registerTaskProvider(TASK_TYPE, new ZxvTaskProvider()),
         ...registerDebug(),
 

@@ -50,6 +50,13 @@ brackets, folding). The grammars are **not written by hand**:
 The ROM BASIC snippets number their lines after the ones around them (in
 tens if they fit): type `30 for` and pick the snippet.
 
+**Help on hover.** In the ROM BASIC, over a keyword (also `GOTO`,
+`DEF PROC` or a `@name` label) you get its syntax, the first paragraph of
+its reference entry and a link to the whole entry, in English or Spanish
+after the VS Code language. `gen-grammars.mjs` takes it from
+`docs/{en,es}/basic/reference.md`. In ZX Basic, over a `zxv.bas` command
+you get its signature and description (in English, the library's).
+
 > **With other ZX Basic extensions.** This extension's ZX Basic language is
 > `zxv-zxbasic`, apart from the `zxbasic` of *ZX-Basic* (jsjlogin) and the
 > `borielbasic` of *Boriel Basic* (rtorralba), so they live together: what

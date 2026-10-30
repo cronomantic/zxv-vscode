@@ -50,6 +50,14 @@ genera `scripts/gen-grammars.mjs` a partir de las fuentes:
 Los snippets del BASIC de la ROM ponen los números de línea siguiendo los de
 alrededor (de 10 en 10 si caben): escribe `30 for` y elige el snippet.
 
+**La ayuda al pasar el ratón.** En el BASIC de la ROM, sobre una palabra
+clave (también `GOTO`, `DEF PROC` o una etiqueta `@nombre`) sale su
+sintaxis, el primer párrafo de su entrada de la referencia y el enlace a la
+entrada entera, en español o en inglés según el idioma de VS Code. Lo saca
+`gen-grammars.mjs` de `docs/{es,en}/basic/reference.md`. En ZX Basic, sobre
+una orden de `zxv.bas` sale su firma y su descripción (en inglés, la de la
+librería).
+
 > **Con otras extensiones de ZX Basic.** El lenguaje de ZX Basic de esta
 > extensión es `zxv-zxbasic`, aparte del `zxbasic` de *ZX-Basic* (jsjlogin)
 > y del `borielbasic` de *Boriel Basic* (rtorralba), así que conviven: lo
