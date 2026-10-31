@@ -2296,6 +2296,30 @@
     }
   },
   {
+    "keyword": "PALETTE",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "PALETTE",
+          "anchor": "palette"
+        }
+      ],
+      "es": [
+        {
+          "title": "PALETTE",
+          "anchor": "palette"
+        }
+      ]
+    }
+  },
+  {
     "keyword": "PAPER",
     "class": "other",
     "zxv": false,

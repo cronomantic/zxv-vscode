@@ -38,6 +38,7 @@
     "onLanguage:zxbasic",
     "onLanguage:borielbasic",
     "workspaceContains:**/*.zxv",
+    "workspaceContains:**/*.zvb",
     "workspaceContains:**/zxv.ld",
     "onDebugResolve:zxv",
     "onDebugResolve:zxv-basic",
@@ -279,17 +280,17 @@
       "explorer/context": [
         {
           "command": "zxv.run",
-          "when": "resourceExtname == .zxv || resourceExtname == .bas",
+          "when": "resourceExtname =~ /^\\.(zxv|zvb|tap|tzx|bas)$/i",
           "group": "zxv@1"
         },
         {
           "command": "zxv.runInPanel",
-          "when": "resourceExtname == .zxv || resourceExtname == .bas",
+          "when": "resourceExtname =~ /^\\.(zxv|zvb|tap|tzx|bas)$/i",
           "group": "zxv@2"
         },
         {
           "command": "zxv.publishWeb",
-          "when": "resourceExtname == .zxv || resourceExtname == .bas",
+          "when": "resourceExtname =~ /^\\.(zxv|zvb|tap|tzx|bas)$/i",
           "group": "zxv@3"
         }
       ]
@@ -587,6 +588,29 @@
           },
           {
             "filenamePattern": "*.afx"
+          }
+        ],
+        "priority": "default"
+      },
+      {
+        "viewType": "zxv.zvbPreview",
+        "displayName": "%preview.zvb%",
+        "selector": [
+          {
+            "filenamePattern": "*.zvb"
+          },
+          {
+            "filenamePattern": "*.zvd"
+          }
+        ],
+        "priority": "default"
+      },
+      {
+        "viewType": "zxv.scrPreview",
+        "displayName": "%preview.scr%",
+        "selector": [
+          {
+            "filenamePattern": "*.scr"
           }
         ],
         "priority": "default"

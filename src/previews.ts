@@ -1,17 +1,21 @@
 /*
  * previews.ts - Las vistas previas de los ficheros de los juegos:
- *   - .gfx: sus sprites, tiles, mapas y texturas, dibujados (gfx.ts) con la
- *     paleta de la máquina;
+ *   - .gfx: sus sprites, tiles, mapas, texturas y pantallas, dibujados
+ *     (gfx.ts) con la paleta de la máquina;
  *   - música (.pt3, .pt2, .stc, .asc, .psg) y efectos (.afb, .afx): se oyen
  *     en la máquina de verdad (el núcleo web): el fichero va a su tarjeta y
- *     se teclea LOAD "x" MUSIC: MUSIC PLAY, o LOAD "x" SFX: SFX n.
+ *     se teclea LOAD "x" MUSIC: MUSIC PLAY, o LOAD "x" SFX: SFX n;
+ *   - lo que graba el BASIC de la ROM: un programa (.zvb) listado como LIST,
+ *     con sus variables, y las matrices de un .zvd (zvbList.ts);
+ *   - una pantalla del Spectrum (.scr, que no es la de ZX-V), dibujada.
  * Se vuelven a cargar si el fichero cambia (al guardarlo en zxv-gfx o en el
  * tracker).
  */
 import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
-import { GfxError, drawMap, drawSprite, drawTexture, drawTiles, parseGfx, sfxCount } from './gfx';
+import { GfxError, drawMap, drawScr, drawScreen, drawSprite, drawTexture, drawTiles, parseGfx, sfxCount } from './gfx';
+import { readZvb } from './zvbList';
 
 /* Lo último que dijo cada vista previa (para las pruebas). */
 export const previewStatus = new Map<string, Record<string, unknown>>();
@@ -85,6 +89,7 @@ export class GfxPreview implements vscode.CustomReadonlyEditorProvider<Doc> {
                     maps: g.maps.map(m => ({ num: m.num, cw: m.w, ch: m.h, size: m.size, wrap: m.wrap,
                         missing: !tilesOf(m.size), ...drawMap(m, tilesOf(m.size)) })),
                     textures: g.textures.map(t => ({ num: t.num, wrap: t.wrap, ...drawTexture(t) })),
+                    screens: g.screens.map(s => ({ num: s.num, mode: s.mode, border: s.border, palette: !!s.palette, ...drawScreen(s) })),
                     unknown: g.unknown,
                 });
             } catch (e) {
@@ -182,11 +187,113 @@ export class SoundPreview implements vscode.CustomReadonlyEditorProvider<Doc> {
     }
 }
 
+/* --- Lo que graba el BASIC de la ROM (.zvb, .zvd) y el Spectrum (.scr) ----- */
+
+/* La página de las dos vistas: el listado o la pantalla (zvb-preview.js). */
+function savedHtml(ctx: vscode.ExtensionContext, w: vscode.Webview): string {
+    const media = vscode.Uri.joinPath(ctx.extensionUri, 'media');
+    w.options = { enableScripts: true, localResourceRoots: [media] };
+    const n = nonce();
+    return `<!doctype html>
+<html lang="${lang()}">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${w.cspSource} data: blob:; style-src ${w.cspSource}; script-src 'nonce-${n}'">
+<link rel="stylesheet" href="${w.asWebviewUri(vscode.Uri.joinPath(media, 'zvb-preview.css'))}">
+</head>
+<body data-lang="${lang()}">
+<main id="todo"></main>
+<script nonce="${n}" src="${w.asWebviewUri(vscode.Uri.joinPath(media, 'zvb-preview.js'))}"></script>
+</body>
+</html>`;
+}
+
+/* El listado y las variables de un .zvb, o la matriz de un .zvd; «Abrir
+ * como listado» lo deja en un documento nuevo del BASIC de la ROM, como lo
+ * grabaría SAVE "x.bas". */
+export class ZvbPreview implements vscode.CustomReadonlyEditorProvider<Doc> {
+    static readonly viewType = 'zxv.zvbPreview';
+
+    constructor(private readonly ctx: vscode.ExtensionContext) {}
+
+    openCustomDocument(uri: vscode.Uri): Doc {
+        return new Doc(uri);
+    }
+
+    resolveCustomEditor(doc: Doc, panel: vscode.WebviewPanel): void {
+        const w = panel.webview;
+        w.html = savedHtml(this.ctx, w);
+        let listing = '';
+        const send = () => {
+            try {
+                const z = readZvb(new Uint8Array(fs.readFileSync(doc.uri.fsPath)));
+                listing = z.lines.map(l => `${l.num}${'  '.repeat(l.indent)}${l.text}\n`).join('');
+                const { screen, ...rest } = z;
+                w.postMessage({ type: 'zvb', name: path.basename(doc.uri.fsPath), ...rest,
+                    screen: screen && { mode: screen.mode, border: screen.border, palette: !!screen.palette, ...drawScreen(screen) } });
+            } catch (e) {
+                w.postMessage({ type: 'error', text: e instanceof Error ? e.message : String(e) });
+            }
+        };
+        const subs = [
+            w.onDidReceiveMessage(async m => {
+                if (m?.type === 'ready')
+                    send();
+                else if (m?.type === 'shown')
+                    previewStatus.set(doc.uri.toString(), m);
+                else if (m?.type === 'asText' && listing) {
+                    const d = await vscode.workspace.openTextDocument({ language: 'zxv-basic', content: listing });
+                    await vscode.window.showTextDocument(d, { preview: false });
+                }
+            }),
+            watch(doc.uri, send),
+        ];
+        panel.onDidDispose(() => subs.forEach(s => s.dispose()));
+    }
+}
+
+export class ScrPreview implements vscode.CustomReadonlyEditorProvider<Doc> {
+    static readonly viewType = 'zxv.scrPreview';
+
+    constructor(private readonly ctx: vscode.ExtensionContext) {}
+
+    openCustomDocument(uri: vscode.Uri): Doc {
+        return new Doc(uri);
+    }
+
+    resolveCustomEditor(doc: Doc, panel: vscode.WebviewPanel): void {
+        const w = panel.webview;
+        w.html = savedHtml(this.ctx, w);
+        const send = () => {
+            try {
+                const img = drawScr(new Uint8Array(fs.readFileSync(doc.uri.fsPath)));
+                w.postMessage({ type: 'scr', name: path.basename(doc.uri.fsPath), ...img });
+            } catch (e) {
+                w.postMessage({ type: 'error', text: e instanceof GfxError || e instanceof Error ? e.message : String(e) });
+            }
+        };
+        const subs = [
+            w.onDidReceiveMessage(m => {
+                if (m?.type === 'ready')
+                    send();
+                else if (m?.type === 'shown')
+                    previewStatus.set(doc.uri.toString(), m);
+            }),
+            watch(doc.uri, send),
+        ];
+        panel.onDidDispose(() => subs.forEach(s => s.dispose()));
+    }
+}
+
 export function registerPreviews(ctx: vscode.ExtensionContext): vscode.Disposable[] {
     return [
         vscode.window.registerCustomEditorProvider(GfxPreview.viewType, new GfxPreview(ctx),
             { supportsMultipleEditorsPerDocument: true }),
         vscode.window.registerCustomEditorProvider(SoundPreview.viewType, new SoundPreview(ctx),
             { supportsMultipleEditorsPerDocument: false, webviewOptions: { retainContextWhenHidden: true } }),
+        vscode.window.registerCustomEditorProvider(ZvbPreview.viewType, new ZvbPreview(ctx),
+            { supportsMultipleEditorsPerDocument: true }),
+        vscode.window.registerCustomEditorProvider(ScrPreview.viewType, new ScrPreview(ctx),
+            { supportsMultipleEditorsPerDocument: true }),
     ];
 }

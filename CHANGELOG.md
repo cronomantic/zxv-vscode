@@ -7,6 +7,22 @@
   logpoints; pasos por sentencia; la pila de `GO SUB` y `PROC`; las
   variables y las matrices; evaluar; parar en los errores. También en
   `zxv-sdl` (`"target": "emulator"`). Necesita ZX-V 0.7.
+- Los programas grabados con `SAVE` (`.zvb`, de ZX-V 0.7) y las cintas
+  (`.tap`, `.tzx`) se ejecutan en `zxv-sdl` y en el panel, y se publican en la
+  web, desde el menú del explorador; los `.zvb` y `.zvd` de la carpeta van con
+  el programa a la tarjeta. Sin `LINE`, arrancan con `GO TO 0`, que no borra
+  sus variables.
+- La ayuda al pasar el ratón lleva la lista que sigue a un resumen acabado en
+  «:» (lo que graba y carga cada forma de `SAVE` y `LOAD`).
+- Vistas de lo que graba el BASIC de la ROM: el listado, las variables y la
+  pantalla de carga de un `.zvb` (con «Abrir como listado») y la matriz de un
+  `.zvd`; las pantallas de un `.gfx` (con su modo y su borde); y una pantalla
+  del Spectrum (`.scr`). Necesita ZX-V 0.7.
+- El README explica cómo dar pantalla de carga a un programa de ZX Basic
+  (`--loading-screen` en `zxv.zxbcArgs`).
+- Las paletas (ZX-V 0.7): `PALETTE` en el BASIC de la ROM (resaltado, ayuda,
+  listado de un `.zvb`) y `PALETTE` y `PALETTERESET` en ZX Basic; las
+  pantallas de un `.gfx` y las de carga de un `.zvb` se ven con su paleta.
 
 ---
 
@@ -15,6 +31,23 @@
   stepping by statements; the `GO SUB` and `PROC` stack; variables and
   arrays; evaluating; stopping on errors. Also in `zxv-sdl`
   (`"target": "emulator"`). Needs ZX-V 0.7.
+- Programs saved with `SAVE` (`.zvb`, from ZX-V 0.7) and tapes (`.tap`,
+  `.tzx`) run in `zxv-sdl` and in the panel, and are published on the web,
+  from the Explorer's context menu; the `.zvb` and `.zvd` files in the folder
+  go with the program to the card. Without `LINE`, they start with
+  `GO TO 0`, which keeps their variables.
+- The hover help includes the list after a summary that ends in ":" (what
+  each form of `SAVE` and `LOAD` saves and loads).
+- Views of what ROM BASIC saves: the listing, variables and loading screen of
+  a `.zvb` (with "Open as a listing") and the array of a `.zvd`; the screens
+  in a `.gfx` (with their mode and border); and a Spectrum screen (`.scr`).
+  Needs ZX-V 0.7.
+- The README explains how to give a ZX Basic program a loading screen
+  (`--loading-screen` in `zxv.zxbcArgs`).
+- Palettes (ZX-V 0.7): `PALETTE` in ROM BASIC (highlighting, help, the
+  listing of a `.zvb`) and `PALETTE` and `PALETTERESET` in ZX Basic; the
+  screens in a `.gfx` and the loading screen of a `.zvb` show in their own
+  palette.
 
 ## 0.1.0
 

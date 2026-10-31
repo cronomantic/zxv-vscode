@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
   "name": "ZX-V BASIC",
   "scopeName": "source.zxv-basic",
-  "comment": "Generado por scripts/gen-grammars.mjs desde ZX-V v0.6.2: no lo cambies a mano.",
+  "comment": "Generado por scripts/gen-grammars.mjs desde ZX-V v0.6.2-10-g2494b90: no lo cambies a mano.",
   "patterns": [
     {
       "include": "#statement"
@@ -179,7 +179,7 @@
     },
     "start-other": {
       "comment": "Las demás órdenes propias de ZX-V, al principio de una sentencia.",
-      "match": "(?i)(?:^(\\s*)(\\d+)?|(:)|(?<![A-Za-z0-9_])(THEN|ELSE)(?![A-Za-z0-9_]))\\s*(LANGUAGE(?![A-Za-z0-9_])|MONITOR(?![A-Za-z0-9_])|REPLACE(?![A-Za-z0-9_])|TEXTURE(?![A-Za-z0-9_])|DELETE(?![A-Za-z0-9_])|RASTER(?![A-Za-z0-9_])|SCREEN(?![A-Za-z0-9_])|SCROLL(?![A-Za-z0-9_])|SPRITE(?![A-Za-z0-9_])|FLOOR(?![A-Za-z0-9_])|LOCAL(?![A-Za-z0-9_])|MKDIR(?![A-Za-z0-9_])|REMAP(?![A-Za-z0-9_])|RENUM(?![A-Za-z0-9_])|RMDIR(?![A-Za-z0-9_])|SOUND(?![A-Za-z0-9_])|SPEED(?![A-Za-z0-9_])|TRACE(?![A-Za-z0-9_])|AUTO(?![A-Za-z0-9_])|CLIP(?![A-Za-z0-9_])|DISC(?![A-Za-z0-9_])|EDIT(?![A-Za-z0-9_])|FIND(?![A-Za-z0-9_])|GRAB(?![A-Za-z0-9_])|MODE(?![A-Za-z0-9_])|PAGE(?![A-Za-z0-9_])|PLAY(?![A-Za-z0-9_])|POLY(?![A-Za-z0-9_])|TILE(?![A-Za-z0-9_])|WAIT(?![A-Za-z0-9_])|BOX(?![A-Za-z0-9_])|MAP(?![A-Za-z0-9_])|CD(?![A-Za-z0-9_]))",
+      "match": "(?i)(?:^(\\s*)(\\d+)?|(:)|(?<![A-Za-z0-9_])(THEN|ELSE)(?![A-Za-z0-9_]))\\s*(LANGUAGE(?![A-Za-z0-9_])|MONITOR(?![A-Za-z0-9_])|PALETTE(?![A-Za-z0-9_])|REPLACE(?![A-Za-z0-9_])|TEXTURE(?![A-Za-z0-9_])|DELETE(?![A-Za-z0-9_])|RASTER(?![A-Za-z0-9_])|SCREEN(?![A-Za-z0-9_])|SCROLL(?![A-Za-z0-9_])|SPRITE(?![A-Za-z0-9_])|FLOOR(?![A-Za-z0-9_])|LOCAL(?![A-Za-z0-9_])|MKDIR(?![A-Za-z0-9_])|REMAP(?![A-Za-z0-9_])|RENUM(?![A-Za-z0-9_])|RMDIR(?![A-Za-z0-9_])|SOUND(?![A-Za-z0-9_])|SPEED(?![A-Za-z0-9_])|TRACE(?![A-Za-z0-9_])|AUTO(?![A-Za-z0-9_])|CLIP(?![A-Za-z0-9_])|DISC(?![A-Za-z0-9_])|EDIT(?![A-Za-z0-9_])|FIND(?![A-Za-z0-9_])|GRAB(?![A-Za-z0-9_])|MODE(?![A-Za-z0-9_])|PAGE(?![A-Za-z0-9_])|PLAY(?![A-Za-z0-9_])|POLY(?![A-Za-z0-9_])|TILE(?![A-Za-z0-9_])|WAIT(?![A-Za-z0-9_])|BOX(?![A-Za-z0-9_])|MAP(?![A-Za-z0-9_])|CD(?![A-Za-z0-9_]))",
       "captures": {
         "2": {
           "name": "constant.numeric.line-number.zxv-basic"

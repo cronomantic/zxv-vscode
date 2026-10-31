@@ -20,6 +20,9 @@ const T = {
     wrap: ES ? ', se repite' : ', wraps',
     noTiles: ES ? ' (no hay tiles de su lado)' : ' (no tiles of its size)',
     texture: ES ? 'Textura {0}: {1} × {1}' : 'Texture {0}: {1} × {1}',
+    screens: ES ? 'Pantallas' : 'Screens',
+    screen: ES ? 'Pantalla {0}: modo {1}, borde {2}' : 'Screen {0}: mode {1}, border {2}',
+    ownPalette: ES ? ', con su paleta' : ', with its own palette',
     unknown: ES ? '{0} objetos de clases que esta versión no conoce.' : '{0} objects of kinds this version does not know.',
     empty: ES ? 'El fichero no tiene ningún gráfico.' : 'The file has no graphics.',
     zoom: ES ? 'Zoom' : 'Zoom',
@@ -88,13 +91,15 @@ function render(m) {
     section(T.maps, m.maps.map(p => figure(p,
         fmt(T.map, p.num, p.cw, p.ch, p.size) + (p.wrap ? T.wrap : '') + (p.missing ? T.noTiles : ''), 2)));
     section(T.textures, m.textures.map(t => figure(t, fmt(T.texture, t.num, t.w), 2)));
+    section(T.screens, (m.screens || []).map(s => figure(s, fmt(T.screen, s.num, s.mode, s.border) + (s.palette ? T.ownPalette : ''), 1)));
     if (m.unknown) {
         const p = document.createElement('p');
         p.textContent = fmt(T.unknown, m.unknown);
         todo.append(p);
     }
     vscode.postMessage({ type: 'shown', sprites: m.sprites.length, tiles: m.tiles.length, maps: m.maps.length,
-                         textures: m.textures.length, canvases: todo.querySelectorAll('canvas').length });
+                         textures: m.textures.length, screens: (m.screens || []).length,
+                         palettes: (m.screens || []).filter(s => s.palette).length, canvases: todo.querySelectorAll('canvas').length });
     if (!todo.children.length) {
         const p = document.createElement('p');
         p.textContent = T.empty;

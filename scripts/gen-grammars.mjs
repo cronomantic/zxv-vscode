@@ -87,13 +87,21 @@ function keywordIndex(md, heading) {
     return out;
 }
 
-/* Las palabras propias que son funciones: el enum X_* de basic.h (en el
- * orden de ext_names) y las condiciones de ext_is_fn en tokens.c. */
-function extFunctions(header, tokens, extAll) {
+/* Los nombres del enum X_* de basic.h, en el orden de ext_names. */
+function extIds(header, extAll) {
     const m = /X_MODE\s*=\s*0x80,([\s\S]*?)X_COUNT_END/.exec(header);
     if (!m)
         throw new Error('No encuentro el enum X_* en basic.h');
     const names = ['X_MODE', ...m[1].replace(/\/\*[\s\S]*?\*\//g, '').match(/X_[A-Z_]+/g)];
+    if (names.length !== extAll.length)
+        throw new Error(`basic.h tiene ${names.length} X_* y ext_names ${extAll.length} nombres`);
+    return names;
+}
+
+/* Las palabras propias que son funciones: el enum X_* de basic.h (en el
+ * orden de ext_names) y las condiciones de ext_is_fn en tokens.c. */
+function extFunctionIds(header, tokens, extAll) {
+    const names = extIds(header, extAll);
     if (names.length !== extAll.length)
         throw new Error(`basic.h tiene ${names.length} X_* y ext_names ${extAll.length} nombres`);
     const f = /int ext_is_fn\(int x\)\s*\{([\s\S]*?)\n\}/.exec(tokens);
@@ -105,7 +113,34 @@ function extFunctions(header, tokens, extAll) {
             fn.add(names[i]);
     for (const r of f[1].matchAll(/x == (X_[A-Z_]+)/g))
         fn.add(r[1]);
-    return new Set(names.map((n, i) => fn.has(n) ? extAll[i] : null).filter(Boolean));
+    return fn;
+}
+
+function extFunctions(header, tokens, extAll) {
+    const fn = extFunctionIds(header, tokens, extAll);
+    return new Set(extIds(header, extAll).map((n, i) => fn.has(n) ? extAll[i] : null).filter(Boolean));
+}
+
+/* Los códigos de los tokens, para listar un programa grabado (zvbList.ts):
+ * los del Spectrum desde T_RND, PLAY y los propios (C_EXT y su byte). */
+function romTokens(zxv) {
+    const tokens = read(path.join(zxv, 'rom/src/basic/tokens.c'));
+    const header = read(path.join(zxv, 'rom/src/basic/basic.h'));
+    const hex = re => {
+        const m = re.exec(header);
+        if (!m)
+            throw new Error(`No encuentro ${re} en basic.h`);
+        return parseInt(m[1], 16);
+    };
+    const extAll = cStrings(tokens, 'ext_names');
+    const fn = extFunctionIds(header, tokens, extAll);
+    return {
+        comment: 'Generado por scripts/gen-grammars.mjs desde rom/src/basic (tokens.c, basic.h): no lo cambies a mano.',
+        first: hex(/T_RND\s*=\s*0x([0-9A-Fa-f]+)/),
+        tok: cStrings(tokens, 'tok_names'),
+        play: hex(/#define\s+T_PLAY\s+0x([0-9A-Fa-f]+)/),
+        ext: extIds(header, extAll).map((id, i) => ({ code: 0x80 + i, id, name: extAll[i], fn: fn.has(id) })),
+    };
 }
 
 const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -422,8 +457,25 @@ function referenceSections(md, lang) {
             const para = [];
             for (; j < lines.length && lines[j].trim() && !lines[j].startsWith('```'); j++)
                 para.push(lines[j].trim());
+            let text = para.join(' ');
+            /* «Graba en la tarjeta SD:» sin la lista de detrás no dice nada. */
+            if (text.endsWith(':')) {
+                for (; j < lines.length && !lines[j].trim(); j++)
+                    ;
+                const items = [];
+                for (; j < lines.length && lines[j].trim(); j++) {
+                    if (/^- /.test(lines[j]))
+                        items.push(lines[j].trim());
+                    else if (items.length && /^\s/.test(lines[j]))
+                        items[items.length - 1] += ' ' + lines[j].trim();
+                    else
+                        break;
+                }
+                if (items.length)
+                    text += '\n\n' + items.join('\n');
+            }
             j--;
-            paragraphs.push(para.join(' '));
+            paragraphs.push(text);
             if (paragraphs.length)
                 break;
         }
@@ -698,6 +750,7 @@ const outputs = {
     'syntaxes/zxbasic.tmLanguage.json': zxb.grammar,
     'data/zxv-basic-keywords.json': rom.data,
     'data/zxv-basic-docs.json': rom.docs,
+    'data/zxv-basic-tokens.json': romTokens(o.zxv),
     'data/zxbasic-keywords.json': zxb.data,
     'data/sources.json': { zxv: gitDescribe(o.zxv), zxbasic: gitDescribe(o.zxbasic) },
 };

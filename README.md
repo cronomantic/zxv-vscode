@@ -103,6 +103,12 @@ with the main file in view.
 | **ZX-V: Run in zxv-sdl** (F5 in ROM BASIC) | Builds if needed and opens the program in `zxv-sdl`, with its folder as SD card: `--sd FOLDER --type 'LOAD "program.zxv"'` (plus `: RUN` for a listing). |
 | **ZX-V: Run in the editor** | The same, in the emulator panel. |
 
+From the Explorer's context menu, a program that is already built runs as it
+is too: a `.zxv`, a ROM BASIC program saved with `SAVE` (`.zvb`) or a
+Spectrum tape (`.tap`, `.tzx`). If a `.zvb` or `.tap` was saved without
+`LINE`, it starts with `GO TO 0` after `LOAD`, which keeps the variables
+saved with it (`RUN` would clear them).
+
 `gcc`, linker and `zxbc` errors go to the Problems panel (problem matchers
 `$zxv-gcc`, `$zxv-ld` and `$zxbc`). There are also `"type": "zxv"` tasks for
 `tasks.json`:
@@ -138,9 +144,12 @@ Opening a game file shows or plays it, instead of its bytes:
 
 | File | What you get |
 |---|---|
-| `.gfx` | Its sprites, tiles, maps (with their tiles, flips and the transparency of each cell) and mode 7 textures, with the machine palette and an unsmoothed zoom |
+| `.gfx` | Its sprites, tiles, maps (with their tiles, flips and the transparency of each cell), mode 7 textures and screens (`SAVE "x" SCREEN$`, with their mode, border and palette if they carry one), with the machine palette and an unsmoothed zoom |
 | `.pt3`, `.pt2`, `.stc`, `.asc`, `.psg` | A player: it plays on the real machine (the web core) with `MUSIC PLAY`, `MUSIC PAUSE` and `MUSIC STOP` |
 | `.afb`, `.afx` | A button for each effect of the bank (`SFX n`) |
+| `.zvb` | A ROM BASIC program saved with `SAVE`: its listing, as `LIST` shows it, its variables, the line it starts at (`LINE`) and its loading screen (`SAVE "x" LINE n SCREEN$`, in its own colours if saved after `PALETTE`). **Open as a listing** puts it in a new ROM BASIC document, to edit it or save it as `.bas` |
+| `.zvd` | An array saved with `SAVE "x" DATA` |
+| `.scr` | A Spectrum screen (the 6,912 bytes of the Spectrum's tools, with attributes), with its colours |
 
 ![Preview of a .gfx: sprites, tiles and maps](images/screenshots/gfx.en.png)
 
@@ -229,7 +238,7 @@ stack.
 | `zxv.zxbcPath` | `zxbc.exe` from the fork release (1.19.0-zxv.4 or later), or `zxbc.py` (with `zxv.pythonPath`) |
 | `zxv.gdbPath` | GDB for RISC-V (otherwise `riscv64-unknown-elf-gdb`, `riscv64-elf-gdb` or `gdb-multiarch` on the PATH) |
 | `zxv.basicDialect` | `auto`, `zxv-basic` or `zxv-zxbasic`, per folder |
-| `zxv.makeArgs`, `zxv.zxbcArgs`, `zxv.emulatorArgs` | More arguments for each tool. `zxv.zxbcArgs` brings `--enable-break` (Esc stops the program; it needs ZX Basic 1.19.0-zxv.4 or later, since in older ones it broke what `KEY`, `JOY`... return) and `-W150 -W170`, which hide the warnings the libraries (`zxv.bas` too) give for parameters read in ASM and for functions not called |
+| `zxv.makeArgs`, `zxv.zxbcArgs`, `zxv.emulatorArgs` | More arguments for each tool. `zxv.zxbcArgs` brings `--enable-break` (Esc stops the program; it needs ZX Basic 1.19.0-zxv.4 or later, since in older ones it broke what `KEY`, `JOY`... return) and `-W150 -W170`, which hide the warnings the libraries (`zxv.bas` too) give for parameters read in ASM and for functions not called. For a loading screen in the `.zxv`, add `--loading-screen title.png` (a 256×192 or 512×384 PNG, or a `.gfx` with a screen; relative to the `.bas`; it needs a ZX Basic newer than 1.19.0-zxv.4) |
 | `zxv.program` | The `.zxv` of a C project, if it cannot be guessed |
 | `zxv.gdbPort` | The GDB server port (1234) |
 

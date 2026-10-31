@@ -138,7 +138,7 @@
       "name": "MODE",
       "kind": "sub",
       "signature": "MODE(m as UByte, w as UInteger = 0, h as UInteger = 0)",
-      "doc": "MODE n[, w, h]: mode 0 (256 x 192, 32 x 24 characters) or 1 (512 x 384). In mode 0 the page can be bigger than the screen (512 x 384, 1024 x 192 or 256 x 768), and SCROLL moves the screen over it. Both pages are cleared, page 0 is shown and drawn on, and the scroll, REMAP and CLIP go."
+      "doc": "MODE n[, w, h]: mode 0 (256 x 192, 32 x 24 characters) or 1 (512 x 384). In mode 0 the page can be bigger than the screen (512 x 384, 1024 x 192 or 256 x 768), and SCROLL moves the screen over it. Both pages are cleared, page 0 is shown and drawn on, and the scroll, REMAP, PALETTE and CLIP go."
     },
     {
       "name": "PAGE",
@@ -169,6 +169,18 @@
       "kind": "sub",
       "signature": "REMAPRESET",
       "doc": "REMAPRESET: every colour as it was (REMAP with no arguments)"
+    },
+    {
+      "name": "PALETTE",
+      "kind": "sub",
+      "signature": "PALETTE(c as UByte, r as UInteger, g as UInteger, b as UInteger)",
+      "doc": "PALETTE c, r, g, b: colour c (0-15) is seen with that red, green and blue (0-255 each; 215 is the level of the standard colours, 255 the bright one), the nearest one ZX-V shows, at once and on all the screen"
+    },
+    {
+      "name": "PALETTERESET",
+      "kind": "sub",
+      "signature": "PALETTERESET",
+      "doc": "PALETTERESET: the standard colours again (PALETTE with no arguments)"
     },
     {
       "name": "WAIT",

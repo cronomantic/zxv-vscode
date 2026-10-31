@@ -9,7 +9,7 @@
  * 8 es el transparente.
  */
 
-export const SPRITE = 1, TILES = 2, MAP = 3, TEXTURE = 4;
+export const SPRITE = 1, TILES = 2, MAP = 3, TEXTURE = 4, SCREEN = 5;
 export const TRANSPARENT = 8;
 export const CELL_TILE = 0x0FFF, CELL_FLIP_H = 0x1000, CELL_FLIP_V = 0x2000, CELL_TRANSP = 0x4000, CELL_PRIO = 0x8000;
 
@@ -17,12 +17,16 @@ export interface Sprite { num: number; w: number; h: number; pixels: Uint8Array 
 export interface TileSet { size: number; count: number; pixels: Uint8Array }              // count tiles de size*size, seguidos
 export interface TileMap { num: number; w: number; h: number; size: number; wrap: boolean; cells: Uint16Array }
 export interface Texture { num: number; side: number; wrap: boolean; out: number; texels: Uint8Array }
+/* Una pantalla entera (D89): la página como en la VRAM, 4 bits por píxel.
+ * Con paleta (D90), sus 16 colores en RGB565; si no, los de siempre. */
+export interface Screen { num: number; mode: number; border: number; palette?: number[]; pixels: Uint8Array }
 
 export interface Gfx {
     sprites: Sprite[];
     tiles: TileSet[];
     maps: TileMap[];
     textures: Texture[];
+    screens: Screen[];
     unknown: number;        // objetos de clases que aún no se conocen
 }
 
@@ -30,6 +34,14 @@ export interface Gfx {
 export function paletteRgb(i: number): [number, number, number] {
     const lvl = i & 8 ? 0xFF : 0xD7;
     return [i & 2 ? lvl : 0, i & 4 ? lvl : 0, i & 1 ? lvl : 0];
+}
+
+/* Un color RGB565 de una paleta (D90) en RGB de 8 bits, con la curva de la
+ * salida (spec §4.1): los colores de siempre dan justo 0xD7 y 0xFF. */
+export function rgb565(c: number): [number, number, number] {
+    const ch5 = (v: number) => (v <= 27 ? Math.floor((v * 215 + 13) / 27) : 215 + (v - 27) * 10);
+    const g = (c >> 5) & 63;
+    return [ch5(c >> 11), g <= 54 ? Math.floor((g * 215 + 27) / 54) : 215 + Math.floor(((g - 54) * 40 + 4) / 9), ch5(c & 31)];
 }
 
 /* Los píxeles de 4 bits de una fila de w píxeles, uno por byte. */
@@ -50,7 +62,7 @@ export function parseGfx(data: Uint8Array): Gfx {
         throw new GfxError('not a .gfx file (no ZXVG)');
     if (data[4] !== 1)
         throw new GfxError(`unknown .gfx version ${data[4]}`);
-    const g: Gfx = { sprites: [], tiles: [], maps: [], textures: [], unknown: 0 };
+    const g: Gfx = { sprites: [], tiles: [], maps: [], textures: [], screens: [], unknown: 0 };
     let at = 8;
     for (let i = u16(6); i > 0; i--) {
         if (data.length - at < 8)
@@ -96,15 +108,43 @@ export function parseGfx(data: Uint8Array): Gfx {
             g.textures.push({ num, side: 1 << log2, wrap: data[d + 1] !== 0, out: data[d + 2], texels: data.slice(d + 4, d + 4 + len - 4) });
             break;
         }
+        case SCREEN: {
+            const s = parseScreen(data.subarray(d, d + len));
+            if (!s)
+                throw new GfxError(`screen ${num}: bad size`);
+            g.screens.push({ num, ...s });
+            break;
+        }
         default:
             g.unknown++;                    // clases nuevas: se saltan, como gfxfile.c
         }
         at = d + len;
     }
-    for (const list of [g.sprites, g.maps, g.textures] as { num: number }[][])
+    for (const list of [g.sprites, g.maps, g.textures, g.screens] as { num: number }[][])
         list.sort((a, b) => a.num - b.num);
     g.tiles.sort((a, b) => a.size - b.size);
     return g;
+}
+
+/* Los datos de una pantalla (los de un objeto tipo 5 del .gfx, o la de
+ * carga de un .zvb): modo (0 o 1), borde, marcas, 0, la paleta si la lleva
+ * (bit 0 de las marcas, D90: 16 colores RGB565) y los píxeles, 192 líneas
+ * de 128 bytes en modo 0 o 384 de 256 en modo 1. undefined si no cuadra. */
+export const SCREEN_HEAD = 4;
+export const SCREEN_F_PALETTE = 0x01;
+export const SCREEN_PALETTE = 32;
+export const screenPixels = (mode: number) => (mode ? 98304 : 24576);
+
+export function parseScreen(d: Uint8Array): Omit<Screen, 'num'> | undefined {
+    if (d.length < SCREEN_HEAD || d[0] > 1 || d[1] > 15 || (d[2] & ~SCREEN_F_PALETTE))
+        return undefined;
+    const at = SCREEN_HEAD + (d[2] & SCREEN_F_PALETTE ? SCREEN_PALETTE : 0);
+    if (d.length !== at + screenPixels(d[0]))
+        return undefined;
+    const s: Omit<Screen, 'num'> = { mode: d[0], border: d[1], pixels: d.slice(at) };
+    if (at > SCREEN_HEAD)
+        s.palette = Array.from({ length: 16 }, (_, i) => d[SCREEN_HEAD + 2 * i] | d[SCREEN_HEAD + 2 * i + 1] << 8);
+    return s;
 }
 
 /* El índice de color del píxel (x, y) de una celda de un mapa, con sus
@@ -136,10 +176,10 @@ export function sfxCount(data: Uint8Array, ext: string): number {
 /* Una imagen RGBA (alfa 0: transparente). */
 export interface Rgba { w: number; h: number; data: Uint8Array }
 
-function put(img: Rgba, x: number, y: number, c: number): void {
+function put(img: Rgba, x: number, y: number, c: number, pal?: [number, number, number][]): void {
     if (c < 0)
         return;                             // transparente: alfa 0
-    const [r, g, b] = paletteRgb(c);
+    const [r, g, b] = pal ? pal[c] : paletteRgb(c);
     const o = (y * img.w + x) * 4;
     img.data[o] = r;
     img.data[o + 1] = g;
@@ -187,5 +227,50 @@ export function drawTexture(t: Texture): Rgba {
     const img: Rgba = { w: t.side, h: t.side, data: new Uint8Array(t.side * t.side * 4) };
     for (let i = 0; i < t.side * t.side; i++)
         put(img, i % t.side, Math.floor(i / t.side), t.texels[i] & 15);
+    return img;
+}
+
+/* Una pantalla del Spectrum (.scr, la de sus herramientas; no es la de ZX-V): los
+ * 6144 bytes de los píxeles, por tercios y con las filas entrelazadas, y los
+ * 768 atributos (tinta, papel, BRIGHT y FLASH). Sin atributos (6144
+ * bytes), tinta negra sobre blanco. FLASH se pinta sin invertir. */
+export const SCR_SIZE = 6912, SCR_PIXELS = 6144;
+
+export function drawScr(data: Uint8Array): Rgba & { flash: boolean } {
+    if (data.length !== SCR_SIZE && data.length !== SCR_PIXELS)
+        throw new GfxError(`una pantalla tiene ${SCR_SIZE} bytes (o ${SCR_PIXELS}, sin los atributos), y este fichero, ${data.length}`);
+    const img: Rgba = { w: 256, h: 192, data: new Uint8Array(256 * 192 * 4) };
+    let flash = false;
+    for (let y = 0; y < 192; y++)
+        for (let cx = 0; cx < 32; cx++) {
+            const bits = data[((y & 0xC0) << 5) | ((y & 0x07) << 8) | ((y & 0x38) << 2) | cx];
+            const attr = data.length === SCR_SIZE ? data[SCR_PIXELS + (y >> 3) * 32 + cx] : 0x38;
+            flash ||= (attr & 0x80) !== 0;
+            const bright = attr & 0x40 ? 8 : 0;
+            const ink = (attr & 7) | bright, paper = ((attr >> 3) & 7) | bright;
+            for (let x = 0; x < 8; x++)
+                put(img, cx * 8 + x, y, bits & (0x80 >> x) ? ink : paper);
+        }
+    return { ...img, flash };
+}
+
+/* Una pantalla como en el monitor: un cuadro de 640x480 con el borde de su
+ * color y, en (64,48), los 512x384 píxeles (en modo 0, cada uno de 2x2).
+ * Los colores, los de su paleta si la lleva. */
+export function drawScreen(s: Omit<Screen, 'num'>): Rgba {
+    const img: Rgba = { w: 640, h: 480, data: new Uint8Array(640 * 480 * 4) };
+    const pal = s.palette?.map(rgb565);
+    for (let y = 0; y < 480; y++)
+        for (let x = 0; x < 640; x++)
+            put(img, x, y, s.border, pal);
+    const w = s.mode ? 512 : 256, h = s.mode ? 384 : 192, k = s.mode ? 1 : 2;
+    const row = new Uint8Array(w);
+    for (let y = 0; y < h; y++) {
+        unpack(s.pixels, y * (w >> 1), w, row, 0);
+        for (let x = 0; x < w; x++)
+            for (let dy = 0; dy < k; dy++)
+                for (let dx = 0; dx < k; dx++)
+                    put(img, 64 + x * k + dx, 48 + y * k + dy, row[x], pal);
+    }
     return img;
 }

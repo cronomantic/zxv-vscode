@@ -198,7 +198,7 @@
     "ink-paper": {
       "title": "INK, PAPER",
       "syntax": "INK n     PAPER n",
-      "summary": "Ink and paper colour, from 0 to 7 (see the table), or:"
+      "summary": "Ink and paper colour, from 0 to 7 (see the table), or:\n\n- **8**, transparent: keeps the colour that each cell already has;\n- **9**, contrast: white or black, whichever shows best against the other colour."
     },
     "inkey": {
       "title": "INKEY$",
@@ -253,7 +253,7 @@
     "load": {
       "title": "LOAD",
       "syntax": "LOAD name$\nLOAD name$ CODE [start [, length]]\nLOAD name$ SCREEN$\nLOAD name$ DATA letter()\nLOAD name$ DATA letter$()\nLOAD name$ GRAPHICS\nLOAD name$ MUSIC\nLOAD name$ SFX",
-      "summary": "Loads from the SD card (or the `ROM:` drive):"
+      "summary": "Loads from the SD card (or the `ROM:` drive):\n\n- A **program**: replaces the program in memory, and its variables replace the ones there were. If it was saved with `LINE`, it runs from that line without clearing them, as with `GO TO`. Without an extension, ZX-V tries `name.zvb`, then `name.tap`, then `name.zxv` (a [native program](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#native-programs), which runs), then `name.bas` (a [listing in text](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#listings-in-text)), then the name as it is. Spectrum `.tap` and `.tzx` files with BASIC programs load directly, with their variables (see [Tape files](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#tape-files)); ZX-V `.tap` files from before 0.7 carry no variables.\n- `CODE`: a file of bytes (without an extension, `name.bin` and then `name.tap`), at `start` and at most `length` bytes. A file that is not a `.tap` does not know where it goes, so `start` is needed: `LOAD \"data\" CODE 40000`; the `CODE` block of a `.tap` goes back without it to the address it was saved from.\n- `SCREEN$`: a screen (without an extension, `name.gfx` and then a block of `name.tap`). The one in a `.gfx` goes up as it is, with its mode (if it is not the current one, it changes as with `MODE`) and its border; if it carries its colours, they go into table 0's palette, which becomes the one in use (as with `REMAP #0`). `SCREEN$()` does not recognise the text on it. A `.scr` or a `.tap` is a Spectrum screen, shown as it was.\n- `DATA`: an array (without an extension, `name.zvd` and then `name.tap`), replacing the array of that name, as `DIM` does. The type must match.\n- `GRAPHICS`: the objects of a `.gfx` file replace those with the same number; the others stay, so you can load sprites from one file and a level from another. A file that is not valid gives `R Tape loading error`.\n- `MUSIC` and `SFX`: a music module or an effect bank (see [`MUSIC`](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#music) and [`SFX`](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#sfx))."
     },
     "local": {
       "title": "LOCAL",
@@ -278,7 +278,7 @@
     "merge": {
       "title": "MERGE",
       "syntax": "MERGE name$",
-      "summary": "Adds the lines of a saved program to the one in memory; lines with the same number are replaced. The variables are deleted. It also works with a [listing in text](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#listings-in-text) (`.bas`)."
+      "summary": "Adds the lines of a saved program to the one in memory; lines with the same number are replaced. The same goes for the variables, as on the Spectrum: those in the file replace the ones with the same name, and the others stay. It also works with a [listing in text](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#listings-in-text) (`.bas`), which has no variables."
     },
     "mkdir-rmdir": {
       "title": "MKDIR, RMDIR",
@@ -330,6 +330,11 @@
       "syntax": "PAGE n\nSCREEN n",
       "summary": "ZX-V has two screen pages, 0 and 1. `PAGE` chooses the one that is shown; `SCREEN` chooses the one where `PRINT`, `CLS`, `PLOT`, sprites and so on draw. Drawing on the hidden page and then showing it gives smooth animation without flicker (double buffering). Values other than 0 and 1 give `A Invalid argument`."
     },
+    "palette": {
+      "title": "PALETTE",
+      "syntax": "PALETTE colour, r, g, b [; colour, r, g, b]...\nPALETTE #table; colour, r, g, b [; colour, r, g, b]...\nPALETTE #table\nPALETTE",
+      "summary": "Changes how one of the 16 colours looks: `r`, `g` and `b` are its red, green and blue, from 0 to 255. Everything drawn in that colour changes instantly. After `PALETTE 1, 255, 128, 0`, blue is shown orange. The colour goes from 0 to 15 (otherwise `K Invalid colour`), and `r`, `g` and `b` from 0 to 255 (otherwise `B Integer out of range`)."
+    },
     "pause": {
       "title": "PAUSE",
       "syntax": "PAUSE n",
@@ -378,7 +383,7 @@
     "raster": {
       "title": "RASTER",
       "syntax": "RASTER BORDER y1, y2, colour\nRASTER REMAP y1, y2, table\nRASTER SCROLL y1, y2, x [, y]\nRASTER",
-      "summary": "Changes things line by line on the screen, without using any processor time while the program runs:"
+      "summary": "Changes things line by line on the screen, without using any processor time while the program runs:\n\n- `RASTER BORDER`: the lines from `y1` to `y2` have a border of that colour (0 to 15).\n- `RASTER REMAP`: those lines use remap table 0 to 2 (see [REMAP](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#remap)).\n- `RASTER SCROLL`: those lines have their own horizontal scroll `x`, and, if `y` is given, show the lines of the page from line `y` onwards (for split screens that scroll separately, and parallax).\n- `RASTER` alone turns all this off."
     },
     "read-data-restore": {
       "title": "READ, DATA, RESTORE",
@@ -422,8 +427,8 @@
     },
     "save": {
       "title": "SAVE",
-      "syntax": "SAVE name$ [LINE line]\nSAVE name$ CODE start, length\nSAVE name$ SCREEN$\nSAVE name$ DATA letter()\nSAVE name$ DATA letter$()\nSAVE name$ GRAPHICS",
-      "summary": "Saves to the SD card:"
+      "syntax": "SAVE name$ [LINE line [SCREEN$]]\nSAVE name$ CODE start, length\nSAVE name$ SCREEN$\nSAVE name$ DATA letter()\nSAVE name$ DATA letter$()\nSAVE name$ GRAPHICS",
+      "summary": "Saves to the SD card:\n\n- The **program** (with no other words) and its variables, in a `.zvb` file, the format of ZX-V programs: both as they are in memory, with no limit but the memory. With `LINE`, the program starts by itself from that line when loaded, with its variables. With `LINE` and `SCREEN$`, it also carries the screen you see as a **loading screen**: `LOAD` puts it up first, and the program starts with it.\n- `CODE`: `length` bytes of memory from address `start`, in a `.bin` file (just the bytes).\n- `SCREEN$`: the program's screen, as you see it (its mode, its border and the colour of each pixel; if they are not the usual colours, also the colours it is shown with, see [`PALETTE`](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#palette)), in a `.gfx` file with a screen (which you can edit in `zxv-gfx`). With the extension `.scr`, the Spectrum's one (`CODE 16384,6912`: the ink and paper shadow of each cell, without what is drawn with ZX-V's colours), in the format of its tools.\n- `DATA`: an array (numbers or characters), in a `.zvd` file, the format of ZX-V data: as it is in memory, with no limit but the memory.\n- `GRAPHICS`: the graphics store (sprites, tiles, maps, textures) as a `.gfx` file."
     },
     "screen-attr": {
       "title": "SCREEN$, ATTR",
@@ -740,7 +745,7 @@
     "ink-paper": {
       "title": "INK, PAPER",
       "syntax": "INK n     PAPER n",
-      "summary": "El color de la tinta y del papel, del 0 al 7 (ver la tabla), o:"
+      "summary": "El color de la tinta y del papel, del 0 al 7 (ver la tabla), o:\n\n- **8**, transparente: conserva el color que ya tiene cada celda;\n- **9**, contraste: blanco o negro, el que mejor se vea sobre el otro color."
     },
     "inkey": {
       "title": "INKEY$",
@@ -790,7 +795,7 @@
     "load": {
       "title": "LOAD",
       "syntax": "LOAD nombre$\nLOAD nombre$ CODE [inicio [, longitud]]\nLOAD nombre$ SCREEN$\nLOAD nombre$ DATA letra()\nLOAD nombre$ DATA letra$()\nLOAD nombre$ GRAPHICS\nLOAD nombre$ MUSIC\nLOAD nombre$ SFX",
-      "summary": "Carga de la tarjeta SD (o de la unidad `ROM:`):"
+      "summary": "Carga de la tarjeta SD (o de la unidad `ROM:`):\n\n- Un **programa**: sustituye al que hay en la memoria, y sus variables a las que había. Si se grabó con `LINE`, se ejecuta desde esa línea sin borrarlas, como con `GO TO`. Sin extensión, ZX-V prueba `nombre.zvb`, después `nombre.tap`, después `nombre.zxv` (un [programa nativo](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#programas-nativos), que se ejecuta), después `nombre.bas` (un [listado en texto](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#listados-en-texto)) y por último el nombre tal cual. Los `.tap` y `.tzx` del Spectrum con programas en BASIC se cargan directamente, con sus variables (ver [Ficheros de cinta](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#ficheros-de-cinta)); los `.tap` de ZX-V de antes de la 0.7 no llevan variables.\n- `CODE`: un fichero de bytes (sin extensión, `nombre.bin` y luego `nombre.tap`), en `inicio` y como mucho `longitud` bytes. Un fichero que no es `.tap` no sabe dónde va, así que hace falta `inicio`: `LOAD \"datos\" CODE 40000`; el bloque `CODE` de un `.tap` vuelve sin ella a la dirección desde la que se grabó.\n- `SCREEN$`: una pantalla (sin extensión, `nombre.gfx` y luego un bloque de `nombre.tap`). La de un `.gfx` se pone tal cual, con su modo (si no es el de ahora, cambia como con `MODE`) y su borde; si trae sus colores, se ponen en la paleta de la tabla 0, que pasa a ser la que se usa (como con `REMAP #0`). `SCREEN$()` no reconoce el texto que lleve. Un `.scr` o un `.tap` es una pantalla del Spectrum, que se ve como era.\n- `DATA`: una matriz (sin extensión, `nombre.zvd` y luego `nombre.tap`), que sustituye a la que tenga ese nombre, como `DIM`. El tipo tiene que coincidir.\n- `GRAPHICS`: los objetos de un fichero `.gfx` sustituyen a los que tienen el mismo número; los demás se quedan, así que puedes cargar los sprites de un fichero y un nivel de otro. Un fichero que no es válido da `R Error al cargar`.\n- `MUSIC` y `SFX`: un módulo de música o un banco de efectos (ver [`MUSIC`](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#music) y [`SFX`](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#sfx))."
     },
     "local": {
       "title": "LOCAL",
@@ -815,7 +820,7 @@
     "merge": {
       "title": "MERGE",
       "syntax": "MERGE nombre$",
-      "summary": "Añade las líneas de un programa grabado al que hay en la memoria; las líneas con el mismo número se sustituyen. Las variables se borran. También vale con un [listado en texto](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#listados-en-texto) (`.bas`)."
+      "summary": "Añade las líneas de un programa grabado al que hay en la memoria; las líneas con el mismo número se sustituyen. Con las variables pasa lo mismo, como en el Spectrum: las del fichero sustituyen a las que tienen el mismo nombre y las demás se quedan. También vale con un [listado en texto](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#listados-en-texto) (`.bas`), que no lleva variables."
     },
     "mkdir-rmdir": {
       "title": "MKDIR, RMDIR",
@@ -867,6 +872,11 @@
       "syntax": "PAGE n\nSCREEN n",
       "summary": "ZX-V tiene dos páginas de pantalla, la 0 y la 1. `PAGE` elige la que se ve; `SCREEN`, aquella en la que dibujan `PRINT`, `CLS`, `PLOT`, los sprites y las demás. Dibujar en la página oculta y luego enseñarla da animaciones suaves, sin parpadeo (el doble buffer). Los valores que no son 0 ni 1 dan `A Argumento no válido`."
     },
+    "palette": {
+      "title": "PALETTE",
+      "syntax": "PALETTE color, r, g, b [; color, r, g, b]...\nPALETTE #tabla; color, r, g, b [; color, r, g, b]...\nPALETTE #tabla\nPALETTE",
+      "summary": "Cambia cómo se ve uno de los 16 colores: `r`, `g` y `b` son su rojo, su verde y su azul, de 0 a 255. Todo lo que está dibujado con ese color cambia al instante. Tras `PALETTE 1, 255, 128, 0`, el azul se ve naranja. El color va del 0 al 15 (si no, `K Color no válido`), y `r`, `g` y `b`, de 0 a 255 (si no, `B Entero fuera de rango`)."
+    },
     "pause": {
       "title": "PAUSE",
       "syntax": "PAUSE n",
@@ -915,7 +925,7 @@
     "raster": {
       "title": "RASTER",
       "syntax": "RASTER BORDER y1, y2, color\nRASTER REMAP y1, y2, tabla\nRASTER SCROLL y1, y2, x [, y]\nRASTER",
-      "summary": "Cambia cosas línea a línea en la pantalla, sin gastar nada de tiempo del procesador mientras el programa sigue:"
+      "summary": "Cambia cosas línea a línea en la pantalla, sin gastar nada de tiempo del procesador mientras el programa sigue:\n\n- `RASTER BORDER`: las líneas de `y1` a `y2` tienen el borde de ese color (del 0 al 15).\n- `RASTER REMAP`: esas líneas usan la tabla de cambio de color 0 a 2 (ver [REMAP](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#remap)).\n- `RASTER SCROLL`: esas líneas tienen su propio scroll horizontal `x` y, si se da `y`, enseñan las líneas de la página a partir de la `y` (para pantallas partidas con scroll independiente, y para el *parallax*).\n- `RASTER` sin nada lo quita todo."
     },
     "read-data-restore": {
       "title": "READ, DATA, RESTORE",
@@ -959,8 +969,8 @@
     },
     "save": {
       "title": "SAVE",
-      "syntax": "SAVE nombre$ [LINE línea]\nSAVE nombre$ CODE inicio, longitud\nSAVE nombre$ SCREEN$\nSAVE nombre$ DATA letra()\nSAVE nombre$ DATA letra$()\nSAVE nombre$ GRAPHICS",
-      "summary": "Graba en la tarjeta SD:"
+      "syntax": "SAVE nombre$ [LINE línea [SCREEN$]]\nSAVE nombre$ CODE inicio, longitud\nSAVE nombre$ SCREEN$\nSAVE nombre$ DATA letra()\nSAVE nombre$ DATA letra$()\nSAVE nombre$ GRAPHICS",
+      "summary": "Graba en la tarjeta SD:\n\n- El **programa** (sin más palabras) y sus variables, en un fichero `.zvb`, el formato de los programas de ZX-V: los dos tal como están en la memoria, sin más límite que la memoria. Con `LINE`, el programa arranca solo desde esa línea al cargarlo, con sus variables. Con `LINE` y `SCREEN$`, lleva además la pantalla que se ve como **pantalla de carga**: `LOAD` la pone antes que nada, y el programa empieza con ella.\n- `CODE`: `longitud` bytes de la memoria desde la dirección `inicio`, en un fichero `.bin` (los bytes sin más).\n- `SCREEN$`: la pantalla del programa, tal como se ve (su modo, su borde y el color de cada píxel; si no son los colores de siempre, también los colores con que se ve, ver [`PALETTE`](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#palette)), en un fichero `.gfx` con una pantalla (que se edita en `zxv-gfx`). Con la extensión `.scr`, la del Spectrum (`CODE 16384,6912`: la sombra de tinta y papel de cada celda, sin lo que se dibuja con los colores de ZX-V), en el formato de sus herramientas.\n- `DATA`: una matriz (de números o de caracteres), en un fichero `.zvd`, el formato de los datos de ZX-V: como está en la memoria, sin más límite que la memoria.\n- `GRAPHICS`: el almacén de gráficos (sprites, tiles, mapas, texturas) en un fichero `.gfx`."
     },
     "screen-attr": {
       "title": "SCREEN$, ATTR",

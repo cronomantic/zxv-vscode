@@ -29,6 +29,16 @@ async function until<T>(what: string, f: () => T | undefined | Promise<T | undef
     }
 }
 
+/* Un programa grabado de test/fixtures (bucle.zvb: «10 BORDER b: PAUSE 1:
+ * GO TO 10» con b=2, sin LINE), en la carpeta de trabajo. */
+function fixture(name: string, rel: string): vscode.Uri {
+    const ext = vscode.extensions.getExtension('cronomantic.zxv')!;
+    const to = file(rel);
+    fs.mkdirSync(path.dirname(to.fsPath), { recursive: true });
+    fs.copyFileSync(path.join(ext.extensionPath, 'test', 'fixtures', name), to.fsPath);
+    return to;
+}
+
 async function open(rel: string): Promise<vscode.TextDocument> {
     const doc = await vscode.workspace.openTextDocument(file(rel));
     await vscode.window.showTextDocument(doc);
@@ -193,10 +203,14 @@ function suite(): void {
             await vscode.commands.executeCommand('workbench.action.closeAllEditors');
         });
 
-        const runs = async (rel: string) => {
+        const runs = async (rel: string, uri?: vscode.Uri) => {
             const a = await api();
-            await open(rel);
-            await vscode.commands.executeCommand('zxv.runInPanel');
+            if (uri)
+                await vscode.commands.executeCommand('zxv.runInPanel', uri);
+            else {
+                await open(rel);
+                await vscode.commands.executeCommand('zxv.runInPanel');
+            }
             const seen: string[] = [];
             const sub = await until('el panel', () => a.onPanelStatus(s => seen.push(s.state)));
             try {
@@ -222,6 +236,12 @@ function suite(): void {
         it('hello (C)', async () => {
             const s = await runs('sdk/examples/hello/hello.c');
             assert.strictEqual(s.program, 'hello.zxv');
+        });
+
+        /* Sin LINE: GO TO 0, que no borra b (con RUN pararía con un error). */
+        it('bucle.zvb (un programa grabado con SAVE, con sus variables)', async () => {
+            const s = await runs('zvb/bucle.zvb', fixture('bucle.zvb', 'zvb/bucle.zvb'));
+            assert.strictEqual(s.program, 'bucle.zvb');
         });
     });
 
@@ -315,6 +335,17 @@ function suite(): void {
             assert.match(fs.readFileSync(path.join(r.dir, 'game.js'), 'utf8'), /"title":\s*"Cascade"/);
         });
 
+        it('bucle.zvb: el game.json arranca con él', async () => {
+            const uri = fixture('bucle.zvb', 'zvb-web/bucle.zvb');
+            fixture('arranca.zvb', 'zvb-web/arranca.zvb');
+            const r = await vscode.commands.executeCommand<Published>('zxv.publishWeb', uri, { title: 'Bucle', open: false });
+            assert.ok(r, `no ha publicado: ${(await api()).debugError()}`);
+            const cfg = JSON.parse(fs.readFileSync(r.config, 'utf8'));
+            assert.strictEqual(cfg.start, 'bucle.zvb');
+            assert.deepStrictEqual(cfg.files, ['arranca.zvb']);
+            assert.ok(fs.existsSync(path.join(r.dir, 'index.html')));
+        });
+
         it('hello.c del SDK: el game.json apunta a build/hello.zxv', async () => {
             const dir = file('sdk/examples/hello').fsPath;
             for (const f of ['game.json', 'web', 'hello-web.zip'])
@@ -356,6 +387,32 @@ function suite(): void {
                 assert.ok(tab?.input instanceof vscode.TabInputCustom && tab.input.viewType === 'zxv.soundPreview', rel);
                 await until(`${rel}: la máquina lista`, async () => (await api()).previewStatus(uri), 60000);
             }
+        });
+
+        it('muestra.zvb, conpant.zvb, nums.zvd, pant.gfx, con paleta y una pantalla .scr', async () => {
+            const shown = async (uri: vscode.Uri, viewType: string) => {
+                await vscode.commands.executeCommand('vscode.open', uri);
+                const tab = vscode.window.tabGroups.activeTabGroup.activeTab;
+                assert.ok(tab?.input instanceof vscode.TabInputCustom && tab.input.viewType === viewType, uri.fsPath);
+                return until(`${path.basename(uri.fsPath)} pintado`, async () => (await api()).previewStatus(uri), 30000);
+            };
+            const z = await shown(fixture('muestra.zvb', 'vistas/muestra.zvb'), 'zxv.zvbPreview');
+            assert.deepStrictEqual([z.kind, z.lines, z.variables, z.screen], ['program', 11, 5, false]);
+            const c = await shown(fixture('conpant.zvb', 'vistas/conpant.zvb'), 'zxv.zvbPreview');
+            assert.deepStrictEqual([c.lines, c.screen], [1, true]);
+            const g = await shown(fixture('pant.gfx', 'vistas/pant.gfx'), 'zxv.gfxPreview');
+            assert.deepStrictEqual([g.sprites, g.screens, g.palettes, g.canvases], [0, 1, 0, 1]);
+            /* Con su paleta (D90). */
+            const pc = await shown(fixture('palcarga.zvb', 'vistas/palcarga.zvb'), 'zxv.zvbPreview');
+            assert.deepStrictEqual([pc.screen, pc.palette], [true, true]);
+            const pg = await shown(fixture('palpant.gfx', 'vistas/palpant.gfx'), 'zxv.gfxPreview');
+            assert.deepStrictEqual([pg.screens, pg.palettes], [1, 1]);
+            const d = await shown(fixture('nums.zvd', 'vistas/nums.zvd'), 'zxv.zvbPreview');
+            assert.deepStrictEqual([d.kind, d.variables], ['numbers', 1]);
+            /* Una pantalla en blanco: papel blanco y tinta negra. */
+            fs.writeFileSync(file('vistas/blanca.scr').fsPath, new Uint8Array(6912).fill(0x38, 6144));
+            const s = await shown(file('vistas/blanca.scr'), 'zxv.scrPreview');
+            assert.deepStrictEqual([s.kind, s.w, s.h, s.flash], ['scr', 256, 192, false]);
         });
     });
 

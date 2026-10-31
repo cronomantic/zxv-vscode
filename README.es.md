@@ -105,6 +105,12 @@ el fichero principal a la vista.
 | **ZX-V: Ejecutar en zxv-sdl** (F5 en el BASIC de la ROM) | Compila si hace falta y abre el programa en `zxv-sdl`, con su carpeta como tarjeta SD: `--sd CARPETA --type 'LOAD "programa.zxv"'` (con `: RUN` si es un listado). |
 | **ZX-V: Ejecutar en el editor** | Lo mismo, en el panel del emulador. |
 
+Desde el menú del explorador también se ejecuta tal cual un programa ya
+hecho: un `.zxv`, un programa del BASIC de la ROM grabado con `SAVE` (`.zvb`)
+o una cinta del Spectrum (`.tap`, `.tzx`). Si el `.zvb` o el `.tap` se grabó
+sin `LINE`, arranca con `GO TO 0` detrás del `LOAD`, que conserva las
+variables que se grabaron con él (`RUN` las borraría).
+
 Los errores de `gcc`, del enlazador y de `zxbc` van al panel de problemas
 (problem matchers `$zxv-gcc`, `$zxv-ld` y `$zxbc`). También hay tareas
 `"type": "zxv"` para `tasks.json`:
@@ -141,9 +147,12 @@ Al abrir un fichero de un juego se ve o se oye, en vez de sus bytes:
 
 | Fichero | Lo que se ve |
 |---|---|
-| `.gfx` | Sus sprites, tiles, mapas (con sus tiles, los volteos y la transparencia de cada celda) y texturas de modo 7, con la paleta de la máquina y un zoom sin suavizar |
+| `.gfx` | Sus sprites, tiles, mapas (con sus tiles, los volteos y la transparencia de cada celda), texturas de modo 7 y pantallas (`SAVE "x" SCREEN$`, con su modo, su borde y su paleta si la lleva), con la paleta de la máquina y un zoom sin suavizar |
 | `.pt3`, `.pt2`, `.stc`, `.asc`, `.psg` | Un reproductor: suena en la máquina de verdad (el núcleo web) con `MUSIC PLAY`, `MUSIC PAUSE` y `MUSIC STOP` |
 | `.afb`, `.afx` | Un botón por efecto del banco (`SFX n`) |
+| `.zvb` | Un programa del BASIC de la ROM grabado con `SAVE`: su listado, como lo saca `LIST`, sus variables, la línea en la que arranca (`LINE`) y su pantalla de carga (`SAVE "x" LINE n SCREEN$`, con sus colores si la grabó tras `PALETTE`). **Abrir como listado** lo deja en un documento nuevo del BASIC de la ROM, para cambiarlo o grabarlo como `.bas` |
+| `.zvd` | Una matriz grabada con `SAVE "x" DATA` |
+| `.scr` | Una pantalla del Spectrum (los 6912 bytes de sus herramientas, con los atributos), con sus colores |
 
 ![La vista previa de un .gfx: sprites, tiles y mapas](images/screenshots/gfx.es.png)
 
@@ -234,7 +243,7 @@ memoria, y la ROM evalúa, lista las variables y recorre la pila.
 | `zxv.zxbcPath` | `zxbc.exe` de la release del fork (1.19.0-zxv.4 o posterior), o `zxbc.py` (con `zxv.pythonPath`) |
 | `zxv.gdbPath` | GDB para RISC-V (si no, `riscv64-unknown-elf-gdb`, `riscv64-elf-gdb` o `gdb-multiarch` del PATH) |
 | `zxv.basicDialect` | `auto`, `zxv-basic` o `zxv-zxbasic`, por carpeta |
-| `zxv.makeArgs`, `zxv.zxbcArgs`, `zxv.emulatorArgs` | Más argumentos para cada herramienta. `zxv.zxbcArgs` trae `--enable-break` (Esc para el programa; necesita ZX Basic 1.19.0-zxv.4 o posterior, porque en los anteriores estropeaba lo que devuelven `KEY`, `JOY`...) y `-W150 -W170`, que callan los avisos que dan las librerías (también `zxv.bas`) por los parámetros que se leen en ASM y por las funciones que no se llaman |
+| `zxv.makeArgs`, `zxv.zxbcArgs`, `zxv.emulatorArgs` | Más argumentos para cada herramienta. `zxv.zxbcArgs` trae `--enable-break` (Esc para el programa; necesita ZX Basic 1.19.0-zxv.4 o posterior, porque en los anteriores estropeaba lo que devuelven `KEY`, `JOY`...) y `-W150 -W170`, que callan los avisos que dan las librerías (también `zxv.bas`) por los parámetros que se leen en ASM y por las funciones que no se llaman. Para que el `.zxv` lleve pantalla de carga, añade `--loading-screen portada.png` (un PNG de 256×192 o 512×384, o un `.gfx` con una pantalla; relativo al `.bas`; necesita un ZX Basic posterior a 1.19.0-zxv.4) |
 | `zxv.program` | El `.zxv` de un proyecto en C, si no se adivina |
 | `zxv.gdbPort` | El puerto del servidor GDB (1234) |
 

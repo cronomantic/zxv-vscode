@@ -1,0 +1,490 @@
+{
+  "comment": "Generado por scripts/gen-grammars.mjs desde rom/src/basic (tokens.c, basic.h): no lo cambies a mano.",
+  "first": 165,
+  "tok": [
+    "RND",
+    "INKEY$",
+    "PI",
+    "FN",
+    "POINT",
+    "SCREEN$",
+    "ATTR",
+    "AT",
+    "TAB",
+    "VAL$",
+    "CODE",
+    "VAL",
+    "LEN",
+    "SIN",
+    "COS",
+    "TAN",
+    "ASN",
+    "ACS",
+    "ATN",
+    "LN",
+    "EXP",
+    "INT",
+    "SQR",
+    "SGN",
+    "ABS",
+    "PEEK",
+    "IN",
+    "USR",
+    "STR$",
+    "CHR$",
+    "NOT",
+    "BIN",
+    "OR",
+    "AND",
+    "<=",
+    ">=",
+    "<>",
+    "LINE",
+    "THEN",
+    "TO",
+    "STEP",
+    "DEF FN",
+    "CAT",
+    "FORMAT",
+    "MOVE",
+    "ERASE",
+    "OPEN #",
+    "CLOSE #",
+    "MERGE",
+    "VERIFY",
+    "BEEP",
+    "CIRCLE",
+    "INK",
+    "PAPER",
+    "FLASH",
+    "BRIGHT",
+    "INVERSE",
+    "OVER",
+    "OUT",
+    "LPRINT",
+    "LLIST",
+    "STOP",
+    "READ",
+    "DATA",
+    "RESTORE",
+    "NEW",
+    "BORDER",
+    "CONTINUE",
+    "DIM",
+    "REM",
+    "FOR",
+    "GO TO",
+    "GO SUB",
+    "INPUT",
+    "LOAD",
+    "LIST",
+    "LET",
+    "PAUSE",
+    "NEXT",
+    "POKE",
+    "PRINT",
+    "PLOT",
+    "RUN",
+    "SAVE",
+    "RANDOMIZE",
+    "IF",
+    "CLS",
+    "DRAW",
+    "CLEAR",
+    "RETURN",
+    "COPY"
+  ],
+  "play": 164,
+  "ext": [
+    {
+      "code": 128,
+      "id": "X_MODE",
+      "name": "MODE",
+      "fn": false
+    },
+    {
+      "code": 129,
+      "id": "X_MONITOR",
+      "name": "MONITOR",
+      "fn": false
+    },
+    {
+      "code": 130,
+      "id": "X_CD",
+      "name": "CD",
+      "fn": false
+    },
+    {
+      "code": 131,
+      "id": "X_EDIT",
+      "name": "EDIT",
+      "fn": false
+    },
+    {
+      "code": 132,
+      "id": "X_WHILE",
+      "name": "WHILE",
+      "fn": false
+    },
+    {
+      "code": 133,
+      "id": "X_WEND",
+      "name": "WEND",
+      "fn": false
+    },
+    {
+      "code": 134,
+      "id": "X_REPEAT",
+      "name": "REPEAT",
+      "fn": false
+    },
+    {
+      "code": 135,
+      "id": "X_UNTIL",
+      "name": "UNTIL",
+      "fn": false
+    },
+    {
+      "code": 136,
+      "id": "X_DEF_PROC",
+      "name": "DEF PROC",
+      "fn": false
+    },
+    {
+      "code": 137,
+      "id": "X_END_PROC",
+      "name": "END PROC",
+      "fn": false
+    },
+    {
+      "code": 138,
+      "id": "X_PROC",
+      "name": "PROC",
+      "fn": false
+    },
+    {
+      "code": 139,
+      "id": "X_LOCAL",
+      "name": "LOCAL",
+      "fn": false
+    },
+    {
+      "code": 140,
+      "id": "X_ELSE",
+      "name": "ELSE",
+      "fn": false
+    },
+    {
+      "code": 141,
+      "id": "X_ON_ERROR",
+      "name": "ON ERROR",
+      "fn": false
+    },
+    {
+      "code": 142,
+      "id": "X_SOUND",
+      "name": "SOUND",
+      "fn": false
+    },
+    {
+      "code": 143,
+      "id": "X_PAGE",
+      "name": "PAGE",
+      "fn": false
+    },
+    {
+      "code": 144,
+      "id": "X_SCREEN",
+      "name": "SCREEN",
+      "fn": false
+    },
+    {
+      "code": 145,
+      "id": "X_REMAP",
+      "name": "REMAP",
+      "fn": false
+    },
+    {
+      "code": 146,
+      "id": "X_SCROLL",
+      "name": "SCROLL",
+      "fn": false
+    },
+    {
+      "code": 147,
+      "id": "X_RENUM",
+      "name": "RENUM",
+      "fn": false
+    },
+    {
+      "code": 148,
+      "id": "X_DELETE",
+      "name": "DELETE",
+      "fn": false
+    },
+    {
+      "code": 149,
+      "id": "X_AUTO",
+      "name": "AUTO",
+      "fn": false
+    },
+    {
+      "code": 150,
+      "id": "X_SPEED",
+      "name": "SPEED",
+      "fn": false
+    },
+    {
+      "code": 151,
+      "id": "X_TIME",
+      "name": "TIME",
+      "fn": true
+    },
+    {
+      "code": 152,
+      "id": "X_JOY",
+      "name": "JOY",
+      "fn": true
+    },
+    {
+      "code": 153,
+      "id": "X_KEY",
+      "name": "KEY",
+      "fn": true
+    },
+    {
+      "code": 154,
+      "id": "X_ERR",
+      "name": "ERR",
+      "fn": true
+    },
+    {
+      "code": 155,
+      "id": "X_ERL",
+      "name": "ERL",
+      "fn": true
+    },
+    {
+      "code": 156,
+      "id": "X_GRAB",
+      "name": "GRAB",
+      "fn": false
+    },
+    {
+      "code": 157,
+      "id": "X_SPRITE",
+      "name": "SPRITE",
+      "fn": false
+    },
+    {
+      "code": 158,
+      "id": "X_TILE",
+      "name": "TILE",
+      "fn": false
+    },
+    {
+      "code": 159,
+      "id": "X_MAP",
+      "name": "MAP",
+      "fn": false
+    },
+    {
+      "code": 160,
+      "id": "X_TEXTURE",
+      "name": "TEXTURE",
+      "fn": false
+    },
+    {
+      "code": 161,
+      "id": "X_FLOOR",
+      "name": "FLOOR",
+      "fn": false
+    },
+    {
+      "code": 162,
+      "id": "X_POLY",
+      "name": "POLY",
+      "fn": false
+    },
+    {
+      "code": 163,
+      "id": "X_BOX",
+      "name": "BOX",
+      "fn": false
+    },
+    {
+      "code": 164,
+      "id": "X_DISC",
+      "name": "DISC",
+      "fn": false
+    },
+    {
+      "code": 165,
+      "id": "X_CLIP",
+      "name": "CLIP",
+      "fn": false
+    },
+    {
+      "code": 166,
+      "id": "X_WAIT",
+      "name": "WAIT",
+      "fn": false
+    },
+    {
+      "code": 167,
+      "id": "X_HIT",
+      "name": "HIT",
+      "fn": true
+    },
+    {
+      "code": 168,
+      "id": "X_CELL",
+      "name": "CELL",
+      "fn": true
+    },
+    {
+      "code": 169,
+      "id": "X_GRAPHICS",
+      "name": "GRAPHICS",
+      "fn": false
+    },
+    {
+      "code": 170,
+      "id": "X_PIXEL",
+      "name": "PIXEL",
+      "fn": true
+    },
+    {
+      "code": 171,
+      "id": "X_JOY_MODE",
+      "name": "JOY",
+      "fn": false
+    },
+    {
+      "code": 172,
+      "id": "X_MOUSE",
+      "name": "MOUSE",
+      "fn": true
+    },
+    {
+      "code": 173,
+      "id": "X_MOUSE_SET",
+      "name": "MOUSE",
+      "fn": false
+    },
+    {
+      "code": 174,
+      "id": "X_RASTER",
+      "name": "RASTER",
+      "fn": false
+    },
+    {
+      "code": 175,
+      "id": "X_CLOCK",
+      "name": "CLOCK",
+      "fn": true
+    },
+    {
+      "code": 176,
+      "id": "X_CLOCK_SET",
+      "name": "CLOCK",
+      "fn": false
+    },
+    {
+      "code": 177,
+      "id": "X_LANGUAGE",
+      "name": "LANGUAGE",
+      "fn": false
+    },
+    {
+      "code": 178,
+      "id": "X_MKDIR",
+      "name": "MKDIR",
+      "fn": false
+    },
+    {
+      "code": 179,
+      "id": "X_RMDIR",
+      "name": "RMDIR",
+      "fn": false
+    },
+    {
+      "code": 180,
+      "id": "X_DIR",
+      "name": "DIR$",
+      "fn": true
+    },
+    {
+      "code": 181,
+      "id": "X_FIND",
+      "name": "FIND",
+      "fn": false
+    },
+    {
+      "code": 182,
+      "id": "X_REPLACE",
+      "name": "REPLACE",
+      "fn": false
+    },
+    {
+      "code": 183,
+      "id": "X_END_IF",
+      "name": "END IF",
+      "fn": false
+    },
+    {
+      "code": 184,
+      "id": "X_SELECT",
+      "name": "SELECT CASE",
+      "fn": false
+    },
+    {
+      "code": 185,
+      "id": "X_CASE",
+      "name": "CASE",
+      "fn": false
+    },
+    {
+      "code": 186,
+      "id": "X_END_SELECT",
+      "name": "END SELECT",
+      "fn": false
+    },
+    {
+      "code": 187,
+      "id": "X_TRACE",
+      "name": "TRACE",
+      "fn": false
+    },
+    {
+      "code": 188,
+      "id": "X_MUSIC",
+      "name": "MUSIC",
+      "fn": true
+    },
+    {
+      "code": 189,
+      "id": "X_MUSIC_CMD",
+      "name": "MUSIC",
+      "fn": false
+    },
+    {
+      "code": 190,
+      "id": "X_SFX",
+      "name": "SFX",
+      "fn": true
+    },
+    {
+      "code": 191,
+      "id": "X_SFX_CMD",
+      "name": "SFX",
+      "fn": false
+    },
+    {
+      "code": 192,
+      "id": "X_PALETTE",
+      "name": "PALETTE",
+      "fn": false
+    }
+  ]
+}

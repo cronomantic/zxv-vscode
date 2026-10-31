@@ -47,12 +47,19 @@ describe('los datos de la ayuda', () => {
                     assert.ok(docs[lang][e.anchor], `${k.keyword}: ${lang} #${e.anchor}`);
     });
 
-    it('PRINT, GO TO y MUSIC tienen su sintaxis', () => {
+    it('PRINT, GO TO, MUSIC y PALETTE tienen su sintaxis', () => {
         const entry = (kw: string, lang: 'en' | 'es') => docs[lang][keywords.find(k => k.keyword === kw)!.docs[lang][0].anchor];
         assert.match(entry('PRINT', 'en').syntax, /^PRINT /);
         assert.match(entry('GO TO', 'es').syntax, /GO TO @etiqueta/);
         assert.match(entry('MUSIC', 'es').syntax, /MUSIC PLAY/);
         assert.match(entry('GO TO', 'en').summary, /^Jumps/);
+        assert.match(entry('PALETTE', 'es').syntax, /^PALETTE color, r, g, b/);
+    });
+
+    it('un resumen que acaba en «:» lleva la lista de detrás (SAVE y sus ficheros)', () => {
+        assert.match(docs.en.save.summary, /^Saves to the SD card:\n\n- The \*\*program\*\*.*`\.zvb`/);
+        assert.match(docs.es.save.summary, /\n- `CODE`:.*`\.bin`/);
+        assert.match(docs.es.load.summary, /\n- Un \*\*programa\*\*/);
     });
 
     it('los enlaces del resumen van a GitHub', () => {

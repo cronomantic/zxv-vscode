@@ -10,6 +10,7 @@ import * as vscode from 'vscode';
 import { isDialect } from './dialect';
 import { processExecution } from './pty';
 import * as tools from './tools';
+import { savedWithoutLine } from './zvb';
 
 export const TASK_TYPE = 'zxv';
 
@@ -25,16 +26,21 @@ const MAKEFILES = ['GNUmakefile', 'makefile', 'Makefile'];
 /* Los ficheros que un programa puede cargar de la tarjeta: se copian con
  * él al panel (y a la carpeta del programa si están junto a las fuentes). */
 export const RESOURCE_EXTS = new Set([
-    '.gfx', '.pt3', '.pt2', '.stc', '.asc', '.psg', '.afb', '.tap', '.tzx', '.scr', '.bin', '.dat', '.txt', '.bas',
-    '.zxv',
+    '.gfx', '.pt3', '.pt2', '.stc', '.asc', '.psg', '.afb', '.zvb', '.zvd', '.tap', '.tzx', '.scr', '.bin', '.dat',
+    '.txt', '.bas', '.zxv',
 ]);
+
+/* Los programas que se cargan tal cual: los de C y ZX Basic (.zxv), los del
+ * BASIC de la ROM grabados con SAVE (.zvb, D88 en ZX-V) y las cintas del
+ * Spectrum. */
+export const PROGRAM_EXTS = new Set(['.zxv', '.zvb', '.tap', '.tzx']);
 
 export type Kind = 'c' | 'zxv-zxbasic' | 'zxv-basic' | 'zxv' | undefined;
 
 export function kindOf(uri: vscode.Uri, languageId?: string): Kind {
     const ext = path.extname(uri.fsPath);
     const base = path.basename(uri.fsPath);
-    if (ext.toLowerCase() === '.zxv')
+    if (PROGRAM_EXTS.has(ext.toLowerCase()))
         return 'zxv';
     if (isDialect(languageId))
         return languageId;
@@ -173,7 +179,7 @@ export function cProgram(file: vscode.Uri): string | undefined {
 }
 
 export interface Program {
-    file: string;           // el .zxv o el .bas del BASIC de la ROM
+    file: string;           // el .zxv, .zvb, .tap o .tzx, o el .bas del BASIC de la ROM
     sources?: string;       // la carpeta de las fuentes, si los recursos están allí
 }
 
@@ -240,7 +246,7 @@ export async function targetDocument(uri?: vscode.Uri): Promise<{ uri: vscode.Ur
 export async function buildProgram(uri?: vscode.Uri): Promise<Program | undefined> {
     const t = await targetDocument(uri);
     if (!t) {
-        vscode.window.showWarningMessage(vscode.l10n.t('Open a ZX-V program first (.c, .bas or .zxv).'));
+        vscode.window.showWarningMessage(vscode.l10n.t('Open a ZX-V program first (.c, .bas, .zxv or .zvb).'));
         return undefined;
     }
     const doc = vscode.workspace.textDocuments.find(d => d.uri.toString() === t.uri.toString());
@@ -287,7 +293,7 @@ export async function buildProgram(uri?: vscode.Uri): Promise<Program | undefine
         return { file: prog, sources: path.dirname(t.uri.fsPath) };
     }
     default:
-        vscode.window.showWarningMessage(vscode.l10n.t('{0} is not a ZX-V program (.c, .bas or .zxv).', path.basename(t.uri.fsPath)));
+        vscode.window.showWarningMessage(vscode.l10n.t('{0} is not a ZX-V program (.c, .bas, .zxv or .zvb).', path.basename(t.uri.fsPath)));
         return undefined;
     }
 }
@@ -324,11 +330,14 @@ export function copyResources(p: Program): void {
 
 /* --- zxv-sdl ----------------------------------------------------------------- */
 
-/* Lo que se teclea para cargarlo: LOAD con la extensión (si hay un .tap con
- * el mismo nombre, LOAD "x" cargaría ese) y RUN si es un listado. */
+/* Lo que se teclea para cargarlo: LOAD con la extensión (si hay un .zvb con
+ * el mismo nombre, LOAD "x" cargaría ese) y RUN si es un listado. Un
+ * programa grabado sin LINE, con GO TO 0: arranca desde el principio sin
+ * borrar las variables que se grabaron con él, como si llevara LINE. */
 export function loadCommand(file: string): string {
     const name = path.basename(file).replace(/"/g, '');
-    return `LOAD "${name}"` + (/\.(bas|txt)$/i.test(name) ? ': RUN' : '');
+    const run = /\.(bas|txt)$/i.test(name) ? ': RUN' : savedWithoutLine(file) ? ': GO TO 0' : '';
+    return `LOAD "${name}"` + run;
 }
 
 export function emulatorArgs(p: Program, scope: vscode.Uri, extra: string[] = []): string[] {
