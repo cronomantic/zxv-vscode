@@ -261,14 +261,14 @@ code --install-extension zxv-0.1.0.vsix
 ```bash
 npm install
 npm run grammars    # las gramáticas, desde ../ZX-V y ../zxbasic (o --zxv, --zxbasic)
-npm run web         # el núcleo web: copia zxv-web.zip de ../ZX-V/build/release/0.6.2
+npm run web         # el núcleo web: copia zxv-web.zip de ../ZX-V/build/release/0.7.0
 npm test            # pruebas unitarias
-npx vsce package    # zxv-0.1.0.vsix
+npx vsce package    # zxv-0.2.0.vsix
 ```
 
 `npm run web -- --from RUTA` usa otro `zxv-web.zip` (o una carpeta con él), y
 `npm run web -- --download` lo descarga de la
-[release v0.6.2](https://github.com/cronomantic/ZX-V/releases/tag/v0.6.2).
+[release v0.7.0](https://github.com/cronomantic/ZX-V/releases/tag/v0.7.0).
 Con uno anterior a la 0.6.2, que no trae `zxv-check.js`, `npm run web --
 --check RUTA` pone uno compilado aparte (el objetivo `zxv-check-web` de ZX-V
 con `emcmake`); sin él, la extensión no marca los errores mientras escribes.

@@ -1,6 +1,6 @@
 # Cambios / Changes
 
-## Sin publicar / Unreleased
+## 0.2.0
 
 - Depurar el BASIC de la ROM en el panel del emulador (tipo `zxv-basic`):
   puntos de ruptura por línea o por sentencia, con condición, veces y
