@@ -485,6 +485,12 @@
       "id": "X_PALETTE",
       "name": "PALETTE",
       "fn": false
+    },
+    {
+      "code": 193,
+      "id": "X_PROTECT",
+      "name": "PROTECT",
+      "fn": false
     }
   ]
 }

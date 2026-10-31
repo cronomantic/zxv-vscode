@@ -303,6 +303,9 @@ export interface ZvbContents {
     screen?: Omit<Screen, 'num'>;   // la de carga (SAVE "x" LINE n SCREEN$), si la tiene
     lines: Line[];
     variables: Variable[];
+    /* Protegido (D91): sin listado ni variables, como en la máquina; solo
+     * cuánto ocupan. */
+    protect?: { program: number; variables: number };
 }
 
 /* Todo lo de un .zvb o un .zvd; un Error si no lo es o está roto. */
@@ -320,6 +323,9 @@ export function readZvb(b: Uint8Array): ZvbContents {
         const screen = h.screen ? parseScreen(b.subarray(ZVB_HEAD, at)) : undefined;
         if (h.screen && !screen)
             throw new Error('la pantalla de carga no tiene el tamaño de su modo');
+        if (h.protect)
+            return { kind: 'program', line: h.line, screen, lines: [], variables: [],
+                     protect: { program: h.length1, variables: h.length2 } };
         return {
             kind: 'program',
             line: h.line === ZVB_NO_LINE ? undefined : h.line,

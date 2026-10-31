@@ -147,7 +147,7 @@ Opening a game file shows or plays it, instead of its bytes:
 | `.gfx` | Its sprites, tiles, maps (with their tiles, flips and the transparency of each cell), mode 7 textures and screens (`SAVE "x" SCREEN$`, with their mode, border and palette if they carry one), with the machine palette and an unsmoothed zoom |
 | `.pt3`, `.pt2`, `.stc`, `.asc`, `.psg` | A player: it plays on the real machine (the web core) with `MUSIC PLAY`, `MUSIC PAUSE` and `MUSIC STOP` |
 | `.afb`, `.afx` | A button for each effect of the bank (`SFX n`) |
-| `.zvb` | A ROM BASIC program saved with `SAVE`: its listing, as `LIST` shows it, its variables, the line it starts at (`LINE`) and its loading screen (`SAVE "x" LINE n SCREEN$`, in its own colours if saved after `PALETTE`). **Open as a listing** puts it in a new ROM BASIC document, to edit it or save it as `.bas` |
+| `.zvb` | A ROM BASIC program saved with `SAVE`: its listing, as `LIST` shows it, its variables, the line it starts at (`LINE`) and its loading screen (`SAVE "x" LINE n SCREEN$`, in its own colours if saved after `PALETTE`). For a protected one (`SAVE "x" LINE n PROTECT`) it shows neither the listing nor the variables, like the machine: only its start line, its size and its loading screen; it still runs. **Open as a listing** puts it in a new ROM BASIC document, to edit it or save it as `.bas` |
 | `.zvd` | An array saved with `SAVE "x" DATA` |
 | `.scr` | A Spectrum screen (the 6,912 bytes of the Spectrum's tools, with attributes), with its colours |
 

@@ -1,6 +1,6 @@
 /*
  * zvb.ts - Las cabeceras de los programas grabados del BASIC de la ROM: un
- * .zvb (D88 y D89 en ZX-V; el formato, en dev/basic.md §7) o el primer bloque de
+ * .zvb (D88, D89 y D91 en ZX-V; el formato, en dev/basic.md §7) o el primer bloque de
  * un .tap. Sin vscode, para las pruebas.
  */
 import * as fs from 'fs';
@@ -8,6 +8,7 @@ import * as path from 'path';
 
 export const ZVB_HEAD = 24;
 export const ZVB_NO_LINE = 0xFFFF;
+export const ZVB_F_PROTECT = 0x01;  // marcas: protegido (D91), un programa con LINE
 
 export interface ZvbHeader {
     kind: number;           // 0 programa, 1 matriz de números, 2 de caracteres
@@ -16,18 +17,23 @@ export interface ZvbHeader {
     length1: number;        // el programa (o la matriz)
     length2: number;        // las variables (o 0)
     screen: number;         // la pantalla de carga, delante del programa (o 0)
+    protect: boolean;       // SAVE "x" LINE n PROTECT: no se enseña ni el listado ni las variables
 }
 
-/* "ZXVB", versión 1, tipo, marcas (0), nombre, línea u16, 0 u16, dos
+/* "ZXVB", versión 1, tipo, marcas (0, o ZVB_F_PROTECT en un programa con
+ * línea de arranque; otras, un fichero que no vale), nombre, línea u16, 0 u16, dos
  * longitudes u32 y la de la pantalla u32, en little-endian. Detrás van la
  * pantalla, el programa (o la matriz) y las variables. */
 export function zvbHeader(h: Uint8Array): ZvbHeader | undefined {
-    if (h.length < ZVB_HEAD || String.fromCharCode(h[0], h[1], h[2], h[3]) !== 'ZXVB' || h[4] !== 1 || h[6] !== 0)
+    if (h.length < ZVB_HEAD || String.fromCharCode(h[0], h[1], h[2], h[3]) !== 'ZXVB' || h[4] !== 1 || (h[6] & ~ZVB_F_PROTECT))
         return undefined;
     const b = Buffer.from(h.buffer, h.byteOffset, h.byteLength);
+    const line = b.readUInt16LE(8), protect = (h[6] & ZVB_F_PROTECT) !== 0;
+    if (protect && (h[5] !== 0 || line === ZVB_NO_LINE))
+        return undefined;
     return {
-        kind: h[5], letter: h[7], line: b.readUInt16LE(8),
-        length1: b.readUInt32LE(12), length2: b.readUInt32LE(16), screen: b.readUInt32LE(20),
+        kind: h[5], letter: h[7], line,
+        length1: b.readUInt32LE(12), length2: b.readUInt32LE(16), screen: b.readUInt32LE(20), protect,
     };
 }
 

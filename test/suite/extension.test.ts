@@ -389,7 +389,7 @@ function suite(): void {
             }
         });
 
-        it('muestra.zvb, conpant.zvb, nums.zvd, pant.gfx, con paleta y una pantalla .scr', async () => {
+        it('muestra.zvb, conpant.zvb, nums.zvd, pant.gfx, con paleta, protegido y una pantalla .scr', async () => {
             const shown = async (uri: vscode.Uri, viewType: string) => {
                 await vscode.commands.executeCommand('vscode.open', uri);
                 const tab = vscode.window.tabGroups.activeTabGroup.activeTab;
@@ -407,6 +407,9 @@ function suite(): void {
             assert.deepStrictEqual([pc.screen, pc.palette], [true, true]);
             const pg = await shown(fixture('palpant.gfx', 'vistas/palpant.gfx'), 'zxv.gfxPreview');
             assert.deepStrictEqual([pg.screens, pg.palettes], [1, 1]);
+            /* Protegido (D91): la pantalla de carga, pero ni el listado ni las variables. */
+            const pr = await shown(fixture('protegido.zvb', 'vistas/protegido.zvb'), 'zxv.zvbPreview');
+            assert.deepStrictEqual([pr.protect, pr.lines, pr.variables, pr.screen], [true, 0, 0, true]);
             const d = await shown(fixture('nums.zvd', 'vistas/nums.zvd'), 'zxv.zvbPreview');
             assert.deepStrictEqual([d.kind, d.variables], ['numbers', 1]);
             /* Una pantalla en blanco: papel blanco y tinta negra. */

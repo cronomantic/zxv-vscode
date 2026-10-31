@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
   "name": "ZX-V BASIC",
   "scopeName": "source.zxv-basic",
-  "comment": "Generado por scripts/gen-grammars.mjs desde ZX-V v0.6.2-10-g2494b90: no lo cambies a mano.",
+  "comment": "Generado por scripts/gen-grammars.mjs desde ZX-V v0.6.2-12-gd84e0ac: no lo cambies a mano.",
   "patterns": [
     {
       "include": "#statement"
@@ -99,7 +99,7 @@
       ]
     },
     "file-statement": {
-      "comment": "SAVE, LOAD, VERIFY y MERGE: dentro, también GRAPHICS.",
+      "comment": "SAVE, LOAD, VERIFY y MERGE: dentro, también GRAPHICS y PROTECT.",
       "begin": "(?i)(?<![A-Za-z0-9_])(SAVE(?![A-Za-z0-9_])|LOAD(?![A-Za-z0-9_])|VERIFY(?![A-Za-z0-9_])|MERGE(?![A-Za-z0-9_]))",
       "beginCaptures": {
         "1": {
@@ -113,6 +113,10 @@
         },
         {
           "match": "(?i)(?<![A-Za-z0-9_])GRAPHICS(?![A-Za-z0-9_])",
+          "name": "keyword.other.zxv-basic"
+        },
+        {
+          "match": "(?i)(?<![A-Za-z0-9_])PROTECT(?![A-Za-z0-9_])",
           "name": "keyword.other.zxv-basic"
         },
         {

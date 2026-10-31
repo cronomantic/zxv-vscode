@@ -25,6 +25,22 @@ describe('los programas grabados (.zvb y .tap)', () => {
         assert.strictEqual(h.screen, 4 + 24576);
         assert.strictEqual(24 + h.screen + h.length1 + h.length2, fs.statSync(fixture('conpant.zvb')).size);
     });
+    it('protegido (D91): la marca, solo en un programa con LINE', () => {
+        const b = fs.readFileSync(fixture('protegido.zvb'));
+        const h = zvbHeader(b);
+        assert.ok(h);
+        assert.deepStrictEqual([h.protect, h.line], [true, 10]);
+        assert.strictEqual(zvbHeader(fs.readFileSync(fixture('arranca.zvb')))?.protect, false);
+        const sinLine = Buffer.from(b);
+        sinLine.writeUInt16LE(ZVB_NO_LINE, 8);
+        assert.strictEqual(zvbHeader(sinLine), undefined);
+        const matriz = Buffer.from(b);
+        matriz[5] = 1;
+        assert.strictEqual(zvbHeader(matriz), undefined);
+        const otraMarca = Buffer.from(b);
+        otraMarca[6] = 2;
+        assert.strictEqual(zvbHeader(otraMarca), undefined);
+    });
     it('lo que no es un .zvb', () => {
         assert.strictEqual(zvbHeader(new Uint8Array(24)), undefined);
         assert.strictEqual(zvbHeader(Buffer.from('ZXVB')), undefined);

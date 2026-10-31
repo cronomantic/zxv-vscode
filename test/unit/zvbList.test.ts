@@ -64,6 +64,15 @@ describe('el listado de un .zvb', () => {
         assert.strictEqual(readZvb(fixture('conpant.zvb')).screen?.palette, undefined);
     });
 
+    it('protegido (D91): ni el listado ni las variables, solo lo que ocupan', () => {
+        // SAVE "protegido" LINE 10 SCREEN$ PROTECT, con dos líneas, n y a()
+        const z = readZvb(fixture('protegido.zvb'));
+        assert.deepStrictEqual([z.kind, z.line, z.lines, z.variables], ['program', 10, [], []]);
+        assert.deepStrictEqual(z.protect, { program: 40, variables: 49 });
+        assert.ok(z.screen);
+        assert.strictEqual(readZvb(fixture('conpant.zvb')).protect, undefined);
+    });
+
     it('una pantalla de carga con su paleta (D90)', () => {
         const z = readZvb(fixture('palcarga.zvb'));
         assert.strictEqual(z.line, 10);

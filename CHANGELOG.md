@@ -23,6 +23,10 @@
 - Las paletas (ZX-V 0.7): `PALETTE` en el BASIC de la ROM (resaltado, ayuda,
   listado de un `.zvb`) y `PALETTE` y `PALETTERESET` en ZX Basic; las
   pantallas de un `.gfx` y las de carga de un `.zvb` se ven con su paleta.
+- Los programas protegidos (`SAVE "x" LINE n PROTECT`, ZX-V 0.7): `PROTECT`
+  se resalta y tiene ayuda dentro de `SAVE`, y la vista de un `.zvb`
+  protegido no enseña ni el listado ni las variables (ni «Abrir como
+  listado»).
 
 ---
 
@@ -48,6 +52,9 @@
   listing of a `.zvb`) and `PALETTE` and `PALETTERESET` in ZX Basic; the
   screens in a `.gfx` and the loading screen of a `.zvb` show in their own
   palette.
+- Protected programs (`SAVE "x" LINE n PROTECT`, ZX-V 0.7): `PROTECT` is
+  highlighted and has help inside `SAVE`, and the view of a protected `.zvb`
+  shows neither its listing nor its variables (nor "Open as a listing").
 
 ## 0.1.0
 

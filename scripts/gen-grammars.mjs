@@ -220,10 +220,11 @@ function romBasic(zxv) {
         4: { name: 'keyword.control.zxv-basic' },
         5: { name },
     });
-    /* GRAPHICS solo vale en SAVE, LOAD, VERIFY y MERGE. */
-    const graphics = keywords.find(k => k.kw === 'GRAPHICS');
-    if (graphics)
-        keywords.splice(keywords.indexOf(graphics), 1);
+    /* GRAPHICS y PROTECT solo valen en SAVE, LOAD, VERIFY y MERGE (file_stmt
+     * de tokens.c). */
+    const fileOnly = keywords.filter(k => k.kw === 'GRAPHICS' || k.kw === 'PROTECT');
+    for (const k of fileOnly)
+        keywords.splice(keywords.indexOf(k), 1);
     const fileKw = romKw('SAVE') + '|' + romKw('LOAD') + '|' + romKw('VERIFY') + '|' + romKw('MERGE');
 
     const grammar = {
@@ -272,13 +273,13 @@ function romBasic(zxv) {
                 patterns: [{ match: '""', name: 'constant.character.escape.quote.zxv-basic' }],
             },
             'file-statement': {
-                comment: 'SAVE, LOAD, VERIFY y MERGE: dentro, también GRAPHICS.',
+                comment: 'SAVE, LOAD, VERIFY y MERGE: dentro, también GRAPHICS y PROTECT.',
                 begin: `(?i)(?<![A-Za-z0-9_])(${fileKw})`,
                 beginCaptures: { 1: { name: 'keyword.other.zxv-basic' } },
                 end: '(?=:|$)',
                 patterns: [
                     { include: '#string' },
-                    { match: `(?i)(?<![A-Za-z0-9_])${romKw('GRAPHICS')}`, name: 'keyword.other.zxv-basic' },
+                    ...fileOnly.map(k => ({ match: `(?i)(?<![A-Za-z0-9_])${romKw(k.kw)}`, name: 'keyword.other.zxv-basic' })),
                     { include: '#keywords' },
                     { include: '#number' },
                     { include: '#variable' },
@@ -361,7 +362,7 @@ function romBasic(zxv) {
         },
     };
 
-    const data = keywords.concat(graphics ? [graphics] : []).map(k => {
+    const data = keywords.concat(fileOnly).map(k => {
         const e = en.get(k.kw), s = es.get(k.kw);
         return {
             keyword: k.kw,

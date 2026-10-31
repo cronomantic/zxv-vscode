@@ -13,6 +13,8 @@ const T = {
     program: ES ? 'Programa del BASIC de la ROM ({0} líneas).' : 'ROM BASIC program ({0} lines).',
     line: ES ? 'Arranca solo en la línea {0} (LINE).' : 'It starts by itself at line {0} (LINE).',
     noLine: ES ? 'Sin LINE: al cargarlo, espera a RUN o GO TO.' : 'No LINE: once loaded, it waits for RUN or GO TO.',
+    protect: ES ? 'Protegido (PROTECT): ni su listado ni sus variables se enseñan, como en la máquina. Ocupa {0} bytes de programa y {1} de variables.'
+                : 'Protected (PROTECT): neither its listing nor its variables are shown, as on the machine. It takes {0} bytes of program and {1} of variables.',
     asText: ES ? 'Abrir como listado' : 'Open as a listing',
     screen0: ES ? 'Pantalla de carga: modo {0}, borde {1}{2}.' : 'Loading screen: mode {0}, border {1}{2}.',
     ownPalette: ES ? ', con su paleta' : ', with its own palette',
@@ -62,12 +64,20 @@ function table(vars) {
 function showZvb(m) {
     todo.replaceChildren(el('h1', '', m.name));
     if (m.kind === 'program') {
-        todo.append(el('p', '', `${fmt(T.program, m.lines.length)} ${m.line !== undefined ? fmt(T.line, m.line) : T.noLine}`));
-        const b = el('button', '', T.asText);
-        b.addEventListener('click', () => vscode.postMessage({ type: 'asText' }));
-        todo.append(b);
+        if (m.protect) {
+            todo.append(el('p', '', fmt(T.line, m.line)), el('p', '', fmt(T.protect, m.protect.program, m.protect.variables)));
+        } else {
+            todo.append(el('p', '', `${fmt(T.program, m.lines.length)} ${m.line !== undefined ? fmt(T.line, m.line) : T.noLine}`));
+            const b = el('button', '', T.asText);
+            b.addEventListener('click', () => vscode.postMessage({ type: 'asText' }));
+            todo.append(b);
+        }
         if (m.screen)
             todo.append(el('p', '', fmt(T.screen0, m.screen.mode, m.screen.border, m.screen.palette ? T.ownPalette : '')), canvas(m.screen, 'carga'));
+        if (m.protect) {
+            vscode.postMessage({ type: 'shown', kind: m.kind, protect: true, lines: 0, variables: 0, screen: !!m.screen });
+            return;
+        }
         const pre = el('pre', 'listado');
         for (const l of m.lines) {
             const row = el('div', 'linea');

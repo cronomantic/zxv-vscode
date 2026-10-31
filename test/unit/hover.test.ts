@@ -47,13 +47,14 @@ describe('los datos de la ayuda', () => {
                     assert.ok(docs[lang][e.anchor], `${k.keyword}: ${lang} #${e.anchor}`);
     });
 
-    it('PRINT, GO TO, MUSIC y PALETTE tienen su sintaxis', () => {
+    it('PRINT, GO TO, MUSIC, PALETTE y PROTECT tienen su entrada', () => {
         const entry = (kw: string, lang: 'en' | 'es') => docs[lang][keywords.find(k => k.keyword === kw)!.docs[lang][0].anchor];
         assert.match(entry('PRINT', 'en').syntax, /^PRINT /);
         assert.match(entry('GO TO', 'es').syntax, /GO TO @etiqueta/);
         assert.match(entry('MUSIC', 'es').syntax, /MUSIC PLAY/);
         assert.match(entry('GO TO', 'en').summary, /^Jumps/);
         assert.match(entry('PALETTE', 'es').syntax, /^PALETTE color, r, g, b/);
+        assert.strictEqual(entry('PROTECT', 'en').title, 'Protected programs');
     });
 
     it('un resumen que acaba en «:» lleva la lista de detrás (SAVE y sus ficheros)', () => {

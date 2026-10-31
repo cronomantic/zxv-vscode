@@ -2616,6 +2616,30 @@
     }
   },
   {
+    "keyword": "PROTECT",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "in SAVE",
+      "es": "en SAVE"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "Protected programs",
+          "anchor": "protected-programs"
+        }
+      ],
+      "es": [
+        {
+          "title": "Programas protegidos",
+          "anchor": "programas-protegidos"
+        }
+      ]
+    }
+  },
+  {
     "keyword": "RANDOMIZE",
     "class": "other",
     "zxv": false,
