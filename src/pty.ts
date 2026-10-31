@@ -51,15 +51,10 @@ export function processExecution(command: string, args: string[], cwd: string,
                 child.stdout?.on('data', d => emit(d.toString()));
                 child.stderr?.on('data', d => emit(d.toString()));
                 child.on('error', e => {
-                    emit(`${e.message}\n`, true);
-                    onExit?.(127);
-                    close.fire(127);
+                    emit(`${e.message}\n`);
+                    end(127);
                 });
-                child.on('close', code => {
-                    emit('', true);
-                    onExit?.(code ?? 1);
-                    close.fire(code ?? 1);
-                });
+                child.on('close', code => end(code ?? 1));
             },
             close: () => {
                 if (child && child.exitCode === null)

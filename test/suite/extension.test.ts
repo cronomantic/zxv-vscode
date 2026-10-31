@@ -135,6 +135,9 @@ function suite(): void {
 
     describe('compilar', () => {
         it('ZX Basic: zxbc --arch=zxv saca stardust.zxv', async function () {
+            /* La primera vez, Python compila zxbc entero (con la copia por
+             * /mnt de WSL, más de dos minutos). */
+            this.timeout(300000);
             const out = file('examples/zxbasic/stardust/stardust.zxv').fsPath;
             fs.rmSync(out, { force: true });
             await open('examples/zxbasic/stardust/stardust.bas');
@@ -301,7 +304,7 @@ function suite(): void {
                 fs.rmSync(path.join(dir, f), { recursive: true, force: true });
             const r = await vscode.commands.executeCommand<Published>('zxv.publishWeb',
                 file('examples/basic/cascade/cascade.bas'), { title: 'Cascade', open: false });
-            assert.ok(r, 'no ha publicado');
+            assert.ok(r, `no ha publicado: ${(await api()).debugError()}`);
             for (const f of ['index.html', 'game.js', 'play.js', 'engine.js', 'zxv-core.js', 'LICENSE.txt'])
                 assert.ok(fs.existsSync(path.join(r.dir, f)), f);
             assert.ok(fs.existsSync(r.zip), 'no está el zip');
@@ -317,7 +320,7 @@ function suite(): void {
                 fs.rmSync(path.join(dir, f), { recursive: true, force: true });
             await open('sdk/examples/hello/hello.c');
             const r = await vscode.commands.executeCommand<Published>('zxv.publishWeb', undefined, { title: 'Hello', open: false });
-            assert.ok(r, 'no ha publicado');
+            assert.ok(r, `no ha publicado: ${(await api()).debugError()}`);
             const cfg = JSON.parse(fs.readFileSync(r.config, 'utf8'));
             assert.strictEqual(cfg.start, '../../build/hello.zxv');
             assert.ok(fs.existsSync(path.join(r.dir, 'index.html')));

@@ -706,8 +706,12 @@ for (const [rel, value] of Object.entries(outputs)) {
     const file = path.join(ROOT, rel);
     const text = JSON.stringify(value, null, 2) + '\n';
     if (o.check) {
+        /* Sin el comentario con la versión de las fuentes: git describe
+         * cambia (-dirty con los finales de línea de otro sistema) aunque el
+         * contenido sea el mismo. */
+        const bare = t => t.replace(/^ {2}"comment": ".*",\n/m, '');
         const old = fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : '';
-        if (old !== text && !rel.endsWith('sources.json')) {
+        if (bare(old) !== bare(text) && !rel.endsWith('sources.json')) {
             console.error(`${rel}: no coincide con lo generado`);
             stale++;
         }

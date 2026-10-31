@@ -6,8 +6,8 @@
 import * as path from 'path';
 import * as vscode from 'vscode';
 import { BasicCheck } from './basicCheck';
-import { TASK_TYPE, ZxvTaskProvider, buildProgram, runInEmulator, stopEmulator, targetDocument } from './build';
-import { lastError, registerDebug } from './debug';
+import { TASK_TYPE, ZxvTaskProvider, buildProgram, lastError, runInEmulator, stopEmulator, targetDocument } from './build';
+import { registerDebug } from './debug';
 import { DialectService } from './dialectService';
 import { registerHovers } from './hover';
 import { registerNewProject } from './newProject';
@@ -63,7 +63,7 @@ export function activate(ctx: vscode.ExtensionContext): ZxvApi {
     return {
         panelStatus: () => EmulatorPanel.current?.status,
         onPanelStatus: f => EmulatorPanel.current?.onStatus(f),
-        debugError: () => lastError,
+        debugError: lastError,
         previewStatus: uri => previewStatus.get(uri.toString()),
     };
 }

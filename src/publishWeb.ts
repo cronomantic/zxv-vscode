@@ -9,7 +9,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
-import { Program, RESOURCE_EXTS, buildProgram, missing, runTask } from './build';
+import { Program, RESOURCE_EXTS, buildProgram, missing, runTask, showError } from './build';
 import { askSdk } from './newProject';
 import { processExecution } from './pty';
 import * as tools from './tools';
@@ -74,7 +74,7 @@ export async function publishWeb(ctx: vscode.ExtensionContext, uri?: vscode.Uri,
     opts: PublishOptions = {}): Promise<Published | undefined> {
     const kit = path.join(ctx.extensionPath, 'media', 'web');
     if (!['index.html', 'play.js', 'play.css', 'engine.js', 'zxv-core.js'].every(f => fs.existsSync(path.join(kit, f)))) {
-        vscode.window.showErrorMessage(vscode.l10n.t(
+        showError(vscode.l10n.t(
             'This build of the extension has no web core (media/web): run «npm run web» before packaging it.'));
         return undefined;
     }
@@ -83,7 +83,7 @@ export async function publishWeb(ctx: vscode.ExtensionContext, uri?: vscode.Uri,
         return undefined;
     const mkweb = path.join(sdk, 'tools', 'mkweb.py');
     if (!fs.existsSync(mkweb)) {
-        vscode.window.showErrorMessage(vscode.l10n.t('{0} does not exist: this SDK is older than mkweb.py.', mkweb));
+        showError(vscode.l10n.t('{0} does not exist: this SDK is older than mkweb.py.', mkweb));
         return undefined;
     }
     const python = tools.python(uri);
@@ -108,7 +108,7 @@ export async function publishWeb(ctx: vscode.ExtensionContext, uri?: vscode.Uri,
         return t;
     });
     if (code !== 0 || !fs.existsSync(path.join(out, 'index.html'))) {
-        vscode.window.showErrorMessage(vscode.l10n.t('mkweb.py failed: look at the terminal.'));
+        showError(vscode.l10n.t('mkweb.py failed: look at the terminal.'));
         return undefined;
     }
     const done: Published = { dir: out, zip, config };

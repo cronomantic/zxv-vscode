@@ -179,24 +179,40 @@ export interface Program {
 
 /* --- Ejecutar las tareas ------------------------------------------------------ */
 
+/* ¿Son la misma tarea para VS Code (el mismo nombre y la misma definición)? */
+function sameTask(a: vscode.Task, b: vscode.Task): boolean {
+    return a.name === b.name && JSON.stringify(a.definition) === JSON.stringify(b.definition);
+}
+
 /* Lanza la tarea que hace make (con el aviso del final) y espera a que acabe:
- * el código del proceso, o undefined si no llegó a acabar (se paró). */
+ * el código del proceso, o undefined si no llegó a acabar (se paró).
+ *
+ * No acaba con el proceso sino cuando VS Code da la tarea por terminada: si
+ * se lanza otra mientras desmonta la anterior, puede que no empiece nunca
+ * (pasa en Linux). Por si ese final no llega, vale también el del proceso
+ * pasado un rato. Y si VS Code aún tiene por activa una tarea idéntica,
+ * executeTask devuelve esa en vez de lanzar otra: primero se espera a que no
+ * quede ninguna. El final se reconoce por nombre y definición, porque el
+ * objeto de la ejecución del evento no siempre es el que devolvió
+ * executeTask. */
 export async function runTask(make: (onExit: OnExit) => vscode.Task | undefined): Promise<number | undefined> {
     let code: number | undefined;
     let done: (c: number | undefined) => void = () => undefined;
     const finished = new Promise<number | undefined>(r => { done = r; });
     const task = make(c => {
         code = c;
-        done(c);
+        setTimeout(() => done(c), 3000);
     });
     if (!task)
         return undefined;
-    const exec = await vscode.tasks.executeTask(task);
+    for (let i = 0; i < 100 && vscode.tasks.taskExecutions.some(e => sameTask(e.task, task)); i++)
+        await new Promise(r => setTimeout(r, 50));
     const sub = vscode.tasks.onDidEndTask(e => {
-        if (e.execution === exec)
+        if (sameTask(e.execution.task, task))
             setTimeout(() => done(code), 100);
     });
     try {
+        await vscode.tasks.executeTask(task);
         return await finished;
     } finally {
         sub.dispose();
@@ -244,14 +260,14 @@ export async function buildProgram(uri?: vscode.Uri): Promise<Program | undefine
         const code = await runTask(onExit => zxbcTask(t.uri, undefined, onExit));
         const out = zxbcOutput(t.uri.fsPath);
         if (code !== 0 || !fs.existsSync(out)) {
-            vscode.window.showErrorMessage(vscode.l10n.t('zxbc failed: look at the Problems panel and the terminal.'));
+            showError(vscode.l10n.t('zxbc failed: look at the Problems panel and the terminal.'));
             return undefined;
         }
         return { file: out };
     }
     case 'c': {
         if (!findMakeDir(t.uri)) {
-            vscode.window.showErrorMessage(vscode.l10n.t('There is no Makefile in the folder of {0} or above it.', path.basename(t.uri.fsPath)));
+            showError(vscode.l10n.t('There is no Makefile in the folder of {0} or above it.', path.basename(t.uri.fsPath)));
             return undefined;
         }
         if (!tools.exists(tools.make(t.uri))) {
@@ -260,12 +276,12 @@ export async function buildProgram(uri?: vscode.Uri): Promise<Program | undefine
         }
         const code = await runTask(onExit => makeTask(t.uri, undefined, onExit));
         if (code !== 0) {
-            vscode.window.showErrorMessage(vscode.l10n.t('make failed: look at the Problems panel and the terminal.'));
+            showError(vscode.l10n.t('make failed: look at the Problems panel and the terminal.'));
             return undefined;
         }
         const prog = cProgram(t.uri);
         if (!prog || !fs.existsSync(prog)) {
-            vscode.window.showErrorMessage(vscode.l10n.t('make worked, but I cannot find the .zxv: set it in zxv.program.'));
+            showError(vscode.l10n.t('make worked, but I cannot find the .zxv: set it in zxv.program.'));
             return undefined;
         }
         return { file: prog, sources: path.dirname(t.uri.fsPath) };
@@ -278,7 +294,7 @@ export async function buildProgram(uri?: vscode.Uri): Promise<Program | undefine
 
 export function missing(tool: string, setting: string): void {
     const open = vscode.l10n.t('Open the setting');
-    vscode.window.showErrorMessage(vscode.l10n.t('I cannot find {0}: set {1} or put it on the PATH.', tool, setting), open)
+    showError(vscode.l10n.t('I cannot find {0}: set {1} or put it on the PATH.', tool, setting), open)
         .then(a => {
             if (a === open)
                 vscode.commands.executeCommand('workbench.action.openSettings', setting);
@@ -332,6 +348,16 @@ export function outputChannel(): vscode.OutputChannel {
     return output;
 }
 
+/* Un error: se enseña y se apunta en el canal ZX-V; el último queda para las
+ * pruebas (lastError). */
+let last: string | undefined;
+export function lastError(): string | undefined { return last; }
+export function showError(msg: string, ...items: string[]): Thenable<string | undefined> {
+    last = msg;
+    outputChannel().appendLine(msg);
+    return vscode.window.showErrorMessage(msg, ...items);
+}
+
 export function runInEmulator(p: Program, scope: vscode.Uri): void {
     const exe = tools.emulator('zxv-sdl', scope);
     if (!tools.exists(exe)) {
@@ -350,7 +376,7 @@ export function runInEmulator(p: Program, scope: vscode.Uri): void {
     child.stderr?.on('data', d => out.append(d.toString()));
     child.on('error', e => {
         out.appendLine(String(e));
-        vscode.window.showErrorMessage(vscode.l10n.t('zxv-sdl did not start: {0}', e.message));
+        showError(vscode.l10n.t('zxv-sdl did not start: {0}', e.message));
     });
     child.on('exit', code => {
         if (code)

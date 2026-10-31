@@ -15,7 +15,7 @@ import * as cp from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
-import { Program, TASK_TYPE, ZxvTaskDefinition, copyResources, emulatorArgs, findMakeDir, makeTask, outputChannel, runTask } from './build';
+import { Program, TASK_TYPE, ZxvTaskDefinition, copyResources, emulatorArgs, findMakeDir, makeTask, outputChannel, runTask, showError } from './build';
 import * as tools from './tools';
 
 const CPPTOOLS = 'ms-vscode.cpptools';
@@ -43,13 +43,7 @@ interface Marker {
 
 const emulators = new Map<string, cp.ChildProcess>();
 
-/* El último error (también para las pruebas) y su aviso. */
-export let lastError: string | undefined;
-function fail(msg: string, ...items: string[]): Thenable<string | undefined> {
-    lastError = msg;
-    outputChannel().appendLine(msg);
-    return vscode.window.showErrorMessage(msg, ...items);
-}
+const fail = showError;
 const started = new Set<string>();
 
 function cpptoolsMissing(): boolean {
