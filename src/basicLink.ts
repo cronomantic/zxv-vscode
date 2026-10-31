@@ -69,7 +69,7 @@ class EmulatorLink implements BoxLink {
     }
 
     async connect(port: number): Promise<boolean> {
-        const end = Date.now() + 15000;
+        const end = Date.now() + 30000;          // en frío, zxv-sdl tarda
         while (Date.now() < end && !this.closed) {
             const s = await new Promise<net.Socket | undefined>(resolve => {
                 const c = net.connect(port, '127.0.0.1', () => resolve(c));
