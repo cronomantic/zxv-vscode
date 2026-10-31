@@ -189,9 +189,14 @@ otro lenguaje:
   "request": "launch",
   "name": "ZX-V: BASIC",
   "program": "${file}",
-  "stopOnEntry": false
+  "stopOnEntry": false,
+  "target": "panel"
 }
 ```
+
+Con `"target": "emulator"` se ejecuta en `zxv-sdl` (`--basic-debug`, las
+herramientas de `zxv.toolsPath`), en su ventana, que se cierra al acabar la
+sesión.
 
 - **Puntos de ruptura** en una línea, o en una sentencia de la línea
   (Mayús+F9 o el punto en línea), con una condición (`x>10`), un número de
@@ -214,8 +219,9 @@ Mientras está parado, la máquina sigue viva (la pantalla, el teclado), con
 la música en pausa y el sonido callado; vuelve al seguir. Acabar la sesión
 pulsa BREAK.
 
-Necesita un núcleo web cuya ROM tenga el depurador del BASIC (ZX-V 0.7 o
-posterior, spec de ZX-V §8.2): con uno anterior, lo dice y no empieza. La
+Necesita una ROM con el depurador del BASIC (ZX-V 0.7 o posterior, spec de
+ZX-V §8.2): la del núcleo web de la extensión para el panel, la de `zxv-sdl`
+para el emulador. Con una anterior, lo dice y no empieza. La
 extensión no interpreta el BASIC: habla con la ROM por un buzón en la
 memoria, y la ROM evalúa, lista las variables y recorre la pila.
 

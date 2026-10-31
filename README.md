@@ -185,9 +185,14 @@ language:
   "request": "launch",
   "name": "ZX-V: BASIC",
   "program": "${file}",
-  "stopOnEntry": false
+  "stopOnEntry": false,
+  "target": "panel"
 }
 ```
+
+With `"target": "emulator"` it runs in `zxv-sdl` instead (`--basic-debug`,
+the tools of `zxv.toolsPath`), in its own window, which closes when the
+session ends.
 
 - **Breakpoints** on a line, or on one statement of the line (Shift+F9 or
   the inline breakpoint), with a condition (`x>10`), a hit count or a
@@ -208,8 +213,9 @@ While it is stopped, the machine keeps running (the screen, the keyboard),
 with the music paused and the sound off; it comes back when you continue.
 Stopping the session presses BREAK.
 
-It needs a web core whose ROM has the BASIC debugger (ZX-V 0.7 or later,
-ZX-V spec §8.2): with an older one, it says so and does not start. The
+It needs a ROM with the BASIC debugger (ZX-V 0.7 or later, ZX-V spec §8.2):
+in the web core of the extension for the panel, in `zxv-sdl` for the
+emulator. With an older one, it says so and does not start. The
 extension does not interpret the BASIC: it talks to the ROM through a
 mailbox in memory, and the ROM evaluates, lists the variables and walks the
 stack.

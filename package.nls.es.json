@@ -45,5 +45,9 @@
   "preview.sound": "Música y efectos de ZX-V",
   "debug.basic.program": "El listado del BASIC de la ROM (.bas) que se depura en el panel del emulador.",
   "debug.basic.stopOnEntry": "Parar en la primera sentencia.",
-  "debug.basic.snippet": "Depura un listado del BASIC de la ROM en el panel del emulador"
+  "debug.basic.snippet": "Depura un listado del BASIC de la ROM en el panel del emulador",
+  "debug.basic.target": "Dónde se ejecuta: el panel del emulador o zxv-sdl.",
+  "debug.basic.target.panel": "El panel del emulador dentro del editor (el núcleo web de la extensión)",
+  "debug.basic.target.emulator": "zxv-sdl con --basic-debug (las herramientas de ZX-V de zxv.toolsPath)",
+  "debug.basic.snippet.emulator": "Depura un listado del BASIC de la ROM en zxv-sdl"
 }

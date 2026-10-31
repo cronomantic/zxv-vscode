@@ -2,8 +2,9 @@
  * basicDebug.ts - Depurar un listado del BASIC de la ROM (tipo zxv-basic):
  * un adaptador de depuración (DAP) dentro de la extensión que habla con el
  * depurador de la ROM a través del buzón (ZX-V spec §8.2), en el panel del
- * emulador. El panel no sabe BASIC: lleva las escrituras y avisa cuando el
- * buzón cambia; la ROM evalúa, lista las variables y la pila.
+ * emulador o en zxv-sdl (--basic-debug), por basicLink.ts. Ninguno de los
+ * dos sabe BASIC: llevan las escrituras y avisan cuando el buzón cambia; la
+ * ROM evalúa, lista las variables y la pila.
  *
  * Aquí: los números de línea del BASIC a líneas del fichero y cada sentencia
  * a sus columnas (basicSource.ts), y lo que la ROM no hace: las condiciones
@@ -13,7 +14,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
 import * as S from './basicSource';
-import { BoxWrites, DebugEvent, EmulatorPanel } from './panel';
+import { BoxLink, emulatorLink, panelLink } from './basicLink';
+import { BoxWrites, DebugEvent } from './panel';
 
 /* Lo que se usa del protocolo (sin la dependencia @vscode/debugprotocol). */
 interface Request {
@@ -45,7 +47,8 @@ class BasicSession implements vscode.DebugAdapter {
     private readonly emitter = new vscode.EventEmitter<vscode.DebugProtocolMessage>();
     readonly onDidSendMessage = this.emitter.event;
     private seq = 1;
-    private panel: EmulatorPanel | undefined;
+    private link: BoxLink | undefined;
+    private target: 'panel' | 'emulator' = 'panel';
     private sub: vscode.Disposable | undefined;
     private file = '';
     private listing = S.parseListing('');
@@ -143,7 +146,7 @@ class BasicSession implements vscode.DebugAdapter {
             const f: string[] = a.filters ?? [];
             this.ctrl = S.CTRL_ON | (f.includes('all') ? S.CTRL_ERRORS : f.includes('uncaught') ? S.CTRL_ERRORS | S.CTRL_UNCAUGHT : 0);
             if (this.live)
-                await this.panel?.debugRequest([[S.BOX.CTRL, 4, this.ctrl]]);
+                await this.link?.request([[S.BOX.CTRL, 4, this.ctrl]]);
             this.respond(r);
             return;
         }
@@ -187,7 +190,7 @@ class BasicSession implements vscode.DebugAdapter {
             return;
         case 'pause':
             if (this.live)
-                await this.panel?.debugRequest([[S.BOX.PAUSE, 4, ++this.pauses]]);
+                await this.link?.request([[S.BOX.PAUSE, 4, ++this.pauses]]);
             this.respond(r);
             return;
         case 'disconnect':
@@ -200,7 +203,7 @@ class BasicSession implements vscode.DebugAdapter {
 
     /* --- Empezar y acabar --------------------------------------------------------- */
 
-    private async launch(r: Request, a: { program?: string; stopOnEntry?: boolean }): Promise<void> {
+    private async launch(r: Request, a: { program?: string; stopOnEntry?: boolean; target?: string }): Promise<void> {
         const file = a.program ? path.resolve(a.program) : '';
         if (!file || !fs.existsSync(file)) {
             this.fail(r, vscode.l10n.t('{0} does not exist.', file || 'program'));
@@ -212,34 +215,44 @@ class BasicSession implements vscode.DebugAdapter {
         this.file = file;
         this.listing = S.parseListing(fs.readFileSync(file, 'latin1'));
         this.entry = !!a.stopOnEntry;
+        this.target = a.target === 'emulator' ? 'emulator' : 'panel';
         /* Los puntos y los filtros de errores llegan antes de configurationDone. */
         await Promise.race([this.configured, new Promise(res => setTimeout(res, 3000))]);
-        /* El listado a un lado y la máquina al otro: si no, al parar, VS Code
-         * abriría el listado en el grupo del panel. */
-        if (!vscode.window.visibleTextEditors.some(e => same(e.document.uri.fsPath, file)))
-            await vscode.window.showTextDocument(vscode.Uri.file(file), { preview: false, viewColumn: vscode.ViewColumn.One });
-        const panel = EmulatorPanel.show(this.ctx);
-        if (!panel) {
-            this.fail(r, vscode.l10n.t('This build of the extension has no web core (media/web): run «npm run web» before packaging it.'));
-            return;
-        }
-        this.panel = panel;
-        this.sub = panel.onDebug(e => this.onDebug(e));
         if (this.entry)
             this.pauses = 1;
-        panel.load({ file }, [
+        /* Lo que se escribe en el buzón antes de cargar el listado. */
+        const setup: BoxWrites = [
             [S.BOX.CTRL, 4, this.ctrl],
             [S.BOX.PAUSE, 4, this.pauses],
             ...S.bpWrites(this.programBps()),
             [S.BOX.BPGEN, 4, this.bpGen],
-        ]);
+        ];
+        if (this.target === 'emulator') {
+            const link = await emulatorLink(file, setup);
+            if (typeof link === 'string') {
+                this.fail(r, link);
+                return;
+            }
+            this.link = link;
+        } else {
+            /* El listado a un lado y la máquina al otro: si no, al parar, VS
+             * Code abriría el listado en el grupo del panel. */
+            if (!vscode.window.visibleTextEditors.some(e => same(e.document.uri.fsPath, file)))
+                await vscode.window.showTextDocument(vscode.Uri.file(file), { preview: false, viewColumn: vscode.ViewColumn.One });
+            this.link = panelLink(this.ctx, file, setup);
+            if (!this.link) {
+                this.fail(r, vscode.l10n.t('This build of the extension has no web core (media/web): run «npm run web» before packaging it.'));
+                return;
+            }
+        }
+        this.sub = this.link.onEvent(e => this.onDebug(e));
         this.respond(r);
     }
 
     /* Deja de depurar; con brk, también para el programa (BREAK). */
     private stop(brk: boolean): void {
-        if (this.panel && !this.terminated)
-            this.panel.debugStop([[S.BOX.CTRL, 4, 0]], brk && this.live);
+        if (this.link && !this.terminated)
+            this.link.stop([[S.BOX.CTRL, 4, 0]], brk && this.live);
         this.terminate();
     }
 
@@ -254,7 +267,7 @@ class BasicSession implements vscode.DebugAdapter {
         this.event('terminated');
     }
 
-    /* --- Lo que avisa el panel ----------------------------------------------------- */
+    /* --- Lo que avisa el panel o el emulador ---------------------------------------- */
 
     private onDebug(e: DebugEvent): void {
         if ('event' in e) {
@@ -263,14 +276,18 @@ class BasicSession implements vscode.DebugAdapter {
                 this.live = true;
                 return;
             case 'unsupported':
-                vscode.window.showErrorMessage(vscode.l10n.t(
-                    'The web core of this extension has no BASIC debugger: it comes with ZX-V 0.7 or later.'));
+                vscode.window.showErrorMessage(this.target === 'emulator'
+                    ? vscode.l10n.t('The ROM of this zxv-sdl has no BASIC debugger: it comes with ZX-V 0.7 or later.')
+                    : vscode.l10n.t('The web core of this extension has no BASIC debugger: it comes with ZX-V 0.7 or later.'));
+                this.link?.stop([], false);
                 this.terminate();
                 return;
             case 'reset':
             case 'closed':
-                this.output(vscode.l10n.t('The machine has started again: the debugging ends.'));
-                this.panel?.debugStop([], false);
+                this.output(e.event === 'closed' && this.target === 'emulator'
+                    ? vscode.l10n.t('The emulator has closed: the debugging ends.')
+                    : vscode.l10n.t('The machine has started again: the debugging ends.'));
+                this.link?.stop([], false);
                 this.terminate();
                 return;
             }
@@ -290,7 +307,7 @@ class BasicSession implements vscode.DebugAdapter {
         if (S.u32(b, S.BOX.ENDS) !== this.ends) {
             this.ends = S.u32(b, S.BOX.ENDS);
             this.output(S.boxText(b).trim());
-            this.panel?.debugStop([[S.BOX.CTRL, 4, 0]], false);
+            this.link?.stop([[S.BOX.CTRL, 4, 0]], false);
             this.terminate();
             return;
         }
@@ -377,11 +394,11 @@ class BasicSession implements vscode.DebugAdapter {
     }
 
     private async commandNow(op: number, arg: number, text?: string): Promise<Uint8Array | undefined> {
-        if (!this.panel || this.terminated)
+        if (!this.link || this.terminated)
             return undefined;
         const seq = ++this.cmdSeq;
         const done = new Promise<Uint8Array | undefined>(resolve => this.waiters.push({ seq, resolve }));
-        const now = await this.panel.debugRequest([[S.BOX.CMD, 4, (op | arg << 8) >>> 0], [S.BOX.SEQ, 4, seq]], text);
+        const now = await this.link.request([[S.BOX.CMD, 4, (op | arg << 8) >>> 0], [S.BOX.SEQ, 4, seq]], text);
         if (!now) {
             this.waiters = this.waiters.filter(w => w.seq !== seq);
             return undefined;
@@ -394,13 +411,13 @@ class BasicSession implements vscode.DebugAdapter {
     }
 
     private async resumeNow(op: number): Promise<void> {
-        if (!this.panel || this.terminated)
+        if (!this.link || this.terminated)
             return;
         const seq = ++this.cmdSeq;
         this.resumeSeq = seq;
         this.stopReported = false;
         this.handles.clear();
-        await this.panel.debugRequest([[S.BOX.CMD, 4, op], [S.BOX.SEQ, 4, seq]]);
+        await this.link.request([[S.BOX.CMD, 4, op], [S.BOX.SEQ, 4, seq]]);
     }
 
     /* Una orden por páginas: todas las líneas de la respuesta. */
@@ -471,7 +488,7 @@ class BasicSession implements vscode.DebugAdapter {
         });
         this.bps.set(file, list);
         if (this.live && this.file && same(file, this.file))
-            await this.panel?.debugRequest([...S.bpWrites(list), [S.BOX.BPGEN, 4, ++this.bpGen]]);
+            await this.link?.request([...S.bpWrites(list), [S.BOX.BPGEN, 4, ++this.bpGen]]);
         this.respond(r, { breakpoints: result });
     }
 

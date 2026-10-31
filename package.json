@@ -502,6 +502,19 @@
                 "type": "boolean",
                 "description": "%debug.basic.stopOnEntry%",
                 "default": false
+              },
+              "target": {
+                "type": "string",
+                "enum": [
+                  "panel",
+                  "emulator"
+                ],
+                "enumDescriptions": [
+                  "%debug.basic.target.panel%",
+                  "%debug.basic.target.emulator%"
+                ],
+                "description": "%debug.basic.target%",
+                "default": "panel"
               }
             }
           }
@@ -523,6 +536,17 @@
               "request": "launch",
               "name": "ZX-V: BASIC",
               "program": "^\"\\${file}\""
+            }
+          },
+          {
+            "label": "ZX-V: BASIC (zxv-sdl)",
+            "description": "%debug.basic.snippet.emulator%",
+            "body": {
+              "type": "zxv-basic",
+              "request": "launch",
+              "name": "ZX-V: BASIC (zxv-sdl)",
+              "program": "^\"\\${file}\"",
+              "target": "emulator"
             }
           }
         ]

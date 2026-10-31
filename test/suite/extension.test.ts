@@ -1,6 +1,7 @@
 /* Las pruebas dentro de VS Code: los lenguajes, compilar con las
  * herramientas de verdad, el panel del emulador y depurar con GDB. */
 import * as assert from 'assert';
+import * as cp from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
@@ -494,6 +495,64 @@ function suite(): void {
                 assert.strictEqual(stops[3].reason, 'exception');
                 assert.match(stops[3].description ?? '', /^6 /);
                 assert.strictEqual((await frames())[0].name, '40:1');
+
+                await s.customRequest('continue', { threadId: 1 });
+                await until('el final del programa', () => ended || undefined, 30000);
+            } finally {
+                tracker.dispose();
+                endSub.dispose();
+            }
+        });
+    });
+
+    describe('depurar el BASIC de la ROM en zxv-sdl', function () {
+        const SRC = ['10 LET a=1', '20 PROC doble(a)', '30 LET c=1/0', '200 DEF PROC doble(x)', '210 LET a=x*2', '220 END PROC'];
+        before(function () {
+            /* Un zxv-sdl con --basic-debug (ZX-V 0.7 o posterior). */
+            const exe = path.join(String(vscode.workspace.getConfiguration('zxv').get('toolsPath') ?? ''),
+                process.platform === 'win32' ? 'zxv-sdl.exe' : 'zxv-sdl');
+            const help = fs.existsSync(exe) ? cp.spawnSync(exe, ['--help'], { encoding: 'utf8' }) : undefined;
+            if (!help || !`${help.stdout}${help.stderr}`.includes('--basic-debug'))
+                this.skip();
+        });
+        afterEach(async () => {
+            await vscode.debug.stopDebugging();
+            vscode.debug.removeBreakpoints(vscode.debug.breakpoints);
+        });
+
+        it('un punto en un PROC, evaluar, un error y el final', async () => {
+            const uri = file('dbg/emulador.bas');
+            fs.mkdirSync(path.dirname(uri.fsPath), { recursive: true });
+            fs.writeFileSync(uri.fsPath, SRC.join('\n') + '\n');
+            vscode.debug.addBreakpoints([new vscode.SourceBreakpoint(new vscode.Location(uri, new vscode.Position(4, 0)))]);
+            const stops: { reason: string; description?: string }[] = [];
+            const tracker = vscode.debug.registerDebugAdapterTrackerFactory('zxv-basic', {
+                createDebugAdapterTracker: () => ({
+                    onDidSendMessage: (m: { type: string; event?: string; body?: { reason: string; description?: string } }) => {
+                        if (m.type === 'event' && m.event === 'stopped')
+                            stops.push(m.body!);
+                    },
+                }),
+            });
+            let ended = false;
+            const endSub = vscode.debug.onDidTerminateDebugSession(s => { if (s.type === 'zxv-basic') ended = true; });
+            try {
+                assert.ok(await vscode.debug.startDebugging(vscode.workspace.workspaceFolders![0],
+                    { type: 'zxv-basic', request: 'launch', name: 'BASIC en zxv-sdl', program: uri.fsPath, target: 'emulator' }),
+                    `no empieza: ${(await api()).debugError()}`);
+                const s = vscode.debug.activeDebugSession!;
+                const stopped = (n: number) => until(`la parada ${n} (${JSON.stringify(stops)})`, () => stops.length >= n || undefined, 60000);
+                const top = async () => (await s.customRequest('stackTrace', { threadId: 1 })).stackFrames[0].name as string;
+
+                await stopped(1);
+                assert.strictEqual(stops[0].reason, 'breakpoint');
+                assert.strictEqual(await top(), 'PROC doble · 210:1');
+                assert.strictEqual((await s.customRequest('evaluate', { expression: 'x+a', context: 'repl' })).result, '2');
+
+                await s.customRequest('continue', { threadId: 1 });
+                await stopped(2);
+                assert.strictEqual(stops[1].reason, 'exception');
+                assert.match(stops[1].description ?? '', /^6 /);
 
                 await s.customRequest('continue', { threadId: 1 });
                 await until('el final del programa', () => ended || undefined, 30000);
