@@ -6,6 +6,8 @@ Programa para [ZX-V](https://cronomantic.github.io/ZX-V/) desde VS Code: los
 dos BASIC con colores y snippets, compilar y ejecutar con las herramientas de
 ZX-V, el emulador dentro del editor y depurar programas en C con GDB.
 
+![Un programa del BASIC de la ROM en marcha en el panel del emulador, junto a su código](images/screenshots/emulator.es.png)
+
 La extensión no lleva las herramientas: usa las que tengas instaladas (una
 [release de ZX-V](https://github.com/cronomantic/ZX-V/releases), el SDK, el
 compilador de RISC-V, `zxbc`). Solo trae dentro el núcleo web del emulador,
@@ -58,6 +60,8 @@ entrada entera, en español o en inglés según el idioma de VS Code. Lo saca
 una orden de `zxv.bas` sale su firma y su descripción (en inglés, la de la
 librería).
 
+![La ayuda al pasar el ratón sobre SPRITE: sintaxis, descripción y enlace a la referencia](images/screenshots/hover.es.png)
+
 **Los errores mientras escribes.** En el BASIC de la ROM, cada línea se
 comprueba como la lee `LOAD` (el mismo tokenizador y la misma comprobación
 que el editor de la máquina al pulsar Intro), con el propio BASIC de la ROM
@@ -66,6 +70,8 @@ ZX-V 0.6.2 (es la orden `zxv-check` de las releases). Marca el error en su
 sitio con el informe de la máquina (`C Sintaxis incorrecta`...) y avisa de
 los números de línea repetidos. Solo la sintaxis: los errores que salen al
 ejecutar los da `RUN`. Se apaga con `zxv.basicCheck`.
+
+![Un error de sintaxis marcado en su sitio y en Problemas, con el informe de la máquina](images/screenshots/errors.es.png)
 
 > **Con otras extensiones de ZX Basic.** El lenguaje de ZX Basic de esta
 > extensión es `zxv-zxbasic`, aparte del `zxbasic` de *ZX-Basic* (jsjlogin)
@@ -139,6 +145,8 @@ Al abrir un fichero de un juego se ve o se oye, en vez de sus bytes:
 | `.pt3`, `.pt2`, `.stc`, `.asc`, `.psg` | Un reproductor: suena en la máquina de verdad (el núcleo web) con `MUSIC PLAY`, `MUSIC PAUSE` y `MUSIC STOP` |
 | `.afb`, `.afx` | Un botón por efecto del banco (`SFX n`) |
 
+![La vista previa de un .gfx: sprites, tiles y mapas](images/screenshots/gfx.es.png)
+
 Se vuelven a cargar al guardar el fichero (desde `zxv-gfx` o `zxv-tracker`,
 por ejemplo). Para ver los bytes, **Reabrir el editor con...** > Editor de
 texto.
@@ -162,6 +170,8 @@ Compila con `make`, lanza `zxv-sdl` con `--gdb` y el `.zxv` que hay junto al
 `.elf`, y conecta GDB (`cppdbg` con `miDebuggerServerAddress`). Al parar, se
 cierra el emulador. Para ver las variables paso a paso, compila con `-Og`
 (`EXTRA_CFLAGS=-Og` en `zxv.makeArgs`).
+
+![Parado en un punto de ruptura de un programa en C, con sus variables locales y la pila de llamadas](images/screenshots/debug.es.png)
 
 Si prefieres verlo todo, **ZX-V: Añadir una configuración para depurar con
 GDB** escribe una configuración `cppdbg` normal en `launch.json` y su
@@ -209,6 +219,13 @@ con `emcmake`); sin él, la extensión no marca los errores mientras escribes.
 Las pruebas dentro de VS Code (`npm run test:vscode`) compilan y ejecutan los
 ejemplos de ZX-V con las herramientas de verdad; ver `test/runTests.ts` para
 las variables (`ZXV_TOOLS`, `ZXBC`, `PYTHON`...).
+
+La misma ejecución saca las capturas de este README (`images/screenshots`),
+en Windows: con `ZXV_SCREENSHOTS=images/screenshots` y `ZXV_SCREENSHOTS_LANG`
+(`en` o `es`) deja VS Code en cada escena y captura su ventana. En
+`ZXV_TEST_EXTENSIONS_DIR` tiene que estar C/C++ (para la de GDB) y, para `es`,
+el paquete de idioma español; la primera vez en `es` salen en inglés, porque
+VS Code apunta el paquete de idioma tarde para ese arranque.
 
 ## Publicarla
 
