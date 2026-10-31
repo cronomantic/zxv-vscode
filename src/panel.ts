@@ -4,6 +4,10 @@
  * release, el wasm dentro). Se le manda el programa y los ficheros de su
  * carpeta, que la página escribe en su tarjeta y carga con LOAD; al
  * recompilar (o guardar un .bas de la ROM), se vuelve a cargar.
+ *
+ * Para depurar un listado (basicDebug.ts), el panel lleva además el buzón
+ * del depurador del BASIC: lo que se escribe antes de cargar, las órdenes y
+ * los avisos de la página cuando el buzón cambia.
  */
 import * as fs from 'fs';
 import * as path from 'path';
@@ -49,6 +53,14 @@ export function cardFiles(p: Program): CardFile[] {
     return out;
 }
 
+/* Escrituras en el buzón: [desplazamiento, bytes, valor]. */
+export type BoxWrites = [number, number, number][];
+
+/* Lo que avisa la página del depurador: el buzón cuando cambia, o un suceso
+ * (armed: listo y cargando; unsupported: el núcleo o la ROM no tienen
+ * depurador; reset: la máquina ha vuelto a arrancar; closed: el panel). */
+export type DebugEvent = { box: Uint8Array } | { event: 'armed' | 'unsupported' | 'reset' | 'closed' };
+
 export interface PanelStatus {
     state: string;      // starting, basic, loading, running, ended, error
     program?: string;
@@ -68,6 +80,11 @@ export class EmulatorPanel implements vscode.Disposable {
     private readonly subs: vscode.Disposable[] = [];
     status: PanelStatus = { state: 'starting' };
     private readonly statusListeners = new Set<(s: PanelStatus) => void>();
+    private debug: BoxWrites | undefined;
+    private readonly debugListeners = new Set<(e: DebugEvent) => void>();
+    private readonly requests = new Map<number, (box: Uint8Array | undefined) => void>();
+    private nextRequest = 1;
+    private disposed = false;
 
     static show(ctx: vscode.ExtensionContext, program?: Program): EmulatorPanel | undefined {
         const web = vscode.Uri.joinPath(ctx.extensionUri, 'media', 'web');
@@ -103,8 +120,14 @@ export class EmulatorPanel implements vscode.Disposable {
     }
 
     dispose(): void {
+        if (this.disposed)
+            return;
+        this.disposed = true;
         if (EmulatorPanel.current === this)
             EmulatorPanel.current = undefined;
+        this.debugListeners.forEach(f => f({ event: 'closed' }));
+        this.requests.forEach(r => r(undefined));
+        this.requests.clear();
         clearTimeout(this.reloadTimer);
         this.watchers.forEach(w => w.dispose());
         this.subs.forEach(s => s.dispose());
@@ -116,9 +139,35 @@ export class EmulatorPanel implements vscode.Disposable {
         return new vscode.Disposable(() => this.statusListeners.delete(f));
     }
 
-    /* Carga un programa (y vigila sus ficheros para volver a cargarlo). */
-    load(p: Program): void {
+    onDebug(f: (e: DebugEvent) => void): vscode.Disposable {
+        this.debugListeners.add(f);
+        return new vscode.Disposable(() => this.debugListeners.delete(f));
+    }
+
+    /* Escribe en el buzón (el texto, antes) y devuelve cómo queda; undefined
+     * si la página no tiene depurador o se cierra. */
+    debugRequest(writes: BoxWrites, text?: string): Promise<Uint8Array | undefined> {
+        const id = this.nextRequest++;
+        return new Promise(resolve => {
+            if (this.disposed)
+                return resolve(undefined);
+            this.requests.set(id, resolve);
+            this.panel.webview.postMessage({ type: 'dbg-req', id, writes, text });
+        });
+    }
+
+    /* Deja de depurar: las últimas escrituras (desconectar) y, con brk, BREAK. */
+    debugStop(writes: BoxWrites, brk: boolean): void {
+        this.debug = undefined;
+        if (!this.disposed)
+            this.panel.webview.postMessage({ type: 'dbg-stop', writes, break: brk });
+    }
+
+    /* Carga un programa (y vigila sus ficheros para volver a cargarlo). Con
+     * debug, lo que se escribe en el buzón antes de cargarlo: se depura. */
+    load(p: Program, debug?: BoxWrites): void {
         this.program = p;
+        this.debug = debug;
         this.watch(p);
         this.panel.title = `ZX-V: ${path.basename(p.file)}`;
         if (this.ready)
@@ -142,6 +191,7 @@ export class EmulatorPanel implements vscode.Disposable {
             program: path.basename(p.file),
             command: loadCommand(p.file) + '\n',
             files,
+            debug: this.debug && { writes: this.debug },
         });
     }
 
@@ -186,6 +236,20 @@ export class EmulatorPanel implements vscode.Disposable {
         case 'error':
             outputChannel().appendLine(`[panel] ${m.text}`);
             break;
+        case 'dbg':
+            this.debugListeners.forEach(f => f({ event: m.event as 'armed' }));
+            break;
+        case 'dbg-box': {
+            const box = Uint8Array.from(m.box as number[]);
+            this.debugListeners.forEach(f => f({ box }));
+            break;
+        }
+        case 'dbg-res': {
+            const r = this.requests.get(m.id as number);
+            this.requests.delete(m.id as number);
+            r?.(m.box ? Uint8Array.from(m.box as number[]) : undefined);
+            break;
+        }
         }
     }
 

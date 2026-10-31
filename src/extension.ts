@@ -6,6 +6,7 @@
 import * as path from 'path';
 import * as vscode from 'vscode';
 import { BasicCheck } from './basicCheck';
+import { registerBasicDebug } from './basicDebug';
 import { TASK_TYPE, ZxvTaskProvider, buildProgram, lastError, runInEmulator, stopEmulator, targetDocument } from './build';
 import { registerDebug } from './debug';
 import { DialectService } from './dialectService';
@@ -35,6 +36,7 @@ export function activate(ctx: vscode.ExtensionContext): ZxvApi {
         ...registerPreviews(ctx),
         vscode.tasks.registerTaskProvider(TASK_TYPE, new ZxvTaskProvider()),
         ...registerDebug(),
+        ...registerBasicDebug(ctx),
 
         vscode.commands.registerCommand('zxv.build', async (uri?: vscode.Uri) => {
             const t = await targetDocument(uri);

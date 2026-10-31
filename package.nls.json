@@ -42,5 +42,8 @@
   "debug.snippet.zxv": "Builds, starts zxv-sdl with --gdb and connects GDB (needs the C/C++ extension)",
   "debug.snippet.cppdbg": "cppdbg connecting to the emulator, started by a preLaunchTask",
   "preview.gfx": "ZX-V graphics",
-  "preview.sound": "ZX-V music and effects"
+  "preview.sound": "ZX-V music and effects",
+  "debug.basic.program": "The ROM BASIC listing (.bas) to debug in the emulator panel.",
+  "debug.basic.stopOnEntry": "Stop at the first statement.",
+  "debug.basic.snippet": "Debugs a ROM BASIC listing in the emulator panel"
 }

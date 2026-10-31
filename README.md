@@ -173,6 +173,47 @@ If you prefer to see everything, **ZX-V: Add a GDB debug configuration**
 writes a plain `cppdbg` configuration to `launch.json` and its
 `preLaunchTask` (the `gdb-server` task) to `tasks.json`.
 
+### Debugging ROM BASIC
+
+With a ROM BASIC listing open, F5 (or the `zxv-basic` type in
+`launch.json`) loads it in the emulator panel and debugs it like any other
+language:
+
+```json
+{
+  "type": "zxv-basic",
+  "request": "launch",
+  "name": "ZX-V: BASIC",
+  "program": "${file}",
+  "stopOnEntry": false
+}
+```
+
+- **Breakpoints** on a line, or on one statement of the line (Shift+F9 or
+  the inline breakpoint), with a condition (`x>10`), a hit count or a
+  message (logpoints, `{expression}` inside).
+- **Pause, continue and step by statements**: each `:`, `THEN` and `ELSE`
+  is a step, and the editor highlights the statement about to run, not the
+  whole line. *Step into* enters a `GO SUB` or a `PROC`, *step over* does
+  not, *step out* runs to the `RETURN` or `END PROC`.
+- **The call stack**: the `GO SUB` and `PROC` in progress.
+- **The variables**: numbers, strings, `FOR` variables (with their limit,
+  step and where their `FOR` is) and arrays, element by element.
+- **Evaluating expressions** on hover, in Watch and in the Debug Console: the
+  ROM evaluates them itself, so `FN`, `PEEK`, `SCREEN$`... work.
+- **Stopping on errors**, before `ON ERROR` or the report: *Errors without
+  ON ERROR* (on by default) or *All errors*, in the Breakpoints view.
+
+While it is stopped, the machine keeps running (the screen, the keyboard),
+with the music paused and the sound off; it comes back when you continue.
+Stopping the session presses BREAK.
+
+It needs a web core whose ROM has the BASIC debugger (ZX-V 0.7 or later,
+ZX-V spec §8.2): with an older one, it says so and does not start. The
+extension does not interpret the BASIC: it talks to the ROM through a
+mailbox in memory, and the ROM evaluates, lists the variables and walks the
+stack.
+
 ## Settings
 
 | Setting | What for |

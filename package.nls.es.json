@@ -42,5 +42,8 @@
   "debug.snippet.zxv": "Compila, lanza zxv-sdl con --gdb y conecta GDB (necesita la extensión C/C++)",
   "debug.snippet.cppdbg": "cppdbg conectado al emulador, que lanza una preLaunchTask",
   "preview.gfx": "Gráficos de ZX-V",
-  "preview.sound": "Música y efectos de ZX-V"
+  "preview.sound": "Música y efectos de ZX-V",
+  "debug.basic.program": "El listado del BASIC de la ROM (.bas) que se depura en el panel del emulador.",
+  "debug.basic.stopOnEntry": "Parar en la primera sentencia.",
+  "debug.basic.snippet": "Depura un listado del BASIC de la ROM en el panel del emulador"
 }

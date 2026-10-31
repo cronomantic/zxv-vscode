@@ -177,6 +177,48 @@ Si prefieres verlo todo, **ZX-V: Añadir una configuración para depurar con
 GDB** escribe una configuración `cppdbg` normal en `launch.json` y su
 `preLaunchTask` (la tarea `gdb-server`) en `tasks.json`.
 
+### Depurar el BASIC de la ROM
+
+Con un listado del BASIC de la ROM abierto, F5 (o el tipo `zxv-basic` en
+`launch.json`) lo carga en el panel del emulador y se depura como cualquier
+otro lenguaje:
+
+```json
+{
+  "type": "zxv-basic",
+  "request": "launch",
+  "name": "ZX-V: BASIC",
+  "program": "${file}",
+  "stopOnEntry": false
+}
+```
+
+- **Puntos de ruptura** en una línea, o en una sentencia de la línea
+  (Mayús+F9 o el punto en línea), con una condición (`x>10`), un número de
+  veces o un mensaje (logpoints, con `{expresión}` dentro).
+- **Parar, seguir y paso a paso por sentencias**: cada `:`, `THEN` y `ELSE`
+  es un paso, y el editor resalta la sentencia que va a ejecutarse, no la
+  línea entera. *Paso a paso* entra en un `GO SUB` o un `PROC`, *paso por
+  encima* no entra, *salir* sigue hasta el `RETURN` o el `END PROC`.
+- **La pila de llamadas**: los `GO SUB` y los `PROC` en curso.
+- **Las variables**: números, cadenas, variables de `FOR` (con su límite, su
+  paso y dónde está su `FOR`) y matrices, elemento a elemento.
+- **Evaluar expresiones** al pasar el ratón, en Inspección y en la consola
+  de depuración: las evalúa la propia ROM, así que valen `FN`, `PEEK`,
+  `SCREEN$`...
+- **Parar en los errores**, antes de `ON ERROR` o del informe: *Errores sin
+  ON ERROR* (de serie) o *Todos los errores*, en la vista de puntos de
+  ruptura.
+
+Mientras está parado, la máquina sigue viva (la pantalla, el teclado), con
+la música en pausa y el sonido callado; vuelve al seguir. Acabar la sesión
+pulsa BREAK.
+
+Necesita un núcleo web cuya ROM tenga el depurador del BASIC (ZX-V 0.7 o
+posterior, spec de ZX-V §8.2): con uno anterior, lo dice y no empieza. La
+extensión no interpreta el BASIC: habla con la ROM por un buzón en la
+memoria, y la ROM evalúa, lista las variables y recorre la pila.
+
 ## Ajustes
 
 | Ajuste | Para qué |

@@ -409,4 +409,98 @@ function suite(): void {
             }
         });
     });
+
+    describe('depurar el BASIC de la ROM', function () {
+        const SRC = [
+            '10 LET a=1: LET b$="hola"',
+            '20 GO SUB 100',
+            '30 PROC doble(a): PRINT a',
+            '40 LET c=1/0',
+            '50 STOP',
+            '100 LET a=a+1: RETURN',
+            '200 DEF PROC doble(x)',
+            '210 LET a=x*2',
+            '220 END PROC',
+        ];
+        before(function () {
+            const ext = vscode.extensions.getExtension('cronomantic.zxv')!;
+            const engine = path.join(ext.extensionPath, 'media', 'web', 'engine.js');
+            if (!fs.existsSync(engine) || !fs.readFileSync(engine, 'utf8').includes('dbg_read'))
+                this.skip();                            // un núcleo web sin el depurador (antes de ZX-V 0.7)
+        });
+        afterEach(async () => {
+            await vscode.debug.stopDebugging();
+            vscode.debug.removeBreakpoints(vscode.debug.breakpoints);
+            await vscode.commands.executeCommand('workbench.action.closeAllEditors');
+        });
+
+        it('puntos (de línea y de sentencia), paso, pila, variables, evaluar y un error', async () => {
+            const uri = file('dbg/depurar.bas');
+            fs.mkdirSync(path.dirname(uri.fsPath), { recursive: true });
+            fs.writeFileSync(uri.fsPath, SRC.join('\n') + '\n');
+            const at = (num: number, col = -1) => new vscode.Location(uri,
+                new vscode.Position(SRC.findIndex(l => l.startsWith(`${num} `)), Math.max(col, 0)));
+            vscode.debug.addBreakpoints([
+                new vscode.SourceBreakpoint(at(210)),
+                new vscode.SourceBreakpoint(at(30, SRC[2].indexOf('PRINT'))),
+            ]);
+            const stops: { reason: string; description?: string }[] = [];
+            const tracker = vscode.debug.registerDebugAdapterTrackerFactory('zxv-basic', {
+                createDebugAdapterTracker: () => ({
+                    onDidSendMessage: (m: { type: string; event?: string; body?: { reason: string; description?: string } }) => {
+                        if (m.type === 'event' && m.event === 'stopped')
+                            stops.push(m.body!);
+                    },
+                }),
+            });
+            let ended = false;
+            const endSub = vscode.debug.onDidTerminateDebugSession(s => { if (s.type === 'zxv-basic') ended = true; });
+            try {
+                assert.ok(await vscode.debug.startDebugging(vscode.workspace.workspaceFolders![0],
+                    { type: 'zxv-basic', request: 'launch', name: 'BASIC (prueba)', program: uri.fsPath }));
+                const s = vscode.debug.activeDebugSession!;
+                const stopped = (n: number) => until(`la parada ${n} (${JSON.stringify(stops)})`, () => stops.length >= n || undefined, 90000);
+                const frames = async () => (await s.customRequest('stackTrace', { threadId: 1 })).stackFrames as
+                    { name: string; line: number; column: number; endColumn?: number }[];
+
+                await stopped(1);
+                assert.strictEqual(stops[0].reason, 'breakpoint');
+                let f = await frames();
+                assert.deepStrictEqual(f.map(x => [x.name, x.line]), [['PROC doble · 210:1', 8], ['30:1', 3]]);
+                const scopes = (await s.customRequest('scopes', { frameId: 0 })).scopes;
+                const vars = (await s.customRequest('variables', { variablesReference: scopes[0].variablesReference })).variables as
+                    { name: string; value: string }[];
+                const v = Object.fromEntries(vars.map(x => [x.name, x.value]));
+                assert.strictEqual(v.a, '2');
+                assert.strictEqual(v['b$'], '"hola"');
+                assert.strictEqual(v.x, '2');
+                assert.strictEqual((await s.customRequest('evaluate', { expression: 'x*10+LEN b$', context: 'watch' })).result, '24');
+
+                await s.customRequest('next', { threadId: 1 });
+                await stopped(2);
+                assert.strictEqual(stops[1].reason, 'step');
+                assert.strictEqual((await frames())[0].name, 'PROC doble · 220:1');
+
+                await s.customRequest('continue', { threadId: 1 });
+                await stopped(3);
+                assert.strictEqual(stops[2].reason, 'breakpoint');
+                f = await frames();
+                assert.strictEqual(f[0].name, '30:2');
+                assert.strictEqual(f[0].column, SRC[2].indexOf('PRINT') + 1);       // la sentencia, no la línea
+                assert.strictEqual(f[0].endColumn, SRC[2].length + 1);
+
+                await s.customRequest('continue', { threadId: 1 });
+                await stopped(4);
+                assert.strictEqual(stops[3].reason, 'exception');
+                assert.match(stops[3].description ?? '', /^6 /);
+                assert.strictEqual((await frames())[0].name, '40:1');
+
+                await s.customRequest('continue', { threadId: 1 });
+                await until('el final del programa', () => ended || undefined, 30000);
+            } finally {
+                tracker.dispose();
+                endSub.dispose();
+            }
+        });
+    });
 }

@@ -40,6 +40,8 @@
     "workspaceContains:**/*.zxv",
     "workspaceContains:**/zxv.ld",
     "onDebugResolve:zxv",
+    "onDebugResolve:zxv-basic",
+    "onDebugDynamicConfigurations:zxv-basic",
     "onDebugDynamicConfigurations:zxv",
     "onStartupFinished"
   ],
@@ -478,6 +480,52 @@
             }
           }
         ]
+      },
+      {
+        "type": "zxv-basic",
+        "label": "ZX-V BASIC",
+        "languages": [
+          "zxv-basic"
+        ],
+        "configurationAttributes": {
+          "launch": {
+            "required": [
+              "program"
+            ],
+            "properties": {
+              "program": {
+                "type": "string",
+                "description": "%debug.basic.program%",
+                "default": "${file}"
+              },
+              "stopOnEntry": {
+                "type": "boolean",
+                "description": "%debug.basic.stopOnEntry%",
+                "default": false
+              }
+            }
+          }
+        },
+        "initialConfigurations": [
+          {
+            "type": "zxv-basic",
+            "request": "launch",
+            "name": "ZX-V: BASIC",
+            "program": "${file}"
+          }
+        ],
+        "configurationSnippets": [
+          {
+            "label": "ZX-V: BASIC",
+            "description": "%debug.basic.snippet%",
+            "body": {
+              "type": "zxv-basic",
+              "request": "launch",
+              "name": "ZX-V: BASIC",
+              "program": "^\"\\${file}\""
+            }
+          }
+        ]
       }
     ],
     "customEditors": [
@@ -518,6 +566,11 @@
           }
         ],
         "priority": "default"
+      }
+    ],
+    "breakpoints": [
+      {
+        "language": "zxv-basic"
       }
     ]
   },

@@ -7,6 +7,12 @@
  * guardada en el navegador del webview) y, cuando el BASIC espera una orden
  * (la variable EDITOR), se le pega LOAD "programa" (y RUN si es un listado),
  * como en la página de un juego (play.js).
+ *
+ * Depurar un listado (src/basicDebug.ts): el panel solo lleva el buzón del
+ * depurador del BASIC (ZX-V spec §8.2) sin saber BASIC. Antes de pegar la
+ * orden escribe lo que manda la extensión (conectado, puntos de ruptura...);
+ * luego aplica sus escrituras y le devuelve el buzón entero, y le avisa cada
+ * vez que cambian STATE, ACK o ENDS.
  */
 (() => {
 'use strict';
@@ -37,13 +43,62 @@ const T = {
 };
 const fmt = (s, a) => s.replace('{0}', a);
 
-let pending = null;             // lo último que mandó la extensión: { program, command, files }
+let pending = null;             // lo último que mandó la extensión: { program, command, files, debug }
 let state = 'starting';
 let stateFrames = 0, zeroFrames = 0, ran = false;
 let program = '';
 let started = false;
+let dbgOn = false;              // depurando: avisa de los cambios del buzón
+let dbgLast = '';
+
+const DBG = { MAGIC: 0x00, MAGIC_VALUE: 0x4456585A, STATE: 0x20, ACK: 0x28, ENDS: 0x30, TEXT: 0x100, SIZE: 0x300 };
+const HID_ESCAPE = 0x29;
 
 function post(m) { vscode.postMessage(m); }
+
+/* --- El buzón del depurador -------------------------------------------------- */
+
+const dbgSupported = () => !!(E.core && E.core.dbgRead && E.core.dbgRead(DBG.MAGIC, 4) >>> 0 === DBG.MAGIC_VALUE);
+
+function dbgBox() {
+    const b = new Array(DBG.SIZE);
+    for (let i = 0; i < DBG.SIZE; i++)
+        b[i] = E.core.dbgRead(i, 1);
+    return b;
+}
+
+/* [desplazamiento, bytes, valor], y el texto (antes: va con la orden). */
+function dbgApply(writes, text) {
+    if (typeof text === 'string') {
+        const t = new TextEncoder().encode(text).subarray(0, 0x1FF);
+        t.forEach((c, i) => E.core.dbgWrite(DBG.TEXT + i, 1, c));
+        E.core.dbgWrite(DBG.TEXT + t.length, 1, 0);
+    }
+    for (const [off, size, val] of writes || [])
+        E.core.dbgWrite(off, size, val >>> 0);
+}
+
+/* Tras cada frame: si han cambiado STATE, ACK o ENDS, el buzón a la extensión. */
+function dbgWatch() {
+    if (!dbgOn)
+        return;
+    if (!dbgSupported()) {
+        dbgOn = false;
+        post({ type: 'dbg', event: 'reset' });       // la máquina ha vuelto a arrancar
+        return;
+    }
+    const now = [DBG.STATE, DBG.ACK, DBG.ENDS].map(o => E.core.dbgRead(o, 4)).join(',');
+    if (now !== dbgLast) {
+        dbgLast = now;
+        post({ type: 'dbg-box', box: dbgBox() });
+    }
+}
+
+/* Esc pulsada un momento: BREAK, para acabar el programa que se depura. */
+function dbgBreak() {
+    E.core.key(HID_ESCAPE, 1);
+    setTimeout(() => E.core.key(HID_ESCAPE, 0), 200);
+}
 
 function setState(s, detail) {
     state = s;
@@ -81,6 +136,7 @@ function apply() {
     if (!pending || !started)
         return;
     program = pending.program;
+    dbgOn = false;
     for (const f of pending.files) {
         try {
             E.FS.writeFile(`${CARD}/${f.name}`, bytes(f.data));
@@ -109,6 +165,18 @@ function afterFrame() {
         break;
     case 'boot':
         if (editor) {
+            dbgOn = false;
+            if (pending.debug) {
+                if (!dbgSupported()) {
+                    post({ type: 'dbg', event: 'unsupported' });
+                    setState('basic');
+                    break;
+                }
+                dbgApply(pending.debug.writes);
+                dbgOn = true;
+                dbgLast = '';
+                post({ type: 'dbg', event: 'armed' });
+            }
             E.withStr(pending.command, p => E.core.paste(p, 0));
             setState('loading');
         } else if (stateFrames > LOAD_LIMIT) {
@@ -130,6 +198,7 @@ function afterFrame() {
             setState('ended');
         break;
     }
+    dbgWatch();
 }
 
 E.init({
@@ -163,6 +232,19 @@ window.addEventListener('message', e => {
     if (m && m.type === 'load') {
         pending = m;
         apply();
+    } else if (m && m.type === 'dbg-req') {
+        if (!dbgSupported()) {
+            post({ type: 'dbg-res', id: m.id, box: null });
+            return;
+        }
+        dbgApply(m.writes, m.text);
+        post({ type: 'dbg-res', id: m.id, box: dbgBox() });
+    } else if (m && m.type === 'dbg-stop') {
+        dbgOn = false;
+        if (E.core && E.core.dbgWrite)
+            dbgApply(m.writes);
+        if (m.break)
+            dbgBreak();
     }
 });
 

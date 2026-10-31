@@ -1,5 +1,20 @@
 # Cambios / Changes
 
+## Sin publicar / Unreleased
+
+- Depurar el BASIC de la ROM en el panel del emulador (tipo `zxv-basic`):
+  puntos de ruptura por línea o por sentencia, con condición, veces y
+  logpoints; pasos por sentencia; la pila de `GO SUB` y `PROC`; las
+  variables y las matrices; evaluar; parar en los errores. Necesita el núcleo
+  web de ZX-V 0.7.
+
+---
+
+- Debugging ROM BASIC in the emulator panel (`zxv-basic` type): breakpoints
+  per line or per statement, with conditions, hit counts and logpoints;
+  stepping by statements; the `GO SUB` and `PROC` stack; variables and
+  arrays; evaluating; stopping on errors. Needs the ZX-V 0.7 web core.
+
 ## 0.1.0
 
 - Los dos BASIC: el de la ROM de ZX-V (`zxv-basic`) y ZX Basic (`zxv-zxbasic`),

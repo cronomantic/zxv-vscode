@@ -60,5 +60,15 @@
   "Open in the browser": "Abrir en el navegador",
   "Show the folder": "Enseñar la carpeta",
   "Edit game.json": "Cambiar game.json",
-  "The page is in {0}, and {1} is ready for itch.io.": "La página está en {0}, y {1}, listo para itch.io."
+  "The page is in {0}, and {1} is ready for itch.io.": "La página está en {0}, y {1}, listo para itch.io.",
+  "All errors": "Todos los errores",
+  "Stop on every error, also those that ON ERROR catches": "Parar en todos los errores, también en los que recoge ON ERROR",
+  "Errors without ON ERROR": "Errores sin ON ERROR",
+  "Stop on the errors that would end the program": "Parar en los errores que acabarían el programa",
+  "Variables": "Variables",
+  "The web core of this extension has no BASIC debugger: it comes with ZX-V 0.7 or later.": "El núcleo web de esta extensión no tiene el depurador del BASIC: llega con ZX-V 0.7 o posterior.",
+  "The machine has started again: the debugging ends.": "La máquina ha vuelto a arrancar: se acaba la depuración.",
+  "not stopped": "no está parado",
+  "At most {0} breakpoints": "Como mucho, {0} puntos de ruptura",
+  "No numbered line here": "Aquí no hay una línea numerada"
 }
