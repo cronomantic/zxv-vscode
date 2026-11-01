@@ -15,21 +15,24 @@ interface Tokens {
     first: number;
     tok: string[];
     play: number;
-    ext: { code: number; id: string; name: string; fn: boolean }[];
+    prefix: number;         // C_EXT: el byte delante de las propias
+    ext: { code: number; name: string; fn: boolean }[];
 }
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const T: Tokens = require(path.join(__dirname, '..', '..', 'data', 'zxv-basic-tokens.json'));
 
-const C_EXT = 0x01, C_ENTER = 0x0D, C_NUMBER = 0x0E, C_INK = 0x10, C_AT = 0x16, C_TAB = 0x17;
+const C_EXT = T.prefix, C_ENTER = 0x0D, C_NUMBER = 0x0E, C_INK = 0x10, C_AT = 0x16, C_TAB = 0x17;
 const tokCode = (name: string) => T.first + T.tok.indexOf(name);
-const extCode = (id: string) => T.ext.find(e => e.id === id)?.code ?? -1;
+/* Una orden propia por su nombre: las que se repiten (JOY, MUSIC...) son una
+ * función y una orden, así que el nombre y fn la eligen. */
+const extCode = (name: string) => T.ext.find(e => e.name === name && !e.fn)?.code ?? -1;
 const T_REM = tokCode('REM'), T_THEN = tokCode('THEN'), T_IF = tokCode('IF'),
     T_FOR = tokCode('FOR'), T_NEXT = tokCode('NEXT');
-const X = (id: string) => 0x100 | extCode(id);
-const OPENS = new Set([T_FOR, X('X_WHILE'), X('X_REPEAT'), X('X_DEF_PROC'), X('X_SELECT')]);
-const CLOSES = new Set([T_NEXT, X('X_WEND'), X('X_UNTIL'), X('X_END_PROC'), X('X_END_SELECT'), X('X_END_IF')]);
-const X_ELSE = extCode('X_ELSE'), X_CASE = extCode('X_CASE');
+const X = (name: string) => 0x100 | extCode(name);
+const OPENS = new Set([T_FOR, X('WHILE'), X('REPEAT'), X('DEF PROC'), X('SELECT CASE')]);
+const CLOSES = new Set([T_NEXT, X('WEND'), X('UNTIL'), X('END PROC'), X('END SELECT'), X('END IF')]);
+const X_ELSE = extCode('ELSE'), X_CASE = extCode('CASE');
 const INDENT_MAX = 8;
 
 /* Los caracteres de ZX-V que no son ASCII: £, ©, los gráficos de bloques

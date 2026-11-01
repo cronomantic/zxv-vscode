@@ -40,8 +40,10 @@ Each one has its grammar, snippets and language configuration (comments,
 brackets, folding). The grammars are **not written by hand**:
 `scripts/gen-grammars.mjs` generates them from the sources:
 
-- the ROM BASIC: the tokenizer keyword tables (`rom/src/basic/tokens.c`,
-  `basic.h`) and the keyword index of the reference
+- the ROM BASIC: the keywords as the tokenizer sees them, from
+  `check_keywords()` in the `zxv-check.js` of a ZX-V release (0.7.1 or
+  later; the one `npm run web` puts in `media/web`), and the keyword index of
+  the reference
   (`docs/{en,es}/basic/reference.md`). As on the machine, the ZX-V
   statements (`MODE`, `SPRITE`...) are only recognised at the start of a
   statement, and no keyword inside a name;
@@ -255,18 +257,23 @@ code --install-extension zxv-0.1.0.vsix
 
 ```bash
 npm install
-npm run grammars    # the grammars, from ../ZX-V and ../zxbasic (or --zxv, --zxbasic)
-npm run web         # the web core: copies zxv-web.zip from ../ZX-V/build/release/0.7.0
+npm run web         # the web core: copies zxv-web.zip from ../ZX-V/build/release/0.7.1
+npm run grammars    # the grammars: media/web/zxv-check.js, ../ZX-V/docs and ../zxbasic
 npm test            # unit tests
-npx vsce package    # zxv-0.2.0.vsix
+npx vsce package    # zxv-0.2.1.vsix
 ```
 
 `npm run web -- --from PATH` uses another `zxv-web.zip` (or a folder with
 it), and `npm run web -- --download` downloads it from the
-[v0.7.0 release](https://github.com/cronomantic/ZX-V/releases/tag/v0.7.0).
+[v0.7.1 release](https://github.com/cronomantic/ZX-V/releases/tag/v0.7.1).
 With one older than 0.6.2, which has no `zxv-check.js`, `npm run web --
 --check PATH` adds one built separately (the `zxv-check-web` target of ZX-V
 with `emcmake`); without it, the extension does not mark errors as you type.
+
+`npm run grammars` reads from ZX-V only `docs/` (the public repository is
+enough), and the keywords from `media/web/zxv-check.js`; `--zxv DIR`,
+`--zxbasic DIR` and `--keywords FILE` (a `zxv-check.js` or the JSON of
+`zxv-check --keywords`) take them from elsewhere.
 
 The tests inside VS Code (`npm run test:vscode`) build and run the ZX-V
 examples with the real tools; see `test/runTests.ts` for the variables

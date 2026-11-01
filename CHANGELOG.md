@@ -1,5 +1,17 @@
 # Cambios / Changes
 
+## 0.2.1
+
+- Con ZX-V 0.7.1. Las palabras clave del BASIC de la ROM salen de
+  `check_keywords()` de `zxv-check.js` en vez del código de la ROM:
+  `npm run grammars` ya no lo necesita.
+
+---
+
+- With ZX-V 0.7.1. The ROM BASIC keywords come from `check_keywords()` in
+  `zxv-check.js` instead of the ROM code: `npm run grammars` no longer needs
+  it.
+
 ## 0.2.0
 
 - Depurar el BASIC de la ROM en el panel del emulador (tipo `zxv-basic`):

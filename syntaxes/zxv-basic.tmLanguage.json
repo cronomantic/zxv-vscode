@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
   "name": "ZX-V BASIC",
   "scopeName": "source.zxv-basic",
-  "comment": "Generado por scripts/gen-grammars.mjs desde ZX-V v0.7.0: no lo cambies a mano.",
+  "comment": "Generado por scripts/gen-grammars.mjs desde zxv-check de ZX-V 0.7.1 y la referencia de v0.7.1: no lo cambies a mano.",
   "patterns": [
     {
       "include": "#statement"
@@ -100,7 +100,7 @@
     },
     "file-statement": {
       "comment": "SAVE, LOAD, VERIFY y MERGE: dentro, también GRAPHICS y PROTECT.",
-      "begin": "(?i)(?<![A-Za-z0-9_])(SAVE(?![A-Za-z0-9_])|LOAD(?![A-Za-z0-9_])|VERIFY(?![A-Za-z0-9_])|MERGE(?![A-Za-z0-9_]))",
+      "begin": "(?i)(?<![A-Za-z0-9_])(MERGE(?![A-Za-z0-9_])|VERIFY(?![A-Za-z0-9_])|LOAD(?![A-Za-z0-9_])|SAVE(?![A-Za-z0-9_]))",
       "beginCaptures": {
         "1": {
           "name": "keyword.other.zxv-basic"
@@ -155,7 +155,7 @@
       }
     },
     "after": {
-      "comment": "PLAY tras MUSIC; REMAP y SCROLL tras RASTER (tokens.c).",
+      "comment": "PLAY tras MUSIC; REMAP y SCROLL tras RASTER.",
       "match": "(?i)(?<=MUSIC|RASTER)\\s*(PLAY(?![A-Za-z0-9_])|REMAP(?![A-Za-z0-9_])|SCROLL(?![A-Za-z0-9_]))",
       "captures": {
         "1": {

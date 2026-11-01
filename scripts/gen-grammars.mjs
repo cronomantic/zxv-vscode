@@ -4,22 +4,27 @@
  * datos (las palabras clave, para la ayuda de fases posteriores) a partir de
  * las fuentes, sin copiar nada a mano:
  *
- *   - el BASIC de la ROM: las tablas tok_names y ext_names de
- *     rom/src/basic/tokens.c (lo que el tokenizador reconoce de verdad) y el
+ *   - el BASIC de la ROM: las palabras clave que da check_keywords() del
+ *     zxv-check.js de una release (desde ZX-V 0.7.1; el de media/web, que
+ *     deja fetch-web.mjs), sacadas de las tablas del tokenizador, y el
  *     índice de palabras clave de docs/{en,es}/basic/reference.md (qué es
- *     cada una: orden, función, operador...);
+ *     cada una: orden, función, operador...). No hace falta el código de la
+ *     ROM;
  *   - ZX Basic: KEYWORDS de src/zxbc/keywords.py, las directivas de
  *     src/zxbpp/base_pplex.py y las SUB/FUNCTION de la librería zxv.bas
  *     (src/lib/arch/zxv/stdlib/zxv.bas) del fork con el target zxv.
  *
- *   node scripts/gen-grammars.mjs [--zxv DIR] [--zxbasic DIR] [--check]
+ *   node scripts/gen-grammars.mjs [--zxv DIR] [--zxbasic DIR] [--keywords F] [--check]
  *
  * DIR por defecto: $ZXV_SRC / $ZXBASIC_SRC, o ../ZX-V y ../zxbasic junto a
- * este repositorio. Con --check no escribe nada: falla si lo generado no
+ * este repositorio (de ZX-V solo se lee docs/). F: un zxv-check.js o el JSON
+ * de «zxv-check --keywords»; por defecto, $ZXV_KEYWORDS o
+ * media/web/zxv-check.js. Con --check no escribe nada: falla si lo generado no
  * coincide con lo que hay (para comprobar que nadie lo tocó a mano).
  */
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
+import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -30,11 +35,13 @@ function args() {
     const o = {
         zxv: process.env.ZXV_SRC || path.resolve(ROOT, '..', 'ZX-V'),
         zxbasic: process.env.ZXBASIC_SRC || path.resolve(ROOT, '..', 'zxbasic'),
+        keywords: process.env.ZXV_KEYWORDS || path.join(ROOT, 'media', 'web', 'zxv-check.js'),
         check: false,
     };
     for (let i = 0; i < a.length; i++) {
         if (a[i] === '--zxv') o.zxv = a[++i];
         else if (a[i] === '--zxbasic') o.zxbasic = a[++i];
+        else if (a[i] === '--keywords') o.keywords = a[++i];
         else if (a[i] === '--check') o.check = true;
         else {
             console.error(`Opción desconocida: ${a[i]}`);
@@ -60,14 +67,6 @@ function gitDescribe(dir) {
     }
 }
 
-/* Las cadenas de una tabla de C: const char *const nombre[...] = { "A", "B", ... }; */
-function cStrings(src, name) {
-    const m = new RegExp(`${name}\\s*\\[[^\\]]*\\]\\s*=\\s*\\{([\\s\\S]*?)\\};`).exec(src);
-    if (!m)
-        throw new Error(`No encuentro la tabla ${name}`);
-    return [...m[1].matchAll(/"((?:[^"\\]|\\.)*)"/g)].map(x => x[1]);
-}
-
 /* El índice de palabras clave de reference.md: | `PALABRA` | tipo | [entrada](#ancla), ... | */
 function keywordIndex(md, heading) {
     const start = md.indexOf(`## ${heading}`);
@@ -87,59 +86,42 @@ function keywordIndex(md, heading) {
     return out;
 }
 
-/* Los nombres del enum X_* de basic.h, en el orden de ext_names. */
-function extIds(header, extAll) {
-    const m = /X_MODE\s*=\s*0x80,([\s\S]*?)X_COUNT_END/.exec(header);
-    if (!m)
-        throw new Error('No encuentro el enum X_* en basic.h');
-    const names = ['X_MODE', ...m[1].replace(/\/\*[\s\S]*?\*\//g, '').match(/X_[A-Z_]+/g)];
-    if (names.length !== extAll.length)
-        throw new Error(`basic.h tiene ${names.length} X_* y ext_names ${extAll.length} nombres`);
-    return names;
-}
-
-/* Las palabras propias que son funciones: el enum X_* de basic.h (en el
- * orden de ext_names) y las condiciones de ext_is_fn en tokens.c. */
-function extFunctionIds(header, tokens, extAll) {
-    const names = extIds(header, extAll);
-    if (names.length !== extAll.length)
-        throw new Error(`basic.h tiene ${names.length} X_* y ext_names ${extAll.length} nombres`);
-    const f = /int ext_is_fn\(int x\)\s*\{([\s\S]*?)\n\}/.exec(tokens);
-    if (!f)
-        throw new Error('No encuentro ext_is_fn en tokens.c');
-    const fn = new Set();
-    for (const r of f[1].matchAll(/x >= (X_[A-Z_]+) && x <= (X_[A-Z_]+)/g))
-        for (let i = names.indexOf(r[1]); i >= 0 && i <= names.indexOf(r[2]); i++)
-            fn.add(names[i]);
-    for (const r of f[1].matchAll(/x == (X_[A-Z_]+)/g))
-        fn.add(r[1]);
-    return fn;
-}
-
-function extFunctions(header, tokens, extAll) {
-    const fn = extFunctionIds(header, tokens, extAll);
-    return new Set(extIds(header, extAll).map((n, i) => fn.has(n) ? extAll[i] : null).filter(Boolean));
+/* Las palabras clave del BASIC de la ROM, como las da check_keywords() de
+ * zxv-check (desde ZX-V 0.7.1), sacadas de las tablas del tokenizador: de
+ * un zxv-check.js (el de media/web que deja fetch-web.mjs) o de un JSON de
+ * «zxv-check --keywords». Así no hace falta el código de la ROM. */
+async function zxvKeywords(file) {
+    if (!fs.existsSync(file)) {
+        console.error(`No encuentro ${file}: «npm run web» lo pone en media/web, o usa --keywords`);
+        process.exit(1);
+    }
+    let k;
+    if (/\.json$/i.test(file)) {
+        k = JSON.parse(read(file));
+    } else {
+        const m = await createRequire(import.meta.url)(path.resolve(file))();
+        try {
+            k = JSON.parse(m.ccall('check_keywords', 'string', [], []));
+        } catch {
+            console.error(`${file} no tiene check_keywords(): hace falta el de ZX-V 0.7.1 o posterior`);
+            process.exit(1);
+        }
+    }
+    if (!k.spectrum || !k.play || !k.files || !k.ext || k.prefix === undefined)
+        throw new Error(`${file}: las palabras clave no tienen la forma de siempre`);
+    return k;
 }
 
 /* Los códigos de los tokens, para listar un programa grabado (zvbList.ts):
- * los del Spectrum desde T_RND, PLAY y los propios (C_EXT y su byte). */
-function romTokens(zxv) {
-    const tokens = read(path.join(zxv, 'rom/src/basic/tokens.c'));
-    const header = read(path.join(zxv, 'rom/src/basic/basic.h'));
-    const hex = re => {
-        const m = re.exec(header);
-        if (!m)
-            throw new Error(`No encuentro ${re} en basic.h`);
-        return parseInt(m[1], 16);
-    };
-    const extAll = cStrings(tokens, 'ext_names');
-    const fn = extFunctionIds(header, tokens, extAll);
+ * los del Spectrum desde RND, PLAY y los propios (el prefijo y su byte). */
+function romTokens(k) {
     return {
-        comment: 'Generado por scripts/gen-grammars.mjs desde rom/src/basic (tokens.c, basic.h): no lo cambies a mano.',
-        first: hex(/T_RND\s*=\s*0x([0-9A-Fa-f]+)/),
-        tok: cStrings(tokens, 'tok_names'),
-        play: hex(/#define\s+T_PLAY\s+0x([0-9A-Fa-f]+)/),
-        ext: extIds(header, extAll).map((id, i) => ({ code: 0x80 + i, id, name: extAll[i], fn: fn.has(id) })),
+        comment: `Generado por scripts/gen-grammars.mjs desde check_keywords() de zxv-check (ZX-V ${k.version}): no lo cambies a mano.`,
+        first: k.spectrum.first,
+        tok: k.spectrum.names,
+        play: k.play.code,
+        prefix: k.prefix,
+        ext: k.ext.map(e => ({ code: e.code, name: e.name, fn: e.function })),
     };
 }
 
@@ -169,19 +151,24 @@ const ROM_CONTROL = new Set([
 ]);
 const ROM_SYMBOLS = new Set(['<=', '>=', '<>']);
 
-function romBasic(zxv) {
-    const tokens = read(path.join(zxv, 'rom/src/basic/tokens.c'));
-    const tok = cStrings(tokens, 'tok_names');
-    const extAll = cStrings(tokens, 'ext_names');
-    const ext = [...new Set(extAll)];
-    const extFn = extFunctions(read(path.join(zxv, 'rom/src/basic/basic.h')), tokens, extAll);
+function romBasic(zxv, zk) {
+    const tok = zk.spectrum.names;
+    const ext = [...new Set(zk.ext.map(e => e.name))];
+    const extFn = new Set(zk.ext.filter(e => e.function).map(e => e.name));
+    /* Dónde vale cada una: las del Spectrum, en cualquier sitio; PLAY y las
+     * propias, lo que diga where (una palabra que es función y orden, donde
+     * valga alguna de las dos). */
+    const where = kw => {
+        if (kw === zk.play.name)
+            return zk.play.where;
+        const w = zk.ext.filter(e => e.name === kw).map(e => e.where);
+        return !w.length || w.includes('anywhere') ? 'anywhere' : w[0];
+    };
     const en = keywordIndex(read(path.join(zxv, 'docs/en/basic/reference.md')), 'Keyword index');
     const es = keywordIndex(read(path.join(zxv, 'docs/es/basic/reference.md')), 'Índice de palabras clave');
 
-    /* PLAY lleva el token del 128K: no está en las tablas, sí en tokenize. */
-    if (!/match_kw\(src, i, n, "PLAY"\)/.test(tokens))
-        throw new Error('tokens.c ya no reconoce PLAY como antes: revisa el generador');
-    const spectrum = [...tok.filter(k => !ROM_SYMBOLS.has(k)), 'PLAY'];
+    /* PLAY lleva el token del 128K: va aparte de las del Spectrum. */
+    const spectrum = [...tok.filter(kw => !ROM_SYMBOLS.has(kw)), zk.play.name];
 
     const warnings = [];
     for (const kw of [...spectrum, ...ext])
@@ -190,9 +177,9 @@ function romBasic(zxv) {
     const kindOf = kw => (en.get(kw) || { kind: '' }).kind;
     for (const kw of en.keys())
         if (kw !== '@' && !spectrum.includes(kw) && !ext.includes(kw) && !ROM_SYMBOLS.has(kw))
-            warnings.push(`${kw}: está en el índice pero no en tokens.c`);
+            warnings.push(`${kw}: está en el índice pero no en las de zxv-check`);
 
-    /* Las funciones: las propias, según ext_is_fn; las del Spectrum, según el
+    /* Las funciones: las propias, según zxv-check; las del Spectrum, según el
      * índice de la documentación. */
     const isFn = kw => ext.includes(kw) ? extFn.has(kw) : /function/.test(kindOf(kw));
     const isOp = kw => /operator/.test(kindOf(kw));
@@ -204,9 +191,8 @@ function romBasic(zxv) {
         else if (isFn(kw)) cls = 'function';
         else cls = 'other';
         /* Las propias de ZX-V que no son funciones (ni ELSE) solo se
-         * reconocen al principio de una sentencia (tokens.c); PLAY, también
-         * tras MUSIC. */
-        const anywhere = (!isExt && kw !== 'PLAY') || cls === 'function' || kw === 'ELSE';
+         * reconocen al principio de una sentencia; PLAY, también tras MUSIC. */
+        const anywhere = where(kw) === 'anywhere';
         keywords.push({ kw, cls, ext: isExt, anywhere });
     };
     for (const kw of spectrum) classify(kw, false);
@@ -220,18 +206,23 @@ function romBasic(zxv) {
         4: { name: 'keyword.control.zxv-basic' },
         5: { name },
     });
-    /* GRAPHICS y PROTECT solo valen en SAVE, LOAD, VERIFY y MERGE (file_stmt
-     * de tokens.c). */
-    const fileOnly = keywords.filter(k => k.kw === 'GRAPHICS' || k.kw === 'PROTECT');
+    /* GRAPHICS y PROTECT solo valen en las órdenes de ficheros (SAVE, LOAD,
+     * VERIFY y MERGE). */
+    const fileOnly = keywords.filter(k => where(k.kw) === 'file');
     for (const k of fileOnly)
         keywords.splice(keywords.indexOf(k), 1);
-    const fileKw = romKw('SAVE') + '|' + romKw('LOAD') + '|' + romKw('VERIFY') + '|' + romKw('MERGE');
+    const fileKw = zk.files.map(romKw).join('|');
+    /* Las que valen también justo detrás de otras: PLAY tras MUSIC, REMAP y
+     * SCROLL tras RASTER. */
+    const afterWords = [zk.play, ...zk.ext].filter(e => e.after);
+    const afterLook = [...new Set(afterWords.flatMap(e => e.after))].join('|');
+    const afterKw = [...new Set(afterWords.map(e => e.name))].map(romKw).join('|');
 
     const grammar = {
         $schema: 'https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json',
         name: 'ZX-V BASIC',
         scopeName: 'source.zxv-basic',
-        comment: `Generado por scripts/gen-grammars.mjs desde ZX-V ${gitDescribe(zxv)}: no lo cambies a mano.`,
+        comment: `Generado por scripts/gen-grammars.mjs desde zxv-check de ZX-V ${zk.version} y la referencia de ${gitDescribe(zxv)}: no lo cambies a mano.`,
         patterns: [{ include: '#statement' }],
         repository: {
             statement: {
@@ -298,8 +289,8 @@ function romBasic(zxv) {
                 captures: { 1: { name: 'entity.name.function.zxv-basic' } },
             },
             after: {
-                comment: 'PLAY tras MUSIC; REMAP y SCROLL tras RASTER (tokens.c).',
-                match: `(?i)(?<=MUSIC|RASTER)\\s*(${romKw('PLAY')}|${romKw('REMAP')}|${romKw('SCROLL')})`,
+                comment: 'PLAY tras MUSIC; REMAP y SCROLL tras RASTER.',
+                match: `(?i)(?<=${afterLook})\\s*(${afterKw})`,
                 captures: { 1: { name: 'keyword.other.zxv-basic' } },
             },
             'start-control': {
@@ -741,7 +732,8 @@ function zxBasic(zxb) {
 /* --- Escribir -------------------------------------------------------------- */
 
 const o = args();
-const rom = romBasic(o.zxv);
+const zk = await zxvKeywords(o.keywords);
+const rom = romBasic(o.zxv, zk);
 const zxb = zxBasic(o.zxbasic);
 for (const w of [...rom.warnings.map(w => `ROM: ${w}`), ...zxb.warnings.map(w => `zxbasic: ${w}`)])
     console.warn(`aviso: ${w}`);
@@ -751,9 +743,9 @@ const outputs = {
     'syntaxes/zxbasic.tmLanguage.json': zxb.grammar,
     'data/zxv-basic-keywords.json': rom.data,
     'data/zxv-basic-docs.json': rom.docs,
-    'data/zxv-basic-tokens.json': romTokens(o.zxv),
+    'data/zxv-basic-tokens.json': romTokens(zk),
     'data/zxbasic-keywords.json': zxb.data,
-    'data/sources.json': { zxv: gitDescribe(o.zxv), zxbasic: gitDescribe(o.zxbasic) },
+    'data/sources.json': { zxv: gitDescribe(o.zxv), zxvCheck: zk.version, zxbasic: gitDescribe(o.zxbasic) },
 };
 let stale = 0;
 for (const [rel, value] of Object.entries(outputs)) {

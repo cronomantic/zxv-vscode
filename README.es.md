@@ -40,9 +40,10 @@ Cada uno tiene su gramática, sus snippets y su configuración (comentarios,
 paréntesis, plegado). Las gramáticas **no están escritas a mano**: las
 genera `scripts/gen-grammars.mjs` a partir de las fuentes:
 
-- el BASIC de la ROM: las tablas de palabras clave del tokenizador
-  (`rom/src/basic/tokens.c`, `basic.h`) y el índice de palabras clave de la
-  referencia (`docs/{es,en}/basic/reference.md`). Como en la máquina, las
+- el BASIC de la ROM: las palabras clave tal como las ve el tokenizador, de
+  `check_keywords()` del `zxv-check.js` de una release de ZX-V (0.7.1 o
+  posterior; el que `npm run web` deja en `media/web`), y el índice de
+  palabras clave de la referencia (`docs/{es,en}/basic/reference.md`). Como en la máquina, las
   órdenes propias de ZX-V (`MODE`, `SPRITE`...) solo se reconocen al
   principio de una sentencia, y ninguna palabra clave dentro de un nombre;
 - ZX Basic: las palabras clave de `zxbc` (`src/zxbc/keywords.py`), sus
@@ -260,18 +261,23 @@ code --install-extension zxv-0.1.0.vsix
 
 ```bash
 npm install
-npm run grammars    # las gramáticas, desde ../ZX-V y ../zxbasic (o --zxv, --zxbasic)
-npm run web         # el núcleo web: copia zxv-web.zip de ../ZX-V/build/release/0.7.0
+npm run web         # el núcleo web: copia zxv-web.zip de ../ZX-V/build/release/0.7.1
+npm run grammars    # las gramáticas: media/web/zxv-check.js, ../ZX-V/docs y ../zxbasic
 npm test            # pruebas unitarias
-npx vsce package    # zxv-0.2.0.vsix
+npx vsce package    # zxv-0.2.1.vsix
 ```
 
 `npm run web -- --from RUTA` usa otro `zxv-web.zip` (o una carpeta con él), y
 `npm run web -- --download` lo descarga de la
-[release v0.7.0](https://github.com/cronomantic/ZX-V/releases/tag/v0.7.0).
+[release v0.7.1](https://github.com/cronomantic/ZX-V/releases/tag/v0.7.1).
 Con uno anterior a la 0.6.2, que no trae `zxv-check.js`, `npm run web --
 --check RUTA` pone uno compilado aparte (el objetivo `zxv-check-web` de ZX-V
 con `emcmake`); sin él, la extensión no marca los errores mientras escribes.
+
+`npm run grammars` solo lee de ZX-V `docs/` (basta el repositorio público), y
+las palabras clave, de `media/web/zxv-check.js`; `--zxv DIR`, `--zxbasic DIR`
+y `--keywords FICHERO` (un `zxv-check.js` o el JSON de
+`zxv-check --keywords`) las toman de otro sitio.
 
 Las pruebas dentro de VS Code (`npm run test:vscode`) compilan y ejecutan los
 ejemplos de ZX-V con las herramientas de verdad; ver `test/runTests.ts` para
