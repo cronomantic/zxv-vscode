@@ -22,6 +22,10 @@ const E = window.ZXV;
 const CARD = '/zxv-vscode';
 const LANG = document.body.dataset.lang === 'es' ? 'es' : 'en';
 const ES = LANG === 'es';
+/* Las preferencias de la máquina (ZX-V spec §7.11: el clic de las teclas),
+ * que guarda la extensión: el panel las pone al arrancar y le avisa al
+ * cambiarlas en el menú EDIT. */
+const PREFS = Number(document.body.dataset.prefs) || 0;
 const REVEAL = 20;              // frames con EDITOR a 0: el programa está en marcha
 const LOAD_LIMIT = 15 * 60;     // frames para que empiece
 
@@ -210,8 +214,9 @@ E.init({
     loaded: err => {
         if (err)
             post({ type: 'log', text: T.nostore });
-        return [LANG, LANG];
+        return [LANG, LANG, PREFS];
     },
+    onPrefs: prefs => post({ type: 'prefs', prefs }),
     onPaused: paused => {
         $('b-pausa').textContent = paused ? T.resume : T.pause;
         if (paused)

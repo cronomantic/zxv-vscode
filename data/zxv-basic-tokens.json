@@ -1,5 +1,5 @@
 {
-  "comment": "Generado por scripts/gen-grammars.mjs desde check_keywords() de zxv-check (ZX-V 0.8.0): no lo cambies a mano.",
+  "comment": "Generado por scripts/gen-grammars.mjs desde check_keywords() de zxv-check (ZX-V 0.9.0): no lo cambies a mano.",
   "first": 165,
   "tok": [
     "RND",

@@ -127,7 +127,8 @@ A panel with the same machine as the web version (the `zxv-web.zip` core),
 with its BASIC, sound, keyboard, mouse and joysticks. When you run a program,
 the panel copies the program and the files of its folder (`.gfx`, `.pt3`,
 `.afb`...) to its card, loads it with `LOAD` and loads it again when you
-rebuild it or save the `.bas`. The panel card is kept between sessions.
+rebuild it or save the `.bas`. The panel card is kept between sessions, and
+so is the editor's key click if you turn it off in its EDIT menu (ZX-V 0.9).
 
 ### Publishing on the web
 
@@ -258,15 +259,15 @@ code --install-extension zxv-0.1.0.vsix
 
 ```bash
 npm install
-npm run web         # the web core: copies zxv-web.zip from ../ZX-V/build/release/0.8.0
+npm run web         # the web core: copies zxv-web.zip from ../ZX-V/build/release/0.9.0
 npm run grammars    # the grammars: media/web/zxv-check.js, ../ZX-V/docs and ../zxbasic
 npm test            # unit tests
-npx vsce package    # zxv-0.3.0.vsix
+npx vsce package    # zxv-0.4.0.vsix
 ```
 
 `npm run web -- --from PATH` uses another `zxv-web.zip` (or a folder with
 it), and `npm run web -- --download` downloads it from the
-[v0.8.0 release](https://github.com/cronomantic/ZX-V/releases/tag/v0.8.0).
+[v0.9.0 release](https://github.com/cronomantic/ZX-V/releases/tag/v0.9.0).
 With one older than 0.6.2, which has no `zxv-check.js`, `npm run web --
 --check PATH` adds one built separately (the `zxv-check-web` target of ZX-V
 with `emcmake`); without it, the extension does not mark errors as you type.

@@ -129,7 +129,8 @@ Un panel con la misma máquina que la versión web (el núcleo de
 Al ejecutar un programa, el panel copia a su tarjeta el programa y los
 ficheros de su carpeta (`.gfx`, `.pt3`, `.afb`...), lo carga con `LOAD` y,
 cuando lo recompilas o guardas el `.bas`, lo vuelve a cargar. La tarjeta del
-panel se guarda entre sesiones.
+panel se guarda entre sesiones, y también el clic de las teclas del editor si
+lo quitas en su menú EDIT (ZX-V 0.9).
 
 ### Publicar en la web
 
@@ -262,15 +263,15 @@ code --install-extension zxv-0.1.0.vsix
 
 ```bash
 npm install
-npm run web         # el núcleo web: copia zxv-web.zip de ../ZX-V/build/release/0.8.0
+npm run web         # el núcleo web: copia zxv-web.zip de ../ZX-V/build/release/0.9.0
 npm run grammars    # las gramáticas: media/web/zxv-check.js, ../ZX-V/docs y ../zxbasic
 npm test            # pruebas unitarias
-npx vsce package    # zxv-0.3.0.vsix
+npx vsce package    # zxv-0.4.0.vsix
 ```
 
 `npm run web -- --from RUTA` usa otro `zxv-web.zip` (o una carpeta con él), y
 `npm run web -- --download` lo descarga de la
-[release v0.8.0](https://github.com/cronomantic/ZX-V/releases/tag/v0.8.0).
+[release v0.9.0](https://github.com/cronomantic/ZX-V/releases/tag/v0.9.0).
 Con uno anterior a la 0.6.2, que no trae `zxv-check.js`, `npm run web --
 --check RUTA` pone uno compilado aparte (el objetivo `zxv-check-web` de ZX-V
 con `emcmake`); sin él, la extensión no marca los errores mientras escribes.

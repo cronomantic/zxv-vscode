@@ -1,5 +1,17 @@
 # Cambios / Changes
 
+## 0.4.0
+
+- Con ZX-V 0.9.0: el núcleo web del panel y de «Publicar en la web». Las
+  teclas del editor del BASIC hacen clic, como en el 128K; si lo quitas en el
+  menú EDIT, el panel lo recuerda de una sesión a otra.
+
+---
+
+- With ZX-V 0.9.0: the web core of the panel and of «Publish on the web».
+  The keys of the BASIC editor click, as on the 128K; if you turn it off in
+  the EDIT menu, the panel remembers it from one session to the next.
+
 ## 0.3.0
 
 - Con ZX-V 0.8.0: el núcleo web del panel y de «Publicar en la web», con el

@@ -17,6 +17,9 @@ import { config } from './tools';
 
 const MAX_FILE = 8 * 1024 * 1024;      // lo que cabe en la tarjeta de la página, por fichero
 const MAX_TOTAL = 32 * 1024 * 1024;
+/* Las preferencias de la máquina (ZX-V spec §7.11), como las guarda zxv:
+ * siguen de una sesión a otra. */
+const PREFS_KEY = 'zxv.machinePrefs';
 
 interface CardFile {
     name: string;
@@ -230,6 +233,9 @@ export class EmulatorPanel implements vscode.Disposable {
             this.status = m as unknown as PanelStatus;
             this.statusListeners.forEach(f => f(this.status));
             break;
+        case 'prefs':
+            void this.ctx.globalState.update(PREFS_KEY, Number(m.prefs) & 0x0F);
+            break;
         case 'reload':
             this.reload();
             break;
@@ -259,6 +265,7 @@ export class EmulatorPanel implements vscode.Disposable {
         const web = w.asWebviewUri(vscode.Uri.joinPath(media, 'web'));
         const nonce = [...Array(32)].map(() => Math.floor(Math.random() * 36).toString(36)).join('');
         const lang = vscode.env.language.toLowerCase().startsWith('es') ? 'es' : 'en';
+        const prefs = this.ctx.globalState.get<number>(PREFS_KEY, 0);
         const csp = [
             "default-src 'none'",
             `img-src ${w.cspSource} data: blob:`,
@@ -280,7 +287,7 @@ export class EmulatorPanel implements vscode.Disposable {
 <link rel="stylesheet" href="${w.asWebviewUri(vscode.Uri.joinPath(media, 'emulator.css'))}">
 <title>ZX-V</title>
 </head>
-<body data-lang="${lang}">
+<body data-lang="${lang}" data-prefs="${prefs}">
 <div id="barra">
   <button id="b-recargar" type="button" title="${t('Load the program again', 'Volver a cargar el programa')}">${t('Reload', 'Recargar')}</button>
   <button id="b-reiniciar" type="button" title="${t('Reset the machine (to BASIC)', 'Reiniciar la máquina (al BASIC)')}">${t('Reset', 'Reiniciar')}</button>
