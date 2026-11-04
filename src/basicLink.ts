@@ -177,12 +177,14 @@ class EmulatorLink implements BoxLink {
     }
 }
 
-/* Lanza zxv-sdl con --basic-debug y se conecta: el enlace, o por qué no. */
-export async function emulatorLink(file: string, setup: BoxWrites): Promise<BoxLink | string> {
+/* Lanza el emulador (zxv-sdl o zxv, la aplicación, desde ZX-V 0.8) con
+ * --basic-debug y se conecta: el enlace, o por qué no. */
+export async function emulatorLink(file: string, setup: BoxWrites, name: 'zxv-sdl' | 'zxv' = 'zxv-sdl'):
+    Promise<BoxLink | string> {
     const scope = vscode.Uri.file(file);
-    const exe = tools.emulator('zxv-sdl', scope);
+    const exe = tools.emulator(name, scope);
     if (!tools.exists(exe))
-        return vscode.l10n.t('I cannot find {0}: set {1} or put it on the PATH.', 'zxv-sdl', 'zxv.toolsPath');
+        return vscode.l10n.t('I cannot find {0}: set {1} or put it on the PATH.', name, 'zxv.toolsPath');
     const port = await freePort();
     const args = [...tools.config(scope).get<string[]>('emulatorArgs', []),
         '--sd', path.dirname(file), '--basic-debug', String(port)];
@@ -194,12 +196,13 @@ export async function emulatorLink(file: string, setup: BoxWrites): Promise<BoxL
     const link = new EmulatorLink(child, file, setup);
     const failed = new Promise<string>(resolve => {
         child.on('error', e => resolve(e.message));
-        child.on('exit', code => resolve(vscode.l10n.t('zxv-sdl ended ({0}): it may be older than ZX-V 0.7, without --basic-debug.', String(code))));
+        child.on('exit', code => resolve(vscode.l10n.t('{0} ended ({1}): it may be older than ZX-V {2}, without --basic-debug.',
+                                                      name, String(code), name === 'zxv' ? '0.8' : '0.7')));
     });
     const ok = await Promise.race([link.connect(port), failed]);
     if (ok !== true) {
         link.dispose();
-        return typeof ok === 'string' ? ok : vscode.l10n.t('I cannot connect to zxv-sdl --basic-debug.');
+        return typeof ok === 'string' ? ok : vscode.l10n.t('I cannot connect to {0} --basic-debug.', name);
     }
     return link;
 }

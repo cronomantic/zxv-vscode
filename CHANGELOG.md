@@ -1,5 +1,21 @@
 # Cambios / Changes
 
+## 0.3.0
+
+- Con ZX-V 0.8.0: el núcleo web del panel y de «Publicar en la web», con el
+  sonido por un AudioWorklet (sin cortes en Firefox en las páginas que se
+  publican).
+- Depurar el BASIC de la ROM también en `zxv`, la aplicación de escritorio:
+  `"target": "zxv"` (ZX-V 0.8 o posterior).
+
+---
+
+- With ZX-V 0.8.0: the web core of the panel and of «Publish on the web»,
+  with the sound through an AudioWorklet (no breaks in Firefox on the pages
+  you publish).
+- Debug the ROM BASIC in `zxv`, the desktop app, too: `"target": "zxv"`
+  (ZX-V 0.8 or later).
+
 ## 0.2.1
 
 - Con ZX-V 0.7.1. Las palabras clave del BASIC de la ROM salen de

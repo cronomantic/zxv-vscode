@@ -2,7 +2,7 @@
   "name": "zxv",
   "displayName": "ZX-V",
   "description": "ZX-V: los dos BASIC, compilar y ejecutar, el emulador dentro del editor y depurar C con GDB / ZX-V: both BASICs, build and run, the emulator inside the editor and C debugging with GDB",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "publisher": "cronomantic",
   "license": "MIT",
   "icon": "images/icon.png",
@@ -508,11 +508,13 @@
                 "type": "string",
                 "enum": [
                   "panel",
-                  "emulator"
+                  "emulator",
+                  "zxv"
                 ],
                 "enumDescriptions": [
                   "%debug.basic.target.panel%",
-                  "%debug.basic.target.emulator%"
+                  "%debug.basic.target.emulator%",
+                  "%debug.basic.target.zxv%"
                 ],
                 "description": "%debug.basic.target%",
                 "default": "panel"

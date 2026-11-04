@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
   "name": "ZX-V BASIC",
   "scopeName": "source.zxv-basic",
-  "comment": "Generado por scripts/gen-grammars.mjs desde zxv-check de ZX-V 0.7.1 y la referencia de v0.7.1: no lo cambies a mano.",
+  "comment": "Generado por scripts/gen-grammars.mjs desde zxv-check de ZX-V 0.8.0 y la referencia de v0.8.0: no lo cambies a mano.",
   "patterns": [
     {
       "include": "#statement"

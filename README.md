@@ -203,7 +203,8 @@ language:
 
 With `"target": "emulator"` it runs in `zxv-sdl` instead (`--basic-debug`,
 the tools of `zxv.toolsPath`), in its own window, which closes when the
-session ends.
+session ends; with `"target": "zxv"`, in `zxv`, the desktop app (ZX-V 0.8
+or later).
 
 - **Breakpoints** on a line, or on one statement of the line (Shift+F9 or
   the inline breakpoint), with a condition (`x>10`), a hit count or a
@@ -225,8 +226,8 @@ with the music paused and the sound off; it comes back when you continue.
 Stopping the session presses BREAK.
 
 It needs a ROM with the BASIC debugger (ZX-V 0.7 or later, ZX-V spec §8.2):
-in the web core of the extension for the panel, in `zxv-sdl` for the
-emulator. With an older one, it says so and does not start. The
+in the web core of the extension for the panel, in `zxv-sdl` or `zxv` for
+the emulator. With an older one, it says so and does not start. The
 extension does not interpret the BASIC: it talks to the ROM through a
 mailbox in memory, and the ROM evaluates, lists the variables and walks the
 stack.
@@ -257,15 +258,15 @@ code --install-extension zxv-0.1.0.vsix
 
 ```bash
 npm install
-npm run web         # the web core: copies zxv-web.zip from ../ZX-V/build/release/0.7.1
+npm run web         # the web core: copies zxv-web.zip from ../ZX-V/build/release/0.8.0
 npm run grammars    # the grammars: media/web/zxv-check.js, ../ZX-V/docs and ../zxbasic
 npm test            # unit tests
-npx vsce package    # zxv-0.2.1.vsix
+npx vsce package    # zxv-0.3.0.vsix
 ```
 
 `npm run web -- --from PATH` uses another `zxv-web.zip` (or a folder with
 it), and `npm run web -- --download` downloads it from the
-[v0.7.1 release](https://github.com/cronomantic/ZX-V/releases/tag/v0.7.1).
+[v0.8.0 release](https://github.com/cronomantic/ZX-V/releases/tag/v0.8.0).
 With one older than 0.6.2, which has no `zxv-check.js`, `npm run web --
 --check PATH` adds one built separately (the `zxv-check-web` target of ZX-V
 with `emcmake`); without it, the extension does not mark errors as you type.

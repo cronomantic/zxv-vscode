@@ -53,8 +53,8 @@ function scopeFolder(scope?: vscode.Uri): vscode.WorkspaceFolder | undefined {
     return scope ? vscode.workspace.getWorkspaceFolder(scope) : undefined;
 }
 
-/* zxv-sdl o zxv-cli: de zxv.toolsPath o del PATH. */
-export function emulator(name: 'zxv-sdl' | 'zxv-cli', scope?: vscode.Uri): string {
+/* zxv-sdl, zxv-cli o zxv: de zxv.toolsPath o del PATH. */
+export function emulator(name: 'zxv-sdl' | 'zxv-cli' | 'zxv', scope?: vscode.Uri): string {
     const dir = expand(config(scope).get<string>('toolsPath', ''), scopeFolder(scope));
     const exe = WIN ? `${name}.exe` : name;
     if (dir)

@@ -206,7 +206,8 @@ otro lenguaje:
 
 Con `"target": "emulator"` se ejecuta en `zxv-sdl` (`--basic-debug`, las
 herramientas de `zxv.toolsPath`), en su ventana, que se cierra al acabar la
-sesión.
+sesión; con `"target": "zxv"`, en `zxv`, la aplicación de escritorio (ZX-V
+0.8 o posterior).
 
 - **Puntos de ruptura** en una línea, o en una sentencia de la línea
   (Mayús+F9 o el punto en línea), con una condición (`x>10`), un número de
@@ -231,7 +232,7 @@ pulsa BREAK.
 
 Necesita una ROM con el depurador del BASIC (ZX-V 0.7 o posterior, spec de
 ZX-V §8.2): la del núcleo web de la extensión para el panel, la de `zxv-sdl`
-para el emulador. Con una anterior, lo dice y no empieza. La
+o `zxv` para el emulador. Con una anterior, lo dice y no empieza. La
 extensión no interpreta el BASIC: habla con la ROM por un buzón en la
 memoria, y la ROM evalúa, lista las variables y recorre la pila.
 
@@ -261,15 +262,15 @@ code --install-extension zxv-0.1.0.vsix
 
 ```bash
 npm install
-npm run web         # el núcleo web: copia zxv-web.zip de ../ZX-V/build/release/0.7.1
+npm run web         # el núcleo web: copia zxv-web.zip de ../ZX-V/build/release/0.8.0
 npm run grammars    # las gramáticas: media/web/zxv-check.js, ../ZX-V/docs y ../zxbasic
 npm test            # pruebas unitarias
-npx vsce package    # zxv-0.2.1.vsix
+npx vsce package    # zxv-0.3.0.vsix
 ```
 
 `npm run web -- --from RUTA` usa otro `zxv-web.zip` (o una carpeta con él), y
 `npm run web -- --download` lo descarga de la
-[release v0.7.1](https://github.com/cronomantic/ZX-V/releases/tag/v0.7.1).
+[release v0.8.0](https://github.com/cronomantic/ZX-V/releases/tag/v0.8.0).
 Con uno anterior a la 0.6.2, que no trae `zxv-check.js`, `npm run web --
 --check RUTA` pone uno compilado aparte (el objetivo `zxv-check-web` de ZX-V
 con `emcmake`); sin él, la extensión no marca los errores mientras escribes.

@@ -71,8 +71,8 @@
   "not stopped": "no está parado",
   "At most {0} breakpoints": "Como mucho, {0} puntos de ruptura",
   "No numbered line here": "Aquí no hay una línea numerada",
-  "The ROM of this zxv-sdl has no BASIC debugger: it comes with ZX-V 0.7 or later.": "La ROM de este zxv-sdl no tiene el depurador del BASIC: llega con ZX-V 0.7 o posterior.",
   "The emulator has closed: the debugging ends.": "El emulador se ha cerrado: se acaba la depuración.",
-  "zxv-sdl ended ({0}): it may be older than ZX-V 0.7, without --basic-debug.": "zxv-sdl ha acabado ({0}): puede que sea anterior a ZX-V 0.7, sin --basic-debug.",
-  "I cannot connect to zxv-sdl --basic-debug.": "No puedo conectarme a zxv-sdl --basic-debug."
+  "The ROM of this {0} has no BASIC debugger: it comes with ZX-V 0.7 or later.": "La ROM de este {0} no tiene el depurador del BASIC: llega con ZX-V 0.7 o posterior.",
+  "{0} ended ({1}): it may be older than ZX-V {2}, without --basic-debug.": "{0} ha acabado ({1}): puede que sea anterior a ZX-V {2}, sin --basic-debug.",
+  "I cannot connect to {0} --basic-debug.": "No puedo conectarme a {0} --basic-debug."
 }

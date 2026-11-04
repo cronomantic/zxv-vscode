@@ -3,6 +3,7 @@
 import * as assert from 'assert';
 import * as cp from 'child_process';
 import * as fs from 'fs';
+import * as os from 'os';
 import * as path from 'path';
 import * as vscode from 'vscode';
 import type { ZxvApi } from '../../src/extension';
@@ -565,15 +566,41 @@ function suite(): void {
         });
     });
 
-    describe('depurar el BASIC de la ROM en zxv-sdl', function () {
+    /* En zxv-sdl (desde ZX-V 0.7) y en zxv, la aplicación (desde la 0.8): esta,
+     * con su carpeta de usuario aparte (ni los ajustes ni los
+     * Documentos de quien prueba). */
+    for (const [target, name] of [['emulator', 'zxv-sdl'], ['zxv', 'zxv']] as const) {
+    describe(`depurar el BASIC de la ROM en ${name}`, function () {
         const SRC = ['10 LET a=1', '20 PROC doble(a)', '30 LET c=1/0', '200 DEF PROC doble(x)', '210 LET a=x*2', '220 END PROC'];
+        const saved: Record<string, string | undefined> = {};
         before(function () {
-            /* Un zxv-sdl con --basic-debug (ZX-V 0.7 o posterior). */
-            const exe = path.join(String(vscode.workspace.getConfiguration('zxv').get('toolsPath') ?? ''),
-                process.platform === 'win32' ? 'zxv-sdl.exe' : 'zxv-sdl');
-            const help = fs.existsSync(exe) ? cp.spawnSync(exe, ['--help'], { encoding: 'utf8' }) : undefined;
-            if (!help || !`${help.stdout}${help.stderr}`.includes('--basic-debug'))
+            const tools = String(vscode.workspace.getConfiguration('zxv').get('toolsPath') ?? '');
+            const exe = (n: string) => path.join(tools, process.platform === 'win32' ? `${n}.exe` : n);
+            if (name === 'zxv-sdl') {
+                const help = fs.existsSync(exe(name)) ? cp.spawnSync(exe(name), ['--help'], { encoding: 'utf8' }) : undefined;
+                if (!help || !`${help.stdout}${help.stderr}`.includes('--basic-debug'))
+                    this.skip();
+                return;
+            }
+            /* zxv no tiene consola en Windows: la versión, la de su zxv-cli. */
+            const v = fs.existsSync(exe(name)) && fs.existsSync(exe('zxv-cli'))
+                ? cp.spawnSync(exe('zxv-cli'), ['--version'], { encoding: 'utf8' }).stdout : '';
+            const m = /ZX-V (\d+)\.(\d+)/.exec(v ?? '');
+            if (!m || +m[1] * 100 + +m[2] < 8)
                 this.skip();
+            const home = fs.mkdtempSync(path.join(os.tmpdir(), 'zxv-home-'));
+            for (const [k, val] of Object.entries({ SDL_AUDIODRIVER: 'dummy', ZXV_HOME: home })) {
+                saved[k] = process.env[k];
+                process.env[k] = val;
+            }
+        });
+        after(() => {
+            for (const [k, val] of Object.entries(saved)) {
+                if (val === undefined)
+                    delete process.env[k];
+                else
+                    process.env[k] = val;
+            }
         });
         afterEach(async () => {
             await vscode.debug.stopDebugging();
@@ -581,7 +608,7 @@ function suite(): void {
         });
 
         it('un punto en un PROC, evaluar, un error y el final', async () => {
-            const uri = file('dbg/emulador.bas');
+            const uri = file(`dbg/${name}.bas`);
             fs.mkdirSync(path.dirname(uri.fsPath), { recursive: true });
             fs.writeFileSync(uri.fsPath, SRC.join('\n') + '\n');
             vscode.debug.addBreakpoints([new vscode.SourceBreakpoint(new vscode.Location(uri, new vscode.Position(4, 0)))]);
@@ -598,7 +625,7 @@ function suite(): void {
             const endSub = vscode.debug.onDidTerminateDebugSession(s => { if (s.type === 'zxv-basic') ended = true; });
             try {
                 assert.ok(await vscode.debug.startDebugging(vscode.workspace.workspaceFolders![0],
-                    { type: 'zxv-basic', request: 'launch', name: 'BASIC en zxv-sdl', program: uri.fsPath, target: 'emulator' }),
+                    { type: 'zxv-basic', request: 'launch', name: `BASIC en ${name}`, program: uri.fsPath, target }),
                     `no empieza: ${(await api()).debugError()}`);
                 const s = vscode.debug.activeDebugSession!;
                 const stopped = (n: number) => until(`la parada ${n} (${JSON.stringify(stops)})`, () => stops.length >= n || undefined, 60000);
@@ -622,4 +649,5 @@ function suite(): void {
             }
         });
     });
+    }
 }
