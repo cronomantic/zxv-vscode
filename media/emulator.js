@@ -244,6 +244,13 @@ window.addEventListener('message', e => {
         }
         dbgApply(m.writes, m.text);
         post({ type: 'dbg-res', id: m.id, box: dbgBox() });
+    } else if (m && m.type === 'keys') {
+        /* Para las pruebas: pulsar teclas (códigos HID), una tras otra. */
+        let t = 0;
+        for (const hid of m.keys) {
+            setTimeout(() => E.core.key(hid, 1), t += 100);
+            setTimeout(() => E.core.key(hid, 0), t += 100);
+        }
     } else if (m && m.type === 'dbg-stop') {
         dbgOn = false;
         if (E.core && E.core.dbgWrite)

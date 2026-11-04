@@ -142,6 +142,16 @@ export class EmulatorPanel implements vscode.Disposable {
         return new vscode.Disposable(() => this.statusListeners.delete(f));
     }
 
+    /* Para las pruebas: pulsa estas teclas (códigos HID) en la máquina. */
+    keys(hids: number[]): void {
+        void this.panel.webview.postMessage({ type: 'keys', keys: hids });
+    }
+
+    /* Las preferencias de la máquina que guarda la extensión. */
+    static prefs(ctx: vscode.ExtensionContext): number {
+        return ctx.globalState.get<number>(PREFS_KEY, 0);
+    }
+
     onDebug(f: (e: DebugEvent) => void): vscode.Disposable {
         this.debugListeners.add(f);
         return new vscode.Disposable(() => this.debugListeners.delete(f));
@@ -265,7 +275,7 @@ export class EmulatorPanel implements vscode.Disposable {
         const web = w.asWebviewUri(vscode.Uri.joinPath(media, 'web'));
         const nonce = [...Array(32)].map(() => Math.floor(Math.random() * 36).toString(36)).join('');
         const lang = vscode.env.language.toLowerCase().startsWith('es') ? 'es' : 'en';
-        const prefs = this.ctx.globalState.get<number>(PREFS_KEY, 0);
+        const prefs = EmulatorPanel.prefs(this.ctx);
         const csp = [
             "default-src 'none'",
             `img-src ${w.cspSource} data: blob:`,

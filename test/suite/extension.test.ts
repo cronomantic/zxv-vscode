@@ -244,6 +244,24 @@ function suite(): void {
             const s = await runs('zvb/bucle.zvb', fixture('bucle.zvb', 'zvb/bucle.zvb'));
             assert.strictEqual(s.program, 'bucle.zvb');
         });
+        /* El clic de las teclas (ZX-V 0.9, spec §7.11): se cambia en el menú
+         * EDIT (Tab, seis veces abajo, Enter) y la extensión lo guarda. Al
+         * volver a abrir el panel, la máquina arranca con él: cambiarlo otra
+         * vez lo devuelve a como estaba (si no, lo volvería a poner igual). */
+        it('el clic de las teclas, de un panel al siguiente', async () => {
+            const a = await api();
+            const MENU = [0x2B, 0x51, 0x51, 0x51, 0x51, 0x51, 0x51, 0x28];   // Tab, abajo ×6, Enter
+            const toggle = async (want: number) => {
+                await vscode.commands.executeCommand('zxv.openEmulator');
+                await until('el BASIC del panel', () => a.panelStatus()?.state === 'basic', 60000);
+                a.panelKeys(MENU);
+                await until(`las preferencias a ${want} (están a ${a.machinePrefs()})`, () => a.machinePrefs() === want, 20000);
+                await vscode.commands.executeCommand('workbench.action.closeAllEditors');
+            };
+            const before = a.machinePrefs() & 1;
+            await toggle(before ^ 1);
+            await toggle(before);
+        });
     });
 
     describe('proyecto nuevo', () => {

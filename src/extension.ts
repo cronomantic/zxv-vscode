@@ -21,6 +21,8 @@ export interface ZxvApi {
     /* Para las pruebas: el estado del panel. */
     panelStatus(): PanelStatus | undefined;
     onPanelStatus(f: (s: PanelStatus) => void): vscode.Disposable | undefined;
+    panelKeys(hids: number[]): void;
+    machinePrefs(): number;
     debugError(): string | undefined;
     previewStatus(uri: vscode.Uri): Record<string, unknown> | undefined;
 }
@@ -65,6 +67,8 @@ export function activate(ctx: vscode.ExtensionContext): ZxvApi {
     return {
         panelStatus: () => EmulatorPanel.current?.status,
         onPanelStatus: f => EmulatorPanel.current?.onStatus(f),
+        panelKeys: hids => EmulatorPanel.current?.keys(hids),
+        machinePrefs: () => EmulatorPanel.prefs(ctx),
         debugError: lastError,
         previewStatus: uri => previewStatus.get(uri.toString()),
     };
