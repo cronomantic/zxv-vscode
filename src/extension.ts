@@ -8,6 +8,7 @@ import * as vscode from 'vscode';
 import { BasicCheck } from './basicCheck';
 import { registerBasicDebug } from './basicDebug';
 import { TASK_TYPE, ZxvTaskProvider, buildProgram, lastError, runInEmulator, stopEmulator, targetDocument } from './build';
+import { runOnBoard } from './board';
 import { registerDebug } from './debug';
 import { DialectService } from './dialectService';
 import { registerHovers } from './hover';
@@ -60,6 +61,11 @@ export function activate(ctx: vscode.ExtensionContext): ZxvApi {
             const p = await buildProgram(uri);
             if (p)
                 EmulatorPanel.show(ctx, p);
+        }),
+        vscode.commands.registerCommand('zxv.runOnBoard', async (uri?: vscode.Uri) => {
+            const p = await buildProgram(uri);
+            if (p)
+                await runOnBoard(p);
         }),
         vscode.commands.registerCommand('zxv.openEmulator', () => EmulatorPanel.show(ctx)),
         new vscode.Disposable(stopEmulator),

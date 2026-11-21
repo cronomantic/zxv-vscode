@@ -121,6 +121,12 @@
           "scope": "resource",
           "markdownDescription": "%config.basicCheck%"
         },
+        "zxv.boardPort": {
+          "type": "string",
+          "default": "",
+          "scope": "machine-overridable",
+          "markdownDescription": "%config.boardPort%"
+        },
         "zxv.toolsPath": {
           "type": "string",
           "default": "",
@@ -236,6 +242,12 @@
         "icon": "$(preview)"
       },
       {
+        "command": "zxv.runOnBoard",
+        "title": "%command.runOnBoard%",
+        "category": "ZX-V",
+        "icon": "$(plug)"
+      },
+      {
         "command": "zxv.openEmulator",
         "title": "%command.openEmulator%",
         "category": "ZX-V"
@@ -289,9 +301,14 @@
           "group": "zxv@2"
         },
         {
-          "command": "zxv.publishWeb",
+          "command": "zxv.runOnBoard",
           "when": "resourceExtname =~ /^\\.(zxv|zvb|tap|tzx|bas)$/i",
           "group": "zxv@3"
+        },
+        {
+          "command": "zxv.publishWeb",
+          "when": "resourceExtname =~ /^\\.(zxv|zvb|tap|tzx|bas)$/i",
+          "group": "zxv@4"
         }
       ]
     },
@@ -509,12 +526,14 @@
                 "enum": [
                   "panel",
                   "emulator",
-                  "zxv"
+                  "zxv",
+                  "board"
                 ],
                 "enumDescriptions": [
                   "%debug.basic.target.panel%",
                   "%debug.basic.target.emulator%",
-                  "%debug.basic.target.zxv%"
+                  "%debug.basic.target.zxv%",
+                  "%debug.basic.target.board%"
                 ],
                 "description": "%debug.basic.target%",
                 "default": "panel"
@@ -550,6 +569,17 @@
               "name": "ZX-V: BASIC (zxv-sdl)",
               "program": "^\"\\${file}\"",
               "target": "emulator"
+            }
+          },
+          {
+            "label": "ZX-V: BASIC (placa)",
+            "description": "%debug.basic.snippet.board%",
+            "body": {
+              "type": "zxv-basic",
+              "request": "launch",
+              "name": "ZX-V: BASIC (placa)",
+              "program": "^\"\\${file}\"",
+              "target": "board"
             }
           }
         ]

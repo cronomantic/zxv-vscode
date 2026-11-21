@@ -104,6 +104,7 @@ with the main file in view.
 | **ZX-V: Build** | C: `make` in the `Makefile` folder (passing `SDK=` from `zxv.sdkPath`). In the SDK, a file in `examples/NAME/` builds only `build/NAME.zxv`. ZX Basic: `zxbc --arch=zxv -o NAME.zxv`. |
 | **ZX-V: Run in zxv-sdl** (F5 in ROM BASIC) | Builds if needed and opens the program in `zxv-sdl`, with its folder as SD card: `--sd FOLDER --type 'LOAD "program.zxv"'` (plus `: RUN` for a listing). |
 | **ZX-V: Run in the editor** | The same, in the emulator panel. |
+| **ZX-V: Run on the board** | The same, on the real machine: it sends the program and the files of its folder to the card through the board's J5 header, with a 3.3 V USB-serial adapter and `zxv-link` (ZX-V 0.10 or later; [how to connect it](https://github.com/cronomantic/ZX-V/blob/main/docs/en/hardware/firmware.md#loading-programs-from-the-pc-j5)). What is already on the card, unchanged, is not sent again. The port, `zxv.boardPort`: if empty, it is chosen the first time. |
 
 From the Explorer's context menu, a program that is already built runs as it
 is too: a `.zxv`, a ROM BASIC program saved with `SAVE` (`.zvb`) or a
@@ -205,7 +206,9 @@ language:
 With `"target": "emulator"` it runs in `zxv-sdl` instead (`--basic-debug`,
 the tools of `zxv.toolsPath`), in its own window, which closes when the
 session ends; with `"target": "zxv"`, in `zxv`, the desktop app (ZX-V 0.8
-or later).
+or later); and with `"target": "board"`, on the real machine, through the
+board's J5 header (`zxv-link serve`, ZX-V 0.10 or later), like «ZX-V: Run on
+the board» (the **ZX-V: BASIC (placa)** configuration comes with it).
 
 - **Breakpoints** on a line, or on one statement of the line (Shift+F9 or
   the inline breakpoint), with a condition (`x>10`), a hit count or a
@@ -237,7 +240,8 @@ stack.
 
 | Setting | What for |
 |---|---|
-| `zxv.toolsPath` | The folder of a ZX-V release, with `zxv-sdl` and `zxv-cli` (otherwise, the PATH) |
+| `zxv.toolsPath` | The folder of a ZX-V release, with `zxv-sdl`, `zxv-cli` and `zxv-link` (otherwise, the PATH) |
+| `zxv.boardPort` | The serial port of the adapter on the board's J5 header (`COM5`, `/dev/ttyUSB0`...): to run and debug on the board |
 | `zxv.sdkPath` | The ZX-V `sdk` folder, passed to `make` as `SDK=` |
 | `zxv.zxbcPath` | `zxbc.exe` from the fork release (1.19.0-zxv.4 or later), or `zxbc.py` (with `zxv.pythonPath`) |
 | `zxv.gdbPath` | GDB for RISC-V (otherwise `riscv64-unknown-elf-gdb`, `riscv64-elf-gdb` or `gdb-multiarch` on the PATH) |

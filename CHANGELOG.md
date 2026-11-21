@@ -6,6 +6,11 @@
   con `.zxm`, MOD, S3M, XM y VGM (`.vgm`, `.vgz`); los `.wav` de `SAMPLE` y
   los `.afx` van con el programa a la tarjeta del panel y a «Publicar en la
   web». `SAMPLE` (en los dos BASIC), coloreado y con su ayuda.
+- La máquina de verdad (ZX-V 0.10, por la tira J5 de la placa con un
+  adaptador USB-serie y `zxv-link`): **ZX-V: Ejecutar en la placa** manda el
+  programa y sus ficheros (los que no han cambiado, no) y lo ejecuta; y
+  `"target": "board"` depura el BASIC de la ROM en la placa. El puerto,
+  `zxv.boardPort`.
 
 ---
 
@@ -13,6 +18,11 @@
   MOD, S3M, XM and VGM (`.vgm`, `.vgz`); the `SAMPLE` `.wav` files and the
   `.afx` files go with the program to the panel's card and to «Publish on
   the web». `SAMPLE` (in both BASICs), highlighted and with its help.
+- The real machine (ZX-V 0.10, through the board's J5 header with a
+  USB-serial adapter and `zxv-link`): **ZX-V: Run on the board** sends the
+  program and its files (not the unchanged ones) and runs it; and
+  `"target": "board"` debugs the ROM BASIC on the board. The port,
+  `zxv.boardPort`.
 
 ## 0.4.0
 

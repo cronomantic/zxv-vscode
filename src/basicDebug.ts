@@ -15,6 +15,7 @@ import * as path from 'path';
 import * as vscode from 'vscode';
 import * as S from './basicSource';
 import { BoxLink, emulatorLink, panelLink } from './basicLink';
+import { boardLink } from './board';
 import { BoxWrites, DebugEvent } from './panel';
 
 /* Lo que se usa del protocolo (sin la dependencia @vscode/debugprotocol). */
@@ -48,7 +49,7 @@ class BasicSession implements vscode.DebugAdapter {
     readonly onDidSendMessage = this.emitter.event;
     private seq = 1;
     private link: BoxLink | undefined;
-    private target: 'panel' | 'emulator' | 'zxv' = 'panel';
+    private target: 'panel' | 'emulator' | 'zxv' | 'board' = 'panel';
     private sub: vscode.Disposable | undefined;
     private file = '';
     private listing = S.parseListing('');
@@ -215,7 +216,7 @@ class BasicSession implements vscode.DebugAdapter {
         this.file = file;
         this.listing = S.parseListing(fs.readFileSync(file, 'latin1'));
         this.entry = !!a.stopOnEntry;
-        this.target = a.target === 'emulator' || a.target === 'zxv' ? a.target : 'panel';
+        this.target = a.target === 'emulator' || a.target === 'zxv' || a.target === 'board' ? a.target : 'panel';
         /* Los puntos y los filtros de errores llegan antes de configurationDone. */
         await Promise.race([this.configured, new Promise(res => setTimeout(res, 3000))]);
         if (this.entry)
@@ -228,7 +229,8 @@ class BasicSession implements vscode.DebugAdapter {
             [S.BOX.BPGEN, 4, this.bpGen],
         ];
         if (this.target !== 'panel') {
-            const link = await emulatorLink(file, setup, this.target === 'zxv' ? 'zxv' : 'zxv-sdl');
+            const link = this.target === 'board' ? await boardLink(file, setup)
+                : await emulatorLink(file, setup, this.target === 'zxv' ? 'zxv' : 'zxv-sdl');
             if (typeof link === 'string') {
                 this.fail(r, link);
                 return;
@@ -276,7 +278,9 @@ class BasicSession implements vscode.DebugAdapter {
                 this.live = true;
                 return;
             case 'unsupported':
-                vscode.window.showErrorMessage(this.target !== 'panel'
+                vscode.window.showErrorMessage(this.target === 'board'
+                    ? vscode.l10n.t('The board\'s ROM does not answer the BASIC debugger.')
+                    : this.target !== 'panel'
                     ? vscode.l10n.t('The ROM of this {0} has no BASIC debugger: it comes with ZX-V 0.7 or later.',
                                     this.target === 'zxv' ? 'zxv' : 'zxv-sdl')
                     : vscode.l10n.t('The web core of this extension has no BASIC debugger: it comes with ZX-V 0.7 or later.'));
@@ -285,7 +289,9 @@ class BasicSession implements vscode.DebugAdapter {
                 return;
             case 'reset':
             case 'closed':
-                this.output(e.event === 'closed' && this.target !== 'panel'
+                this.output(e.event === 'closed' && this.target === 'board'
+                    ? vscode.l10n.t('The connection to the board has closed: the debugging ends.')
+                    : e.event === 'closed' && this.target !== 'panel'
                     ? vscode.l10n.t('The emulator has closed: the debugging ends.')
                     : vscode.l10n.t('The machine has started again: the debugging ends.'));
                 this.link?.stop([], false);

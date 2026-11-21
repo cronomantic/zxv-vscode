@@ -74,5 +74,18 @@
   "The emulator has closed: the debugging ends.": "El emulador se ha cerrado: se acaba la depuración.",
   "The ROM of this {0} has no BASIC debugger: it comes with ZX-V 0.7 or later.": "La ROM de este {0} no tiene el depurador del BASIC: llega con ZX-V 0.7 o posterior.",
   "{0} ended ({1}): it may be older than ZX-V {2}, without --basic-debug.": "{0} ha acabado ({1}): puede que sea anterior a ZX-V {2}, sin --basic-debug.",
-  "I cannot connect to {0} --basic-debug.": "No puedo conectarme a {0} --basic-debug."
+  "I cannot connect to {0} --basic-debug.": "No puedo conectarme a {0} --basic-debug.",
+  "There are no serial ports: plug in the USB-serial adapter of J5.": "No hay puertos serie: enchufa el adaptador USB-serie de J5.",
+  "The serial port of the adapter on the board's J5 (it is kept in zxv.boardPort)": "El puerto serie del adaptador en la tira J5 de la placa (se guarda en zxv.boardPort)",
+  "zxv-link did not start: {0}": "zxv-link no ha arrancado: {0}",
+  "zxv-link failed: look at the ZX-V output.": "zxv-link ha fallado: mira la salida ZX-V.",
+  "ZX-V: {0} running on the board": "ZX-V: {0} en marcha en la placa",
+  "There is no serial port for the board (zxv.boardPort).": "No hay puerto serie para la placa (zxv.boardPort).",
+  "zxv-link has ended: look at the ZX-V output.": "zxv-link ha acabado: mira la salida ZX-V.",
+  "I cannot connect to zxv-link serve.": "No puedo conectar con zxv-link serve.",
+  "The board's ROM does not answer the BASIC debugger.": "La ROM de la placa no contesta al depurador del BASIC.",
+  "The connection to the board has closed: the debugging ends.": "La conexión con la placa se ha cerrado: se acaba la depuración.",
+  "{0} is not there any more: choose the port of the adapter on the board's J5": "{0} ya no está: elige el puerto del adaptador en la tira J5 de la placa",
+  "Choose another port": "Elegir otro puerto",
+  "zxv-link cannot open {0}: look at the ZX-V output.": "zxv-link no puede abrir {0}: mira la salida ZX-V."
 }

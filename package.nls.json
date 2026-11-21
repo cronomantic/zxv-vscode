@@ -52,5 +52,9 @@
   "debug.basic.target.panel": "The emulator panel inside the editor (the web core of the extension)",
   "debug.basic.target.emulator": "zxv-sdl with --basic-debug (the ZX-V tools of zxv.toolsPath)",
   "debug.basic.target.zxv": "zxv, the desktop app, with --basic-debug (ZX-V 0.8 or later, in zxv.toolsPath)",
-  "debug.basic.snippet.emulator": "Debugs a ROM BASIC listing in zxv-sdl"
+  "debug.basic.snippet.emulator": "Debugs a ROM BASIC listing in zxv-sdl",
+  "command.runOnBoard": "Run on the board",
+  "config.boardPort": "The serial port of the USB-serial adapter on the board's J5 header (`COM5`, `/dev/ttyUSB0`...), for «ZX-V: Run on the board» and debugging on the board. Empty: it is chosen the first time.",
+  "debug.basic.target.board": "The real machine, through the board's J5 header with a USB-serial adapter (zxv-link in zxv.toolsPath, ZX-V 0.10 or later)",
+  "debug.basic.snippet.board": "Debugs a ROM BASIC listing on the board, through J5 (zxv-link)"
 }

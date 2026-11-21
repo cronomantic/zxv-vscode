@@ -334,10 +334,10 @@ export function copyResources(p: Program): void {
  * el mismo nombre, LOAD "x" cargaría ese) y RUN si es un listado. Un
  * programa grabado sin LINE, con GO TO 0: arranca desde el principio sin
  * borrar las variables que se grabaron con él, como si llevara LINE. */
-export function loadCommand(file: string): string {
+export function loadCommand(file: string, drive = ''): string {
     const name = path.basename(file).replace(/"/g, '');
     const run = /\.(bas|txt)$/i.test(name) ? ': RUN' : savedWithoutLine(file) ? ': GO TO 0' : '';
-    return `LOAD "${name}"` + run;
+    return `LOAD "${drive}${name}"` + run;
 }
 
 export function emulatorArgs(p: Program, scope: vscode.Uri, extra: string[] = []): string[] {

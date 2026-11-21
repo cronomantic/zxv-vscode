@@ -105,6 +105,7 @@ el fichero principal a la vista.
 | **ZX-V: Compilar** | C: `make` en la carpeta del `Makefile` (pasándole `SDK=` con `zxv.sdkPath`). En el SDK, un fichero de `examples/NOMBRE/` compila solo `build/NOMBRE.zxv`. ZX Basic: `zxbc --arch=zxv -o NOMBRE.zxv`. |
 | **ZX-V: Ejecutar en zxv-sdl** (F5 en el BASIC de la ROM) | Compila si hace falta y abre el programa en `zxv-sdl`, con su carpeta como tarjeta SD: `--sd CARPETA --type 'LOAD "programa.zxv"'` (con `: RUN` si es un listado). |
 | **ZX-V: Ejecutar en el editor** | Lo mismo, en el panel del emulador. |
+| **ZX-V: Ejecutar en la placa** | Lo mismo, en la máquina de verdad: manda el programa y los ficheros de su carpeta a la tarjeta por la tira J5 de la placa, con un adaptador USB-serie de 3,3 V y `zxv-link` (ZX-V 0.10 o posterior; [cómo se conecta](https://github.com/cronomantic/ZX-V/blob/main/docs/es/hardware/firmware.md#cargar-programas-desde-el-pc-j5)). Lo que ya está igual en la tarjeta no se vuelve a mandar. El puerto, `zxv.boardPort`: si está vacío, se elige la primera vez. |
 
 Desde el menú del explorador también se ejecuta tal cual un programa ya
 hecho: un `.zxv`, un programa del BASIC de la ROM grabado con `SAVE` (`.zvb`)
@@ -208,7 +209,9 @@ otro lenguaje:
 Con `"target": "emulator"` se ejecuta en `zxv-sdl` (`--basic-debug`, las
 herramientas de `zxv.toolsPath`), en su ventana, que se cierra al acabar la
 sesión; con `"target": "zxv"`, en `zxv`, la aplicación de escritorio (ZX-V
-0.8 o posterior).
+0.8 o posterior); y con `"target": "board"`, en la máquina de verdad, por la
+tira J5 de la placa (`zxv-link serve`, ZX-V 0.10 o posterior), como «ZX-V:
+Ejecutar en la placa» (la configuración **ZX-V: BASIC (placa)** ya lo trae).
 
 - **Puntos de ruptura** en una línea, o en una sentencia de la línea
   (Mayús+F9 o el punto en línea), con una condición (`x>10`), un número de
@@ -241,7 +244,8 @@ memoria, y la ROM evalúa, lista las variables y recorre la pila.
 
 | Ajuste | Para qué |
 |---|---|
-| `zxv.toolsPath` | La carpeta de una release de ZX-V, con `zxv-sdl` y `zxv-cli` (si no, el PATH) |
+| `zxv.toolsPath` | La carpeta de una release de ZX-V, con `zxv-sdl`, `zxv-cli` y `zxv-link` (si no, el PATH) |
+| `zxv.boardPort` | El puerto serie del adaptador en la tira J5 de la placa (`COM5`, `/dev/ttyUSB0`...): para ejecutar y depurar en la placa |
 | `zxv.sdkPath` | La carpeta `sdk` de ZX-V, que se pasa a `make` como `SDK=` |
 | `zxv.zxbcPath` | `zxbc.exe` de la release del fork (1.19.0-zxv.4 o posterior), o `zxbc.py` (con `zxv.pythonPath`) |
 | `zxv.gdbPath` | GDB para RISC-V (si no, `riscv64-unknown-elf-gdb`, `riscv64-elf-gdb` o `gdb-multiarch` del PATH) |

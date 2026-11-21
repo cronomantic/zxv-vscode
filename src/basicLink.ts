@@ -2,7 +2,8 @@
  * basicLink.ts - Por dónde habla el depurador del BASIC (basicDebug.ts) con
  * el buzón de la ROM (ZX-V spec §8.2): el panel del emulador, o zxv-sdl con
  * --basic-debug (un protocolo de líneas sobre TCP, emulator/src/basicdbg.h
- * en ZX-V). Los dos hacen lo mismo: cargar el listado después de escribir
+ * en ZX-V), o la placa con zxv-link serve, que habla igual (board.ts). Los
+ * tres hacen lo mismo: cargar el listado después de escribir
  * lo del principio, aplicar escrituras y devolver el buzón, y avisar cuando
  * cambia.
  */
@@ -43,7 +44,7 @@ export function panelLink(ctx: vscode.ExtensionContext, file: string, setup: Box
 const hex = (b: Uint8Array) => Buffer.from(b).toString('hex');
 
 /* Un puerto libre de 127.0.0.1. */
-function freePort(): Promise<number> {
+export function freePort(): Promise<number> {
     return new Promise((resolve, reject) => {
         const s = net.createServer();
         s.on('error', reject);
@@ -54,7 +55,7 @@ function freePort(): Promise<number> {
     });
 }
 
-class EmulatorLink implements BoxLink {
+export class EmulatorLink implements BoxLink {
     private sock: net.Socket | undefined;
     private rx = '';
     private nextId = 1;
@@ -63,8 +64,9 @@ class EmulatorLink implements BoxLink {
     private armed = false;
     private closed = false;
 
+    /* paste: lo que se teclea para cargar el listado. */
     constructor(private readonly child: cp.ChildProcess, private readonly file: string,
-        private readonly setup: BoxWrites) {
+        private readonly setup: BoxWrites, private readonly paste = loadCommand(file)) {
         child.on('exit', () => this.close());
     }
 
@@ -125,7 +127,7 @@ class EmulatorLink implements BoxLink {
             if (!this.armed && signed) {
                 /* La ROM ha arrancado: lo del principio y, luego, el listado. */
                 this.armed = true;
-                this.send([...this.writes(this.setup), `paste ${loadCommand(this.file)}`]);
+                this.send([...this.writes(this.setup), `paste ${this.paste}`]);
                 this.emit({ event: 'armed' });
             } else if (this.armed && !signed) {
                 this.emit({ event: 'reset' });
