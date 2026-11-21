@@ -56,5 +56,11 @@
   "command.runOnBoard": "Run on the board",
   "config.boardPort": "The serial port of the USB-serial adapter on the board's J5 header (`COM5`, `/dev/ttyUSB0`...), for «ZX-V: Run on the board» and debugging on the board. Empty: it is chosen the first time.",
   "debug.basic.target.board": "The real machine, through the board's J5 header with a USB-serial adapter (zxv-link in zxv.toolsPath, ZX-V 0.10 or later)",
-  "debug.basic.snippet.board": "Debugs a ROM BASIC listing on the board, through J5 (zxv-link)"
+  "debug.basic.snippet.board": "Debugs a ROM BASIC listing on the board, through J5 (zxv-link)",
+  "command.stopExt": "Stop serving EXT:",
+  "config.boardFrom": "Where «ZX-V: Run on the board» loads the program from: the machine's EXT: drive (the folder of `zxv.extFolder`, served while it runs; nothing goes to the card), or the card (the program and its files are copied to it first).",
+  "config.boardFrom.ext": "From the EXT: drive: the folder is served, nothing is copied",
+  "config.boardFrom.card": "From the card: the program and its files are copied to it first",
+  "config.extFolder": "The folder served as the machine's EXT: drive (it can read and write in it). Empty: the workspace folder. The program has to be inside it to load from EXT:.",
+  "config.extOverwrite": "Let the machine replace or delete files in the EXT: folder that it did not write."
 }

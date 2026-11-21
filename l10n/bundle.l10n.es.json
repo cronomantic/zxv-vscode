@@ -90,5 +90,8 @@
   "zxv-link cannot open {0}: look at the ZX-V output.": "zxv-link no puede abrir {0}: mira la salida ZX-V.",
   "Replace them": "Sustituirlos",
   "On the board's card there are files with the same name and other contents that zxv-link did not put there (they are in the ZX-V output). Nothing has been touched. Replace them?": "En la tarjeta de la placa hay ficheros con el mismo nombre y otro contenido que no puso zxv-link (están en la salida de ZX-V). No se ha tocado nada. ¿Sustituirlos?",
-  "On the board's card there are files with the same name that zxv-link did not put there: run it once with «ZX-V: Run on the board» to replace them.": "En la tarjeta de la placa hay ficheros con el mismo nombre que no puso zxv-link: ejecútalo una vez con «ZX-V: Ejecutar en la placa» para sustituirlos."
+  "On the board's card there are files with the same name that zxv-link did not put there: run it once with «ZX-V: Run on the board» to replace them.": "En la tarjeta de la placa hay ficheros con el mismo nombre que no puso zxv-link: ejecútalo una vez con «ZX-V: Ejecutar en la placa» para sustituirlos.",
+  "Run from the card": "Ejecutar desde la tarjeta",
+  "{0} is not inside the folder of the EXT: drive ({1}): it cannot be loaded from EXT:. Choose another folder in zxv.extFolder, or run it from the card.": "{0} no está dentro de la carpeta de la unidad EXT: ({1}): no se puede cargar desde EXT:. Elige otra carpeta en zxv.extFolder, o ejecútalo desde la tarjeta.",
+  "ZX-V: serving {0} as the EXT: drive. Click to stop.": "ZX-V: sirviendo {0} como la unidad EXT:. Pulsa para parar."
 }

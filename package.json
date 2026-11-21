@@ -127,6 +127,24 @@
           "scope": "machine-overridable",
           "markdownDescription": "%config.boardPort%"
         },
+        "zxv.boardFrom": {
+          "type": "string",
+          "enum": ["ext", "card"],
+          "default": "ext",
+          "enumDescriptions": ["%config.boardFrom.ext%", "%config.boardFrom.card%"],
+          "markdownDescription": "%config.boardFrom%"
+        },
+        "zxv.extFolder": {
+          "type": "string",
+          "default": "",
+          "scope": "machine-overridable",
+          "markdownDescription": "%config.extFolder%"
+        },
+        "zxv.extOverwrite": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "%config.extOverwrite%"
+        },
         "zxv.toolsPath": {
           "type": "string",
           "default": "",
@@ -246,6 +264,11 @@
         "title": "%command.runOnBoard%",
         "category": "ZX-V",
         "icon": "$(plug)"
+      },
+      {
+        "command": "zxv.stopExt",
+        "title": "%command.stopExt%",
+        "category": "ZX-V"
       },
       {
         "command": "zxv.openEmulator",

@@ -56,5 +56,11 @@
   "command.runOnBoard": "Ejecutar en la placa",
   "config.boardPort": "El puerto serie del adaptador USB-serie en la tira J5 de la placa (`COM5`, `/dev/ttyUSB0`...), para «ZX-V: Ejecutar en la placa» y para depurar en la placa. Vacío: se elige la primera vez.",
   "debug.basic.target.board": "La máquina de verdad, por la tira J5 de la placa con un adaptador USB-serie (zxv-link en zxv.toolsPath, ZX-V 0.10 o posterior)",
-  "debug.basic.snippet.board": "Depura un listado del BASIC de la ROM en la placa, por J5 (zxv-link)"
+  "debug.basic.snippet.board": "Depura un listado del BASIC de la ROM en la placa, por J5 (zxv-link)",
+  "command.stopExt": "Dejar de servir EXT:",
+  "config.boardFrom": "Desde dónde carga el programa «ZX-V: Ejecutar en la placa»: la unidad EXT: de la máquina (la carpeta de `zxv.extFolder`, que se sirve mientras está en marcha; nada va a la tarjeta), o la tarjeta (antes se copian a ella el programa y sus ficheros).",
+  "config.boardFrom.ext": "Desde la unidad EXT:: se sirve la carpeta, no se copia nada",
+  "config.boardFrom.card": "Desde la tarjeta: antes se copian a ella el programa y sus ficheros",
+  "config.extFolder": "La carpeta que se sirve como la unidad EXT: de la máquina (puede leer y escribir en ella). Vacío: la del espacio de trabajo. El programa tiene que estar dentro para cargarlo desde EXT:.",
+  "config.extOverwrite": "Dejar que la máquina sustituya o borre ficheros de la carpeta de EXT: que no escribió ella."
 }
