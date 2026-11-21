@@ -125,8 +125,8 @@ saved with it (`RUN` would clear them).
 
 A panel with the same machine as the web version (the `zxv-web.zip` core),
 with its BASIC, sound, keyboard, mouse and joysticks. When you run a program,
-the panel copies the program and the files of its folder (`.gfx`, `.pt3`,
-`.afb`...) to its card, loads it with `LOAD` and loads it again when you
+the panel copies the program and the files of its folder (`.gfx`, `.zxm`, `.pt3`,
+`.afb`, `.wav`...) to its card, loads it with `LOAD` and loads it again when you
 rebuild it or save the `.bas`. The panel card is kept between sessions, and
 so is the editor's key click if you turn it off in its EDIT menu (ZX-V 0.9).
 
@@ -137,7 +137,7 @@ starts by itself without showing the BASIC ([the guide](https://github.com/crono
 with the SDK's `sdk/tools/mkweb.py` and the web core the extension carries.
 It builds the program and uses the `game.json` of the project folder; the
 first time it creates it with the program, the files it loads (`.gfx`,
-`.pt3`, `.afb`...) and the title, so you can change the language, the
+`.zxm`, `.pt3`, `.afb`, `.wav`...) and the title, so you can change the language, the
 border or the touch controls. It leaves the page in `web/` and a
 `NAME-web.zip` to upload to itch.io, and opens it in the browser if you want.
 
@@ -148,7 +148,7 @@ Opening a game file shows or plays it, instead of its bytes:
 | File | What you get |
 |---|---|
 | `.gfx` | Its sprites, tiles, maps (with their tiles, flips and the transparency of each cell), mode 7 textures and screens (`SAVE "x" SCREEN$`, with their mode, border and palette if they carry one), with the machine palette and an unsmoothed zoom |
-| `.pt3`, `.pt2`, `.stc`, `.asc`, `.psg` | A player: it plays on the real machine (the web core) with `MUSIC PLAY`, `MUSIC PAUSE` and `MUSIC STOP` |
+| `.zxm`, `.pt3`, `.pt2`, `.stc`, `.asc`, `.psg`, `.mod`, `.s3m`, `.xm`, `.vgm`, `.vgz` | A player: it plays on the real machine (the web core) with `MUSIC PLAY`, `MUSIC PAUSE` and `MUSIC STOP` (`.zxm`, MOD, S3M, XM and VGM, with ZX-V 0.10 or later) |
 | `.afb`, `.afx` | A button for each effect of the bank (`SFX n`) |
 | `.zvb` | A ROM BASIC program saved with `SAVE`: its listing, as `LIST` shows it, its variables, the line it starts at (`LINE`) and its loading screen (`SAVE "x" LINE n SCREEN$`, in its own colours if saved after `PALETTE`). For a protected one (`SAVE "x" LINE n PROTECT`) it shows neither the listing nor the variables, like the machine: only its start line, its size and its loading screen; it still runs. **Open as a listing** puts it in a new ROM BASIC document, to edit it or save it as `.bas` |
 | `.zvd` | An array saved with `SAVE "x" DATA` |

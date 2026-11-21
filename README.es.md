@@ -127,7 +127,7 @@ Los errores de `gcc`, del enlazador y de `zxbc` van al panel de problemas
 Un panel con la misma máquina que la versión web (el núcleo de
 `zxv-web.zip`), con su BASIC, su sonido, el teclado, el ratón y los mandos.
 Al ejecutar un programa, el panel copia a su tarjeta el programa y los
-ficheros de su carpeta (`.gfx`, `.pt3`, `.afb`...), lo carga con `LOAD` y,
+ficheros de su carpeta (`.gfx`, `.zxm`, `.pt3`, `.afb`, `.wav`...), lo carga con `LOAD` y,
 cuando lo recompilas o guardas el `.bas`, lo vuelve a cargar. La tarjeta del
 panel se guarda entre sesiones, y también el clic de las teclas del editor si
 lo quitas en su menú EDIT (ZX-V 0.9).
@@ -139,7 +139,7 @@ sola sin que se vea el BASIC ([la guía](https://github.com/cronomantic/ZX-V/blo
 con `sdk/tools/mkweb.py` del SDK y el núcleo web que lleva la extensión.
 Compila el programa y usa el `game.json` de la carpeta del proyecto; la
 primera vez lo crea con el programa, los ficheros que carga (`.gfx`,
-`.pt3`, `.afb`...) y el título, para que puedas cambiar el idioma, el borde
+`.zxm`, `.pt3`, `.afb`, `.wav`...) y el título, para que puedas cambiar el idioma, el borde
 o los controles táctiles. Deja la página en `web/` y un `NOMBRE-web.zip`
 para subirlo a itch.io, y la abre en el navegador si quieres.
 
@@ -150,7 +150,7 @@ Al abrir un fichero de un juego se ve o se oye, en vez de sus bytes:
 | Fichero | Lo que se ve |
 |---|---|
 | `.gfx` | Sus sprites, tiles, mapas (con sus tiles, los volteos y la transparencia de cada celda), texturas de modo 7 y pantallas (`SAVE "x" SCREEN$`, con su modo, su borde y su paleta si la lleva), con la paleta de la máquina y un zoom sin suavizar |
-| `.pt3`, `.pt2`, `.stc`, `.asc`, `.psg` | Un reproductor: suena en la máquina de verdad (el núcleo web) con `MUSIC PLAY`, `MUSIC PAUSE` y `MUSIC STOP` |
+| `.zxm`, `.pt3`, `.pt2`, `.stc`, `.asc`, `.psg`, `.mod`, `.s3m`, `.xm`, `.vgm`, `.vgz` | Un reproductor: suena en la máquina de verdad (el núcleo web) con `MUSIC PLAY`, `MUSIC PAUSE` y `MUSIC STOP` (`.zxm`, MOD, S3M, XM y VGM, con ZX-V 0.10 o posterior) |
 | `.afb`, `.afx` | Un botón por efecto del banco (`SFX n`) |
 | `.zvb` | Un programa del BASIC de la ROM grabado con `SAVE`: su listado, como lo saca `LIST`, sus variables, la línea en la que arranca (`LINE`) y su pantalla de carga (`SAVE "x" LINE n SCREEN$`, con sus colores si la grabó tras `PALETTE`). De uno protegido (`SAVE "x" LINE n PROTECT`) no enseña ni el listado ni las variables, como la máquina: solo su línea de arranque, lo que ocupa y su pantalla de carga; se puede ejecutar igual. **Abrir como listado** lo deja en un documento nuevo del BASIC de la ROM, para cambiarlo o grabarlo como `.bas` |
 | `.zvd` | Una matriz grabada con `SAVE "x" DATA` |

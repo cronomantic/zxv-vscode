@@ -571,6 +571,9 @@
         "displayName": "%preview.sound%",
         "selector": [
           {
+            "filenamePattern": "*.zxm"
+          },
+          {
             "filenamePattern": "*.pt3"
           },
           {
@@ -584,6 +587,21 @@
           },
           {
             "filenamePattern": "*.psg"
+          },
+          {
+            "filenamePattern": "*.mod"
+          },
+          {
+            "filenamePattern": "*.s3m"
+          },
+          {
+            "filenamePattern": "*.xm"
+          },
+          {
+            "filenamePattern": "*.vgm"
+          },
+          {
+            "filenamePattern": "*.vgz"
           },
           {
             "filenamePattern": "*.afb"

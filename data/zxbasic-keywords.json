@@ -270,7 +270,7 @@
       "name": "MUSICLOAD",
       "kind": "sub",
       "signature": "MUSICLOAD(ByVal f$ as String)",
-      "doc": "MUSICLOAD f$: loads a module made with a tracker (without an extension, f$.pt3): Pro Tracker 3 or Vortex Tracker II (.pt3, what zxv-tracker saves), a TurboSound (two modules, one on each AY chip), Pro Tracker 2, Sound Tracker, ASC Sound Master or a PSG dump. It goes in the heap."
+      "doc": "MUSICLOAD f$: loads a module (without an extension, the first there is of f$.zxm, f$.pt3, f$.vgm and f$.vgz): ZX-V's own .zxm (the two AY chips and the sample channels: what zxv-music makes of a MOD, S3M or XM), Pro Tracker 3 or Vortex Tracker II (.pt3, what zxv-tracker saves), a TurboSound (two modules, one on each AY chip), Pro Tracker 2, Sound Tracker, ASC Sound Master, a PSG dump or a VGM of AY chips (.vgm, or compressed: .vgz, which takes 32 KB more to play). It goes in the heap."
     },
     {
       "name": "MUSICPLAY",
@@ -325,6 +325,36 @@
       "kind": "function",
       "signature": "SFXPLAYING as UByte",
       "doc": "SFXPLAYING: 1 while any effect plays"
+    },
+    {
+      "name": "SAMPLELOAD",
+      "kind": "sub",
+      "signature": "SAMPLELOAD(ByVal f$ as String, n as UByte)",
+      "doc": "SAMPLELOAD f$, n: loads a WAV (without an extension, f$.wav) as sound n (0 to 31) in the sound memory: 8 or 16 bits, mono or stereo, at any rate, and with its loop if it has one (a smpl chunk). Nothing stays in the RAM."
+    },
+    {
+      "name": "SAMPLE",
+      "kind": "sub",
+      "signature": "SAMPLE(n as UByte, tone as Float = 0, vol as UByte = 64, pan as UByte = 128, c as Byte = -1)",
+      "doc": "SAMPLE n[, tone, vol, pan, c]: plays sound n without waiting, tone semitones up (or down, negative: 12 is an octave), with its volume (0 to 64) and pan (0 left, 128 centre, 255 right), on a sample channel the music does not use, or on channel c (0 to 11). A sound with a loop goes on until SAMPLESTOP."
+    },
+    {
+      "name": "ZXVSAMPLEPLAY",
+      "kind": "sub",
+      "signature": "zxvSamplePlay(n as UByte, mul as ULong, vol as UByte, pan as UByte, c as Byte)",
+      "doc": ""
+    },
+    {
+      "name": "SAMPLESTOP",
+      "kind": "sub",
+      "signature": "SAMPLESTOP(c as Byte = -1)",
+      "doc": "SAMPLESTOP [c]: stops the sound of channel c, or all of them"
+    },
+    {
+      "name": "SAMPLEPLAYING",
+      "kind": "function",
+      "signature": "SAMPLEPLAYING as UByte",
+      "doc": "SAMPLEPLAYING: 1 while any sound of SAMPLE plays"
     }
   ]
 }

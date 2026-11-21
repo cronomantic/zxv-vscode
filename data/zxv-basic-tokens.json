@@ -426,6 +426,16 @@
       "code": 193,
       "name": "PROTECT",
       "fn": false
+    },
+    {
+      "code": 194,
+      "name": "SAMPLE",
+      "fn": true
+    },
+    {
+      "code": 195,
+      "name": "SAMPLE",
+      "fn": false
     }
   ]
 }

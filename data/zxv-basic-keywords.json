@@ -2952,6 +2952,38 @@
     }
   },
   {
+    "keyword": "SAMPLE",
+    "class": "function",
+    "zxv": true,
+    "anywhere": true,
+    "kind": {
+      "en": "function, statement; in LOAD",
+      "es": "función, orden; en LOAD"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "SAMPLE",
+          "anchor": "sample"
+        },
+        {
+          "title": "LOAD",
+          "anchor": "load"
+        }
+      ],
+      "es": [
+        {
+          "title": "SAMPLE",
+          "anchor": "sample"
+        },
+        {
+          "title": "LOAD",
+          "anchor": "load"
+        }
+      ]
+    }
+  },
+  {
     "keyword": "SAVE",
     "class": "other",
     "zxv": false,

@@ -1,5 +1,19 @@
 # Cambios / Changes
 
+## Sin publicar / Unreleased
+
+- La música nueva de ZX-V (0.10): las vistas previas y el panel también
+  con `.zxm`, MOD, S3M, XM y VGM (`.vgm`, `.vgz`); los `.wav` de `SAMPLE` y
+  los `.afx` van con el programa a la tarjeta del panel y a «Publicar en la
+  web». `SAMPLE` (en los dos BASIC), coloreado y con su ayuda.
+
+---
+
+- ZX-V's new music (0.10): the previews and the panel also take `.zxm`,
+  MOD, S3M, XM and VGM (`.vgm`, `.vgz`); the `SAMPLE` `.wav` files and the
+  `.afx` files go with the program to the panel's card and to «Publish on
+  the web». `SAMPLE` (in both BASICs), highlighted and with its help.
+
 ## 0.4.0
 
 - Con ZX-V 0.9.0: el núcleo web del panel y de «Publicar en la web». Las

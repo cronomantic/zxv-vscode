@@ -78,7 +78,7 @@
     "clock": {
       "title": "CLOCK",
       "syntax": "CLOCK n\nCLOCK year, month, day, hour, minutes [, seconds]",
-      "summary": "The function `CLOCK n` reads the date and time: 0 year, 1 month, 2 day, 3 hour, 4 minutes, 5 seconds, 6 day of the week (1 Monday to 7 Sunday). It gives 0 if the clock has not been set. The statement sets the clock (years 2000 to 2099); a date that does not exist gives `A Invalid argument`. Files saved on the card are stamped with this date."
+      "summary": "The function `CLOCK n` reads the date and time: 0 year, 1 month, 2 day, 3 hour, 4 minutes, 5 seconds, 6 day of the week (1 Monday to 7 Sunday). It gives 0 if the clock has not been set. The statement sets the clock (years 2000 to 2099); a date that does not exist gives `A Invalid argument`. Files saved on the card are stamped with this date. Without a program, the editor's menu sets it too: [Date and time](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/editor.md#the-date-and-time)."
     },
     "cls": {
       "title": "CLS",
@@ -252,8 +252,8 @@
     },
     "load": {
       "title": "LOAD",
-      "syntax": "LOAD name$\nLOAD name$ CODE [start [, length]]\nLOAD name$ SCREEN$\nLOAD name$ DATA letter()\nLOAD name$ DATA letter$()\nLOAD name$ GRAPHICS\nLOAD name$ MUSIC\nLOAD name$ SFX",
-      "summary": "Loads from the SD card (or the `ROM:` drive):\n\n- A **program**: replaces the program in memory, and its variables replace the ones there were. If it was saved with `LINE`, it runs from that line without clearing them, as with `GO TO`. Without an extension, ZX-V tries `name.zvb`, then `name.tap`, then `name.zxv` (a [native program](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#native-programs), which runs), then `name.bas` (a [listing in text](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#listings-in-text)), then the name as it is. Spectrum `.tap` and `.tzx` files with BASIC programs load directly, with their variables (see [Tape files](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#tape-files)); ZX-V `.tap` files from before 0.7 carry no variables.\n- `CODE`: a file of bytes (without an extension, `name.bin` and then `name.tap`), at `start` and at most `length` bytes. A file that is not a `.tap` does not know where it goes, so `start` is needed: `LOAD \"data\" CODE 40000`; the `CODE` block of a `.tap` goes back without it to the address it was saved from.\n- `SCREEN$`: a screen (without an extension, `name.gfx` and then a block of `name.tap`). The one in a `.gfx` goes up as it is, with its mode (if it is not the current one, it changes as with `MODE`) and its border; if it carries its colours, they go into table 0's palette, without `REMAP` changes, and that table becomes the one in use (as with `REMAP #0`). `SCREEN$()` does not recognise the text on it. A `.scr` or a `.tap` is a Spectrum screen, shown as it was.\n- `DATA`: an array (without an extension, `name.zvd` and then `name.tap`), replacing the array of that name, as `DIM` does. The type must match.\n- `GRAPHICS`: the objects of a `.gfx` file replace those with the same number; the others stay, so you can load sprites from one file and a level from another. A file that is not valid gives `R Tape loading error`.\n- `MUSIC` and `SFX`: a music module or an effect bank (see [`MUSIC`](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#music) and [`SFX`](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#sfx))."
+      "syntax": "LOAD name$\nLOAD name$ CODE [start [, length]]\nLOAD name$ SCREEN$\nLOAD name$ DATA letter()\nLOAD name$ DATA letter$()\nLOAD name$ GRAPHICS\nLOAD name$ MUSIC\nLOAD name$ SFX\nLOAD name$ SAMPLE n",
+      "summary": "Loads from the SD card (or the `ROM:` drive):\n\n- A **program**: replaces the program in memory, and its variables replace the ones there were. If it was saved with `LINE`, it runs from that line without clearing them, as with `GO TO`. Without an extension, ZX-V tries `name.zvb`, then `name.tap`, then `name.zxv` (a [native program](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#native-programs), which runs), then `name.bas` (a [listing in text](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#listings-in-text)), then the name as it is. Spectrum `.tap` and `.tzx` files with BASIC programs load directly, with their variables (see [Tape files](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#tape-files)); ZX-V `.tap` files from before 0.7 carry no variables.\n- `CODE`: a file of bytes (without an extension, `name.bin` and then `name.tap`), at `start` and at most `length` bytes. A file that is not a `.tap` does not know where it goes, so `start` is needed: `LOAD \"data\" CODE 40000`; the `CODE` block of a `.tap` goes back without it to the address it was saved from.\n- `SCREEN$`: a screen (without an extension, `name.gfx` and then a block of `name.tap`). The one in a `.gfx` goes up as it is, with its mode (if it is not the current one, it changes as with `MODE`) and its border; if it carries its colours, they go into table 0's palette, without `REMAP` changes, and that table becomes the one in use (as with `REMAP #0`). `SCREEN$()` does not recognise the text on it. A `.scr` or a `.tap` is a Spectrum screen, shown as it was.\n- `DATA`: an array (without an extension, `name.zvd` and then `name.tap`), replacing the array of that name, as `DIM` does. The type must match.\n- `GRAPHICS`: the objects of a `.gfx` file replace those with the same number; the others stay, so you can load sprites from one file and a level from another. A file that is not valid gives `R Loading error`.\n- `MUSIC`, `SFX` and `SAMPLE`: a music module, an effect bank or a recorded sound (see [`MUSIC`](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#music), [`SFX`](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#sfx) and [`SAMPLE`](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#sample))."
     },
     "local": {
       "title": "LOCAL",
@@ -278,7 +278,7 @@
     "merge": {
       "title": "MERGE",
       "syntax": "MERGE name$",
-      "summary": "Adds the lines of a saved program to the one in memory; lines with the same number are replaced. The same goes for the variables, as on the Spectrum: those in the file replace the ones with the same name, and the others stay. It also works with a [listing in text](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#listings-in-text) (`.bas`), which has no variables. A protected program cannot be merged (`R Tape loading error`)."
+      "summary": "Adds the lines of a saved program to the one in memory; lines with the same number are replaced. The same goes for the variables, as on the Spectrum: those in the file replace the ones with the same name, and the others stay. It also works with a [listing in text](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#listings-in-text) (`.bas`), which has no variables. A protected program cannot be merged (`R Loading error`)."
     },
     "mkdir-rmdir": {
       "title": "MKDIR, RMDIR",
@@ -308,7 +308,7 @@
     "music": {
       "title": "MUSIC",
       "syntax": "LOAD name$ MUSIC\nMUSIC PLAY\nMUSIC STOP\nMUSIC PAUSE\nMUSIC CONTINUE\nMUSIC                          (function)",
-      "summary": "Plays music made with a tracker, in the background: the program carries on while it plays, as in games. `LOAD name$ MUSIC` loads a module (without an extension, `name.pt3`): Pro Tracker 3 or Vortex Tracker II (`.pt3`, the one the ZX-V tracker, [`zxv-tracker`](https://github.com/cronomantic/ZX-V/blob/main/docs/en/sdk/README.md#the-tracker-for-the-pc-zxv-tracker), saves), a TurboSound (two modules, one on each AY chip: six voices), Pro Tracker 2, Sound Tracker, ASC Sound Master or a PSG dump. A file that is none of those gives `R Tape loading error`."
+      "summary": "Plays music made with a tracker, in the background: the program carries on while it plays, as in games. `LOAD name$ MUSIC` loads a module (without an extension, the first there is of `name.zxm`, `name.pt3`, `name.mod`, `name.s3m`, `name.xm`, `name.vgm` and `name.vgz`): ZX-V's own format (`.zxm`, with both AY chips and the sample channels: the one [`zxv-tracker`](https://github.com/cronomantic/ZX-V/blob/main/docs/en/sdk/README.md#the-tracker-for-the-pc-zxv-tracker) or [`zxv-music`](https://github.com/cronomantic/ZX-V/blob/main/docs/en/sdk/README.md#the-own-format-zxm-and-zxv-music) saves), a MOD, an S3M (Scream Tracker 3) or an XM (FastTracker 2), which it converts when loading and which play on the sample channels (up to 12: of those with more, the first 12 with notes), Pro Tracker 3 or Vortex Tracker II (`.pt3`, which `zxv-tracker` also saves), a TurboSound (two modules, one on each AY chip: six voices), Pro Tracker 2, Sound Tracker, ASC Sound Master, a PSG dump or a VGM (`.vgm`, or compressed, `.vgz`: the registers of the AY chips, as emulators record them; see [VGM](https://github.com/cronomantic/ZX-V/blob/main/docs/en/sdk/README.md#vgm-the-ay-chips)). A file that is none of those gives `R Loading error`."
     },
     "new": {
       "title": "NEW",
@@ -430,6 +430,11 @@
       "syntax": "RUN [line | @label]",
       "summary": "Starts the program from the beginning, or from that line or label. Before starting it clears everything like [`CLEAR`](https://github.com/cronomantic/ZX-V/blob/main/docs/en/basic/reference.md#clear): deletes the variables, clears the screen, closes open files and turns off `ON ERROR`. To start without losing the variables, use `GO TO`."
     },
+    "sample": {
+      "title": "SAMPLE",
+      "syntax": "LOAD name$ SAMPLE n\nSAMPLE n [, pitch [, volume [, pan]]] [; channel]\nSAMPLE STOP [channel]\nSAMPLE                         (function)",
+      "summary": "Recorded sounds (hits, voices, instruments) on the twelve sample channels, without waiting, together with the music and everything else."
+    },
     "save": {
       "title": "SAVE",
       "syntax": "SAVE name$ [LINE line [SCREEN$] [PROTECT]]\nSAVE name$ CODE start, length\nSAVE name$ SCREEN$\nSAVE name$ DATA letter()\nSAVE name$ DATA letter$()\nSAVE name$ GRAPHICS",
@@ -453,7 +458,7 @@
     "sfx": {
       "title": "SFX",
       "syntax": "LOAD name$ SFX\nSFX n [, channel]\nSFX STOP\nSFX                            (function)",
-      "summary": "Sound effects as in games: an AYFX effect bank (`.afb`, the one the effects tab of `zxv-tracker` or the AY Sound FX Editor saves; without an extension, `name.afb`) or a single effect (`.afx`). A file that is not a bank gives `R Tape loading error`."
+      "summary": "Sound effects as in games: an AYFX effect bank (`.afb`, the one the effects tab of `zxv-tracker` or the AY Sound FX Editor saves; without an extension, `name.afb`) or a single effect (`.afx`). A file that is not a bank gives `R Loading error`."
     },
     "sin-cos-tan": {
       "title": "SIN, COS, TAN",
@@ -463,7 +468,7 @@
     "sound": {
       "title": "SOUND",
       "syntax": "SOUND register, value [; register, value]...",
-      "summary": "Writes directly to the registers of the AY chips, for sound effects. Registers 0 to 15 belong to the first chip and 16 to 31 to the second (same meaning, 16 higher); values are 0 to 255. A register above 31 gives `B Integer out of range`."
+      "summary": "Writes directly to the registers of the AY chips, for sound effects. Registers 0 to 15 belong to the first chip and 16 to 31 to the second (same meaning, 16 higher); values are 0 to 255. Registers 64 to 159 are those of the twelve sample channels, eight per channel (channel c starts at 64 + 8 × c): the sample (a table entry: the `SAMPLE` ones are 224 to 255), the volume (0–64), the pan, the control (1 starts it, 2 stops it), the three bytes of the step (8.16: 65,536 is 48 kHz) and where it starts; see the sample channels in the [SDK reference](https://github.com/cronomantic/ZX-V/blob/main/docs/en/sdk/reference.md). Any other register gives `B Integer out of range`."
     },
     "speed": {
       "title": "SPEED",
@@ -528,7 +533,7 @@
     "verify": {
       "title": "VERIFY",
       "syntax": "VERIFY name$ [CODE ... | SCREEN$ | DATA ... | GRAPHICS]",
-      "summary": "Checks that a file is the same as what is in memory, with the same forms as `LOAD`, without changing anything. If it differs, `R Tape loading error`."
+      "summary": "Checks that a file is the same as what is in memory, with the same forms as `LOAD`, without changing anything. If it differs, `R Loading error`."
     },
     "wait": {
       "title": "WAIT",
@@ -625,7 +630,7 @@
     "clock": {
       "title": "CLOCK",
       "syntax": "CLOCK n\nCLOCK año, mes, día, hora, minutos [, segundos]",
-      "summary": "La función `CLOCK n` lee la fecha y la hora: 0 el año, 1 el mes, 2 el día, 3 la hora, 4 los minutos, 5 los segundos y 6 el día de la semana (1 lunes ... 7 domingo). Da 0 si el reloj no está en hora. La orden pone el reloj en hora (años de 2000 a 2099); una fecha que no existe da `A Argumento no válido`. Los ficheros que se graban en la tarjeta llevan esa fecha."
+      "summary": "La función `CLOCK n` lee la fecha y la hora: 0 el año, 1 el mes, 2 el día, 3 la hora, 4 los minutos, 5 los segundos y 6 el día de la semana (1 lunes ... 7 domingo). Da 0 si el reloj no está en hora. La orden pone el reloj en hora (años de 2000 a 2099); una fecha que no existe da `A Argumento no válido`. Los ficheros que se graban en la tarjeta llevan esa fecha. Sin programa, también lo pone en hora el menú del editor: [Fecha y hora](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/editor.md#la-fecha-y-la-hora)."
     },
     "cls": {
       "title": "CLS",
@@ -799,8 +804,8 @@
     },
     "load": {
       "title": "LOAD",
-      "syntax": "LOAD nombre$\nLOAD nombre$ CODE [inicio [, longitud]]\nLOAD nombre$ SCREEN$\nLOAD nombre$ DATA letra()\nLOAD nombre$ DATA letra$()\nLOAD nombre$ GRAPHICS\nLOAD nombre$ MUSIC\nLOAD nombre$ SFX",
-      "summary": "Carga de la tarjeta SD (o de la unidad `ROM:`):\n\n- Un **programa**: sustituye al que hay en la memoria, y sus variables a las que había. Si se grabó con `LINE`, se ejecuta desde esa línea sin borrarlas, como con `GO TO`. Sin extensión, ZX-V prueba `nombre.zvb`, después `nombre.tap`, después `nombre.zxv` (un [programa nativo](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#programas-nativos), que se ejecuta), después `nombre.bas` (un [listado en texto](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#listados-en-texto)) y por último el nombre tal cual. Los `.tap` y `.tzx` del Spectrum con programas en BASIC se cargan directamente, con sus variables (ver [Ficheros de cinta](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#ficheros-de-cinta)); los `.tap` de ZX-V de antes de la 0.7 no llevan variables.\n- `CODE`: un fichero de bytes (sin extensión, `nombre.bin` y luego `nombre.tap`), en `inicio` y como mucho `longitud` bytes. Un fichero que no es `.tap` no sabe dónde va, así que hace falta `inicio`: `LOAD \"datos\" CODE 40000`; el bloque `CODE` de un `.tap` vuelve sin ella a la dirección desde la que se grabó.\n- `SCREEN$`: una pantalla (sin extensión, `nombre.gfx` y luego un bloque de `nombre.tap`). La de un `.gfx` se pone tal cual, con su modo (si no es el de ahora, cambia como con `MODE`) y su borde; si trae sus colores, se ponen en la paleta de la tabla 0, sin cambios de `REMAP`, y esa tabla pasa a ser la que se usa (como con `REMAP #0`). `SCREEN$()` no reconoce el texto que lleve. Un `.scr` o un `.tap` es una pantalla del Spectrum, que se ve como era.\n- `DATA`: una matriz (sin extensión, `nombre.zvd` y luego `nombre.tap`), que sustituye a la que tenga ese nombre, como `DIM`. El tipo tiene que coincidir.\n- `GRAPHICS`: los objetos de un fichero `.gfx` sustituyen a los que tienen el mismo número; los demás se quedan, así que puedes cargar los sprites de un fichero y un nivel de otro. Un fichero que no es válido da `R Error al cargar`.\n- `MUSIC` y `SFX`: un módulo de música o un banco de efectos (ver [`MUSIC`](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#music) y [`SFX`](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#sfx))."
+      "syntax": "LOAD nombre$\nLOAD nombre$ CODE [inicio [, longitud]]\nLOAD nombre$ SCREEN$\nLOAD nombre$ DATA letra()\nLOAD nombre$ DATA letra$()\nLOAD nombre$ GRAPHICS\nLOAD nombre$ MUSIC\nLOAD nombre$ SFX\nLOAD nombre$ SAMPLE n",
+      "summary": "Carga de la tarjeta SD (o de la unidad `ROM:`):\n\n- Un **programa**: sustituye al que hay en la memoria, y sus variables a las que había. Si se grabó con `LINE`, se ejecuta desde esa línea sin borrarlas, como con `GO TO`. Sin extensión, ZX-V prueba `nombre.zvb`, después `nombre.tap`, después `nombre.zxv` (un [programa nativo](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#programas-nativos), que se ejecuta), después `nombre.bas` (un [listado en texto](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#listados-en-texto)) y por último el nombre tal cual. Los `.tap` y `.tzx` del Spectrum con programas en BASIC se cargan directamente, con sus variables (ver [Ficheros de cinta](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#ficheros-de-cinta)); los `.tap` de ZX-V de antes de la 0.7 no llevan variables.\n- `CODE`: un fichero de bytes (sin extensión, `nombre.bin` y luego `nombre.tap`), en `inicio` y como mucho `longitud` bytes. Un fichero que no es `.tap` no sabe dónde va, así que hace falta `inicio`: `LOAD \"datos\" CODE 40000`; el bloque `CODE` de un `.tap` vuelve sin ella a la dirección desde la que se grabó.\n- `SCREEN$`: una pantalla (sin extensión, `nombre.gfx` y luego un bloque de `nombre.tap`). La de un `.gfx` se pone tal cual, con su modo (si no es el de ahora, cambia como con `MODE`) y su borde; si trae sus colores, se ponen en la paleta de la tabla 0, sin cambios de `REMAP`, y esa tabla pasa a ser la que se usa (como con `REMAP #0`). `SCREEN$()` no reconoce el texto que lleve. Un `.scr` o un `.tap` es una pantalla del Spectrum, que se ve como era.\n- `DATA`: una matriz (sin extensión, `nombre.zvd` y luego `nombre.tap`), que sustituye a la que tenga ese nombre, como `DIM`. El tipo tiene que coincidir.\n- `GRAPHICS`: los objetos de un fichero `.gfx` sustituyen a los que tienen el mismo número; los demás se quedan, así que puedes cargar los sprites de un fichero y un nivel de otro. Un fichero que no es válido da `R Error al cargar`.\n- `MUSIC`, `SFX` y `SAMPLE`: un módulo de música, un banco de efectos o un sonido grabado (ver [`MUSIC`](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#music), [`SFX`](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#sfx) y [`SAMPLE`](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#sample))."
     },
     "local": {
       "title": "LOCAL",
@@ -855,7 +860,7 @@
     "music": {
       "title": "MUSIC",
       "syntax": "LOAD nombre$ MUSIC\nMUSIC PLAY\nMUSIC STOP\nMUSIC PAUSE\nMUSIC CONTINUE\nMUSIC                          (función)",
-      "summary": "Toca música hecha con un tracker, de fondo: el programa sigue mientras suena, como en los juegos. `LOAD nombre$ MUSIC` carga un módulo (sin extensión, `nombre.pt3`): de Pro Tracker 3 o Vortex Tracker II (`.pt3`, el que guarda el tracker de ZX-V, [`zxv-tracker`](https://github.com/cronomantic/ZX-V/blob/main/docs/es/sdk/README.md#el-tracker-para-el-pc-zxv-tracker)), un TurboSound (dos módulos, uno en cada chip AY: seis voces), de Pro Tracker 2, Sound Tracker, ASC Sound Master o un volcado PSG. Un fichero que no es ninguno de esos da `R Error al cargar`."
+      "summary": "Toca música hecha con un tracker, de fondo: el programa sigue mientras suena, como en los juegos. `LOAD nombre$ MUSIC` carga un módulo (sin extensión, el primero que haya de `nombre.zxm`, `nombre.pt3`, `nombre.mod`, `nombre.s3m`, `nombre.xm`, `nombre.vgm` y `nombre.vgz`): del formato propio de ZX-V (`.zxm`, con los dos chips AY y los canales de muestras: el que guarda [`zxv-tracker`](https://github.com/cronomantic/ZX-V/blob/main/docs/es/sdk/README.md#el-tracker-para-el-pc-zxv-tracker) o [`zxv-music`](https://github.com/cronomantic/ZX-V/blob/main/docs/es/sdk/README.md#el-formato-propio-zxm-y-zxv-music)), un MOD, un S3M (Scream Tracker 3) o un XM (FastTracker 2), que convierte al cargarlos y suenan en los canales de muestras (hasta 12: de los que tengan más, los 12 primeros con notas), de Pro Tracker 3 o Vortex Tracker II (`.pt3`, que también guarda `zxv-tracker`), un TurboSound (dos módulos, uno en cada chip AY: seis voces), de Pro Tracker 2, Sound Tracker, ASC Sound Master, un volcado PSG o un VGM (`.vgm` o comprimido, `.vgz`: los registros de los AY, como los graban los emuladores; ver [VGM](https://github.com/cronomantic/ZX-V/blob/main/docs/es/sdk/README.md#vgm-los-ay)). Un fichero que no es ninguno de esos da `R Error al cargar`."
     },
     "new": {
       "title": "NEW",
@@ -977,6 +982,11 @@
       "syntax": "RUN [línea | @etiqueta]",
       "summary": "Ejecuta el programa desde el principio, o desde esa línea o etiqueta. Antes de empezar lo limpia todo como [`CLEAR`](https://github.com/cronomantic/ZX-V/blob/main/docs/es/basic/reference.md#clear): borra las variables y la pantalla, cierra los ficheros abiertos y quita el `ON ERROR`. Para empezar sin perder las variables, usa `GO TO`."
     },
+    "sample": {
+      "title": "SAMPLE",
+      "syntax": "LOAD nombre$ SAMPLE n\nSAMPLE n [, tono [, volumen [, panorama]]] [; canal]\nSAMPLE STOP [canal]\nSAMPLE                         (función)",
+      "summary": "Sonidos grabados (golpes, voces, instrumentos) en los doce canales de muestras, sin esperar, a la vez que la música y lo demás."
+    },
     "save": {
       "title": "SAVE",
       "syntax": "SAVE nombre$ [LINE línea [SCREEN$] [PROTECT]]\nSAVE nombre$ CODE inicio, longitud\nSAVE nombre$ SCREEN$\nSAVE nombre$ DATA letra()\nSAVE nombre$ DATA letra$()\nSAVE nombre$ GRAPHICS",
@@ -1010,7 +1020,7 @@
     "sound": {
       "title": "SOUND",
       "syntax": "SOUND registro, valor [; registro, valor]...",
-      "summary": "Escribe directamente en los registros de los chips AY, para hacer efectos de sonido. Los registros del 0 al 15 son los del primer chip y del 16 al 31, los del segundo (con el mismo significado, 16 más arriba); los valores van de 0 a 255. Un registro mayor que 31 da `B Entero fuera de rango`."
+      "summary": "Escribe directamente en los registros de los chips AY, para hacer efectos de sonido. Los registros del 0 al 15 son los del primer chip y del 16 al 31, los del segundo (con el mismo significado, 16 más arriba); los valores van de 0 a 255. Del 64 al 159 son los de los doce canales de muestras, ocho por canal (el canal c empieza en el 64 + 8 × c): la muestra (una entrada de la tabla: las de `SAMPLE` son de la 224 a la 255), el volumen (0–64), el panorama, el control (1 la arranca, 2 la para), los tres bytes del paso (8.16: 65 536 es 48 kHz) y desde dónde empieza; ver los canales de muestras en la [referencia del SDK](https://github.com/cronomantic/ZX-V/blob/main/docs/es/sdk/reference.md). Otro registro da `B Entero fuera de rango`."
     },
     "speed": {
       "title": "SPEED",

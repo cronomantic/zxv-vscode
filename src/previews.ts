@@ -2,9 +2,10 @@
  * previews.ts - Las vistas previas de los ficheros de los juegos:
  *   - .gfx: sus sprites, tiles, mapas, texturas y pantallas, dibujados
  *     (gfx.ts) con la paleta de la máquina;
- *   - música (.pt3, .pt2, .stc, .asc, .psg) y efectos (.afb, .afx): se oyen
- *     en la máquina de verdad (el núcleo web): el fichero va a su tarjeta y
- *     se teclea LOAD "x" MUSIC: MUSIC PLAY, o LOAD "x" SFX: SFX n;
+ *   - música (.zxm, .pt3, .pt2, .stc, .asc, .psg, .mod, .s3m, .xm, .vgm,
+ *     .vgz) y efectos (.afb, .afx): se oyen en la máquina de verdad (el
+ *     núcleo web; .zxm, MOD, S3M, XM y VGM desde ZX-V 0.10): el fichero va a
+ *     su tarjeta y se teclea LOAD "x" MUSIC: MUSIC PLAY, o LOAD "x" SFX: SFX n;
  *   - lo que graba el BASIC de la ROM: un programa (.zvb) listado como LIST,
  *     con sus variables, y las matrices de un .zvd (zvbList.ts);
  *   - una pantalla del Spectrum (.scr, que no es la de ZX-V), dibujada.
@@ -111,7 +112,7 @@ export class GfxPreview implements vscode.CustomReadonlyEditorProvider<Doc> {
 
 /* --- Música y efectos ------------------------------------------------------- */
 
-export const MUSIC_EXTS = ['.pt3', '.pt2', '.stc', '.asc', '.psg'];
+export const MUSIC_EXTS = ['.zxm', '.pt3', '.pt2', '.stc', '.asc', '.psg', '.mod', '.s3m', '.xm', '.vgm', '.vgz'];
 export const SFX_EXTS = ['.afb', '.afx'];
 
 export class SoundPreview implements vscode.CustomReadonlyEditorProvider<Doc> {

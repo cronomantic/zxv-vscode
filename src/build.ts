@@ -26,8 +26,8 @@ const MAKEFILES = ['GNUmakefile', 'makefile', 'Makefile'];
 /* Los ficheros que un programa puede cargar de la tarjeta: se copian con
  * él al panel (y a la carpeta del programa si están junto a las fuentes). */
 export const RESOURCE_EXTS = new Set([
-    '.gfx', '.pt3', '.pt2', '.stc', '.asc', '.psg', '.afb', '.zvb', '.zvd', '.tap', '.tzx', '.scr', '.bin', '.dat',
-    '.txt', '.bas', '.zxv',
+    '.gfx', '.zxm', '.pt3', '.pt2', '.stc', '.asc', '.psg', '.mod', '.s3m', '.xm', '.vgm', '.vgz', '.afb', '.afx',
+    '.wav', '.zvb', '.zvd', '.tap', '.tzx', '.scr', '.bin', '.dat', '.txt', '.bas', '.zxv',
 ]);
 
 /* Los programas que se cargan tal cual: los de C y ZX Basic (.zxv), los del
