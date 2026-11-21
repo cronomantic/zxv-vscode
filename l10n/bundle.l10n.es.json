@@ -87,5 +87,8 @@
   "The connection to the board has closed: the debugging ends.": "La conexión con la placa se ha cerrado: se acaba la depuración.",
   "{0} is not there any more: choose the port of the adapter on the board's J5": "{0} ya no está: elige el puerto del adaptador en la tira J5 de la placa",
   "Choose another port": "Elegir otro puerto",
-  "zxv-link cannot open {0}: look at the ZX-V output.": "zxv-link no puede abrir {0}: mira la salida ZX-V."
+  "zxv-link cannot open {0}: look at the ZX-V output.": "zxv-link no puede abrir {0}: mira la salida ZX-V.",
+  "Replace them": "Sustituirlos",
+  "On the board's card there are files with the same name and other contents that zxv-link did not put there (they are in the ZX-V output). Nothing has been touched. Replace them?": "En la tarjeta de la placa hay ficheros con el mismo nombre y otro contenido que no puso zxv-link (están en la salida de ZX-V). No se ha tocado nada. ¿Sustituirlos?",
+  "On the board's card there are files with the same name that zxv-link did not put there: run it once with «ZX-V: Run on the board» to replace them.": "En la tarjeta de la placa hay ficheros con el mismo nombre que no puso zxv-link: ejecútalo una vez con «ZX-V: Ejecutar en la placa» para sustituirlos."
 }

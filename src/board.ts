@@ -15,8 +15,11 @@ import { BoxWrites } from './panel';
 import { gameFiles } from './publishWeb';
 import * as tools from './tools';
 
-/* zxv-link sale con este código cuando no puede abrir el puerto. */
+/* zxv-link sale con estos códigos cuando no puede abrir el puerto, y cuando
+ * sustituiría en la tarjeta algo que no puso él (sin tocar nada: con
+ * --overwrite, sí). */
 const EXIT_PORT = 3;
+const EXIT_EXISTS = 4;
 
 /* El puerto del adaptador: zxv.boardPort, si sigue ahí; si no (o con
  * choose), se elige de los que hay y se guarda. */
@@ -64,8 +67,9 @@ function spawnLink(exe: string, args: string[], cwd: string): cp.ChildProcess {
 }
 
 /* «Ejecutar en la placa»: el programa y sus ficheros a la tarjeta, y a
- * ejecutarlo. */
-export async function runOnBoard(p: Program, choose = false): Promise<void> {
+ * ejecutarlo. Si en la tarjeta hay, con el mismo nombre, algo distinto que
+ * no puso zxv-link, pregunta antes de sustituirlo. */
+export async function runOnBoard(p: Program, choose = false, overwrite = false): Promise<void> {
     const scope = vscode.Uri.file(p.file);
     const exe = linkExe(scope);
     if (!exe)
@@ -74,7 +78,8 @@ export async function runOnBoard(p: Program, choose = false): Promise<void> {
     if (!port)
         return;
     outputChannel().show(true);
-    const child = spawnLink(exe, ['--port', port, 'run', p.file, ...gameFiles(p)], path.dirname(p.file));
+    const child = spawnLink(exe, ['--port', port, ...(overwrite ? ['--overwrite'] : []), 'run', p.file, ...gameFiles(p)],
+                            path.dirname(p.file));
     await new Promise<void>(resolve => {
         child.on('error', e => {
             showError(vscode.l10n.t('zxv-link did not start: {0}', e.message));
@@ -85,7 +90,15 @@ export async function runOnBoard(p: Program, choose = false): Promise<void> {
                 const other = vscode.l10n.t('Choose another port');
                 showError(vscode.l10n.t('zxv-link cannot open {0}: look at the ZX-V output.', port), other).then(a => {
                     if (a === other)
-                        runOnBoard(p, true);
+                        runOnBoard(p, true, overwrite);
+                });
+            } else if (code === EXIT_EXISTS) {
+                const replace = vscode.l10n.t('Replace them');
+                vscode.window.showWarningMessage(
+                    vscode.l10n.t("On the board's card there are files with the same name and other contents that zxv-link did not put there (they are in the ZX-V output). Nothing has been touched. Replace them?"),
+                    { modal: true }, replace).then(a => {
+                    if (a === replace)
+                        runOnBoard(p, false, true);
                 });
             } else if (code)
                 showError(vscode.l10n.t('zxv-link failed: look at the ZX-V output.'));
@@ -113,6 +126,8 @@ export async function boardLink(file: string, setup: BoxWrites): Promise<BoxLink
         child.on('error', e => resolve(e.message));
         child.on('exit', code => resolve(code === EXIT_PORT
             ? vscode.l10n.t('zxv-link cannot open {0}: look at the ZX-V output.', port)
+            : code === EXIT_EXISTS
+            ? vscode.l10n.t("On the board's card there are files with the same name that zxv-link did not put there: run it once with «ZX-V: Run on the board» to replace them.")
             : vscode.l10n.t('zxv-link has ended: look at the ZX-V output.')));
     });
     const ok = await Promise.race([link.connect(tcp), failed]);
