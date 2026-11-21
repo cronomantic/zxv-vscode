@@ -46,6 +46,32 @@ function inside(file: string, folder: string): boolean {
     return !!rel && !rel.startsWith('..') && !path.isAbsolute(rel);
 }
 
+/* Lo que se teclea para cargarlo desde EXT: (como lc_ext_command en
+ * zxv-link): CD a su carpeta dentro de EXT: (así un .zxv encuentra sus
+ * ficheros) y LOAD. */
+function extLoadCommand(folder: string, file: string): string {
+    const dir = path.relative(folder, path.dirname(file)).split(path.sep).filter(p => p).join('/');
+    return `CD "EXT:${dir ? '/' + dir : ''}": ${loadCommand(file)}`;
+}
+
+/* Si cargarlo desde EXT: (zxv.boardFrom "ext" y el programa dentro de la
+ * carpeta): la carpeta; si no se puede, pregunta si desde la tarjeta
+ * (null: no). undefined: desde la tarjeta. */
+async function extFor(file: string): Promise<string | null | undefined> {
+    const scope = vscode.Uri.file(file);
+    if (tools.config(scope).get<string>('boardFrom', 'ext') !== 'ext')
+        return undefined;
+    const folder = extFolder(scope);
+    if (folder && inside(file, folder))
+        return folder;
+    const card = vscode.l10n.t('Run from the card');
+    const a = await vscode.window.showWarningMessage(
+        vscode.l10n.t('{0} is not inside the folder of the EXT: drive ({1}): it cannot be loaded from EXT:. Choose another folder in zxv.extFolder, or run it from the card.',
+                      path.basename(file), folder ?? '-'),
+        card);
+    return a === card ? undefined : null;
+}
+
 /* zxv-link sale con estos códigos cuando no puede abrir el puerto, y cuando
  * sustituiría en la tarjeta algo que no puso él (sin tocar nada: con
  * --overwrite, sí). */
@@ -105,17 +131,12 @@ export async function runOnBoard(p: Program, choose = false, overwrite = false, 
     const exe = linkExe(scope);
     if (!exe)
         return;
-    if (!fromCard && tools.config(scope).get<string>('boardFrom', 'ext') === 'ext') {
-        const folder = extFolder(scope);
-        if (folder && inside(p.file, folder))
-            return runFromExt(exe, p, folder, choose);
-        const card = vscode.l10n.t('Run from the card');
-        const a = await vscode.window.showWarningMessage(
-            vscode.l10n.t('{0} is not inside the folder of the EXT: drive ({1}): it cannot be loaded from EXT:. Choose another folder in zxv.extFolder, or run it from the card.',
-                          path.basename(p.file), folder ?? '-'),
-            card);
-        if (a !== card)
+    if (!fromCard) {
+        const folder = await extFor(p.file);
+        if (folder === null)
             return;
+        if (folder)
+            return runFromExt(exe, p, folder, choose);
     }
     stopExtServer();                    /* el puerto, libre */
     const port = await boardPort(scope, choose);
@@ -197,20 +218,29 @@ async function runFromExt(exe: string, p: Program, folder: string, choose: boole
     });
 }
 
-/* El depurador del BASIC en la placa: zxv-link serve, y se conecta. */
+/* El depurador del BASIC en la placa: zxv-link serve, y se conecta. Desde
+ * EXT: (como «Ejecutar en la placa»), sirve la carpeta mientras dura la
+ * sesión y lo carga de ahí; si no, lo manda a la tarjeta. */
 export async function boardLink(file: string, setup: BoxWrites): Promise<BoxLink | string> {
     const scope = vscode.Uri.file(file);
     const exe = tools.emulator('zxv-link', scope);
     if (!tools.exists(exe))
         return vscode.l10n.t('I cannot find {0}: set {1} or put it on the PATH.', 'zxv-link', 'zxv.toolsPath');
+    const folder = await extFor(file);
+    if (folder === null)
+        return vscode.l10n.t('The program is not inside the folder of the EXT: drive.');
     stopExtServer();                    /* el puerto, libre */
     const port = await boardPort(scope);
     if (!port)
         return vscode.l10n.t('There is no serial port for the board (zxv.boardPort).');
     const tcp = await freePort();
-    const child = spawnLink(exe, ['--port', port, 'serve', '--basic-debug', String(tcp), file, ...gameFiles({ file })],
-                            path.dirname(file));
-    const link = new EmulatorLink(child, file, setup, loadCommand(file, 'SD:'));
+    const over = tools.config(scope).get<boolean>('extOverwrite', false) ? ['--overwrite'] : [];
+    const args = folder
+        ? ['--port', port, ...over, 'serve', '--folder', folder, '--basic-debug', String(tcp)]
+        : ['--port', port, 'serve', '--basic-debug', String(tcp), file, ...gameFiles({ file })];
+    outputChannel().show(true);         /* lo que hace zxv-link (y lo que lee la máquina de EXT:), a la vista */
+    const child = spawnLink(exe, args, folder ?? path.dirname(file));
+    const link = new EmulatorLink(child, file, setup, folder ? extLoadCommand(folder, file) : loadCommand(file, 'SD:'));
     const failed = new Promise<string>(resolve => {
         child.on('error', e => resolve(e.message));
         child.on('exit', code => resolve(code === EXIT_PORT
