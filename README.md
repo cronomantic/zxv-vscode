@@ -2,7 +2,7 @@
 
 # ZX-V for Visual Studio Code
 
-Program [ZX-V](https://cronomantic.github.io/ZX-V/) from VS Code: both
+Program [ZX-V](https://zx-v.org/) from VS Code: both
 BASICs with colours and snippets, build and run with the ZX-V tools, the
 emulator inside the editor and C debugging with GDB.
 

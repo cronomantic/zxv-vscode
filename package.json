@@ -11,7 +11,7 @@
     "type": "git",
     "url": "https://github.com/cronomantic/zxv-vscode"
   },
-  "homepage": "https://cronomantic.github.io/ZX-V/",
+  "homepage": "https://zx-v.org/",
   "bugs": "https://github.com/cronomantic/zxv-vscode/issues",
   "engines": {
     "vscode": "^1.90.0"
