@@ -48,7 +48,7 @@
     "cd-dir": {
       "title": "CD, DIR$",
       "syntax": "CD folder$\nDIR$",
-      "summary": "`CD` changes the current folder: `CD \"games\"`, `CD \"..\"` (the folder above), `CD \"/\"` (the root of the drive), `CD \"ROM:\"` (the built-in examples drive) and `CD \"SD:\"` (back to the card). The function `DIR$` gives the current folder, such as `\"/games\"` or `\"ROM:/\"`."
+      "summary": "`CD` changes the current folder: `CD \"games\"`, `CD \"..\"` (the folder above), `CD \"/\"` (the root of the drive), `CD \"ROM:\"` (the built-in examples drive), `CD \"EXT:\"` (the external drive) and `CD \"SD:\"` (back to the card). The function `DIR$` gives the current folder, such as `\"/games\"`, `\"ROM:/\"` or `\"EXT:/\"`."
     },
     "cell": {
       "title": "CELL",
@@ -308,7 +308,7 @@
     "music": {
       "title": "MUSIC",
       "syntax": "LOAD name$ MUSIC\nMUSIC PLAY\nMUSIC STOP\nMUSIC PAUSE\nMUSIC CONTINUE\nMUSIC                          (function)",
-      "summary": "Plays music made with a tracker, in the background: the program carries on while it plays, as in games. `LOAD name$ MUSIC` loads a module (without an extension, the first there is of `name.zxm`, `name.pt3`, `name.mod`, `name.s3m`, `name.xm`, `name.vgm` and `name.vgz`): ZX-V's own format (`.zxm`, with both AY chips and the sample channels: the one [`zxv-tracker`](https://github.com/cronomantic/ZX-V/blob/main/docs/en/sdk/README.md#the-tracker-for-the-pc-zxv-tracker) or [`zxv-music`](https://github.com/cronomantic/ZX-V/blob/main/docs/en/sdk/README.md#the-own-format-zxm-and-zxv-music) saves), a MOD, an S3M (Scream Tracker 3) or an XM (FastTracker 2), which it converts when loading and which play on the sample channels (up to 12: of those with more, the first 12 with notes), Pro Tracker 3 or Vortex Tracker II (`.pt3`, which `zxv-tracker` also saves), a TurboSound (two modules, one on each AY chip: six voices), Pro Tracker 2, Sound Tracker, ASC Sound Master, a PSG dump or a VGM (`.vgm`, or compressed, `.vgz`: the registers of the AY chips, as emulators record them; see [VGM](https://github.com/cronomantic/ZX-V/blob/main/docs/en/sdk/README.md#vgm-the-ay-chips)). A file that is none of those gives `R Loading error`."
+      "summary": "Plays music made with a tracker, in the background: the program carries on while it plays, as in games. `LOAD name$ MUSIC` loads a module (without an extension, the first there is of `name.zxm`, `name.pt3`, `name.mod`, `name.s3m`, `name.xm`, `name.vgm` and `name.vgz`): ZX-V's own format (`.zxm`, with both AY chips and the sample channels: the one [`zxv-tracker`](https://github.com/cronomantic/ZX-V/blob/main/docs/en/sdk/README.md#the-tracker-for-the-pc-zxv-tracker) or [`zxv-music`](https://github.com/cronomantic/ZX-V/blob/main/docs/en/sdk/README.md#the-own-format-zxm-and-zxv-music) saves), a MOD, an S3M (Scream Tracker 3) or an XM (FastTracker 2), which it converts when loading and which play on the sample channels (up to 12: of those with more, the 12 that play the most notes), Pro Tracker 3 or Vortex Tracker II (`.pt3`, which `zxv-tracker` also saves), a TurboSound (two modules, one on each AY chip: six voices), Pro Tracker 2, Sound Tracker, ASC Sound Master, a PSG dump or a VGM (`.vgm`, or compressed, `.vgz`: the registers of the AY chips, as emulators record them; see [VGM](https://github.com/cronomantic/ZX-V/blob/main/docs/en/sdk/README.md#vgm-the-ay-chips)). A file that is none of those gives `R Loading error`."
     },
     "new": {
       "title": "NEW",
@@ -600,7 +600,7 @@
     "cd-dir": {
       "title": "CD, DIR$",
       "syntax": "CD carpeta$\nDIR$",
-      "summary": "`CD` cambia la carpeta actual: `CD \"juegos\"`, `CD \"..\"` (la de arriba), `CD \"/\"` (la raíz de la unidad), `CD \"ROM:\"` (la unidad de los ejemplos) y `CD \"SD:\"` (vuelta a la tarjeta). La función `DIR$` da la carpeta actual, como `\"/juegos\"` o `\"ROM:/\"`."
+      "summary": "`CD` cambia la carpeta actual: `CD \"juegos\"`, `CD \"..\"` (la de arriba), `CD \"/\"` (la raíz de la unidad), `CD \"ROM:\"` (la unidad de los ejemplos), `CD \"EXT:\"` (la unidad externa) y `CD \"SD:\"` (vuelta a la tarjeta). La función `DIR$` da la carpeta actual, como `\"/juegos\"`, `\"ROM:/\"` o `\"EXT:/\"`."
     },
     "cell": {
       "title": "CELL",
@@ -860,7 +860,7 @@
     "music": {
       "title": "MUSIC",
       "syntax": "LOAD nombre$ MUSIC\nMUSIC PLAY\nMUSIC STOP\nMUSIC PAUSE\nMUSIC CONTINUE\nMUSIC                          (función)",
-      "summary": "Toca música hecha con un tracker, de fondo: el programa sigue mientras suena, como en los juegos. `LOAD nombre$ MUSIC` carga un módulo (sin extensión, el primero que haya de `nombre.zxm`, `nombre.pt3`, `nombre.mod`, `nombre.s3m`, `nombre.xm`, `nombre.vgm` y `nombre.vgz`): del formato propio de ZX-V (`.zxm`, con los dos chips AY y los canales de muestras: el que guarda [`zxv-tracker`](https://github.com/cronomantic/ZX-V/blob/main/docs/es/sdk/README.md#el-tracker-para-el-pc-zxv-tracker) o [`zxv-music`](https://github.com/cronomantic/ZX-V/blob/main/docs/es/sdk/README.md#el-formato-propio-zxm-y-zxv-music)), un MOD, un S3M (Scream Tracker 3) o un XM (FastTracker 2), que convierte al cargarlos y suenan en los canales de muestras (hasta 12: de los que tengan más, los 12 primeros con notas), de Pro Tracker 3 o Vortex Tracker II (`.pt3`, que también guarda `zxv-tracker`), un TurboSound (dos módulos, uno en cada chip AY: seis voces), de Pro Tracker 2, Sound Tracker, ASC Sound Master, un volcado PSG o un VGM (`.vgm` o comprimido, `.vgz`: los registros de los AY, como los graban los emuladores; ver [VGM](https://github.com/cronomantic/ZX-V/blob/main/docs/es/sdk/README.md#vgm-los-ay)). Un fichero que no es ninguno de esos da `R Error al cargar`."
+      "summary": "Toca música hecha con un tracker, de fondo: el programa sigue mientras suena, como en los juegos. `LOAD nombre$ MUSIC` carga un módulo (sin extensión, el primero que haya de `nombre.zxm`, `nombre.pt3`, `nombre.mod`, `nombre.s3m`, `nombre.xm`, `nombre.vgm` y `nombre.vgz`): del formato propio de ZX-V (`.zxm`, con los dos chips AY y los canales de muestras: el que guarda [`zxv-tracker`](https://github.com/cronomantic/ZX-V/blob/main/docs/es/sdk/README.md#el-tracker-para-el-pc-zxv-tracker) o [`zxv-music`](https://github.com/cronomantic/ZX-V/blob/main/docs/es/sdk/README.md#el-formato-propio-zxm-y-zxv-music)), un MOD, un S3M (Scream Tracker 3) o un XM (FastTracker 2), que convierte al cargarlos y suenan en los canales de muestras (hasta 12: de los que tengan más, los 12 que más notas tocan), de Pro Tracker 3 o Vortex Tracker II (`.pt3`, que también guarda `zxv-tracker`), un TurboSound (dos módulos, uno en cada chip AY: seis voces), de Pro Tracker 2, Sound Tracker, ASC Sound Master, un volcado PSG o un VGM (`.vgm` o comprimido, `.vgz`: los registros de los AY, como los graban los emuladores; ver [VGM](https://github.com/cronomantic/ZX-V/blob/main/docs/es/sdk/README.md#vgm-los-ay)). Un fichero que no es ninguno de esos da `R Error al cargar`."
     },
     "new": {
       "title": "NEW",

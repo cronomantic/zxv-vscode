@@ -1,7 +1,9 @@
 # Cambios / Changes
 
-## Sin publicar / Unreleased
+## 0.5.0
 
+- Con ZX-V 0.10.0: el núcleo web del panel y de «Publicar en la web», con
+  los doce canales de muestras.
 - La música nueva de ZX-V (0.10): las vistas previas y el panel también
   con `.zxm`, MOD, S3M, XM y VGM (`.vgm`, `.vgz`); los `.wav` de `SAMPLE` y
   los `.afx` van con el programa a la tarjeta del panel y a «Publicar en la
@@ -11,9 +13,17 @@
   programa y sus ficheros (los que no han cambiado, no) y lo ejecuta; y
   `"target": "board"` depura el BASIC de la ROM en la placa. El puerto,
   `zxv.boardPort`.
+- La unidad `EXT:` de ZX-V 0.10: por defecto, «Ejecutar en la placa» y
+  depurar en la placa sirven una carpeta como `EXT:` mientras dura (la del
+  espacio de trabajo, o la de `zxv.extFolder`) y cargan el programa de ahí,
+  sin copiar nada a la tarjeta; `zxv.boardFrom` vuelve a la tarjeta. La
+  máquina no sustituye ni borra lo que no escribió ella, salvo con
+  `zxv.extOverwrite`; **ZX-V: Dejar de servir EXT:** para el servidor.
 
 ---
 
+- With ZX-V 0.10.0: the web core of the panel and of «Publish on the web»,
+  with the twelve sample channels.
 - ZX-V's new music (0.10): the previews and the panel also take `.zxm`,
   MOD, S3M, XM and VGM (`.vgm`, `.vgz`); the `SAMPLE` `.wav` files and the
   `.afx` files go with the program to the panel's card and to «Publish on
@@ -23,6 +33,12 @@
   program and its files (not the unchanged ones) and runs it; and
   `"target": "board"` debugs the ROM BASIC on the board. The port,
   `zxv.boardPort`.
+- ZX-V 0.10's `EXT:` drive: by default, «Run on the board» and debugging on
+  the board serve a folder as `EXT:` while they run (the workspace's, or
+  `zxv.extFolder`) and load the program from it, copying nothing to the
+  card; `zxv.boardFrom` goes back to the card. The machine does not replace
+  or delete what it did not write, unless `zxv.extOverwrite`; **ZX-V: Stop
+  serving EXT:** stops the server.
 
 ## 0.4.0
 
