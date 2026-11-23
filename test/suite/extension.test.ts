@@ -488,6 +488,87 @@ function suite(): void {
                 await cfg.update('makeArgs', undefined, vscode.ConfigurationTarget.Workspace);
             }
         });
+
+        /* Los bancos de código (ZX-V D109): el ejemplo fases tiene valle_draw y
+         * espacio_draw en la misma dirección, cada una en su banco, y la de
+         * valle va primero, 8 segundos. Con el script del SDK, el punto de
+         * espacio.c para solo con su banco, con su fichero y sus variables;
+         * la pila pasa por el puente hasta main, y salir de la función
+         * (stepOut) llega a main. */
+        it('con bancos de código: para en espacio_draw solo con su banco', async function () {
+            if (!fs.existsSync(file('sdk/tools/zxvbanks-gdb.py').fsPath))
+                this.skip();                            // un ZX-V de antes de los bancos de código
+            this.timeout(240000);
+            const src = file('sdk/examples/fases/espacio.c');
+            const lines = (await vscode.workspace.openTextDocument(src)).getText().split('\n');
+            const fn = lines.findIndex(l => /^void espacio_draw\(/.test(l));
+            const line = lines.findIndex((l, i) => i > fn && /if \(!ready\)/.test(l));
+            assert.ok(fn > 0 && line > fn);
+            vscode.debug.addBreakpoints([new vscode.SourceBreakpoint(new vscode.Location(src, new vscode.Position(line, 0)))]);
+            const stops: { threadId?: number; reason?: string }[] = [];
+            let output = '';
+            const tracker = vscode.debug.registerDebugAdapterTrackerFactory('cppdbg', {
+                createDebugAdapterTracker: () => ({
+                    onDidSendMessage: (m: { type: string; event?: string; body?: { threadId?: number; reason?: string; output?: string } }) => {
+                        if (m.type === 'event' && m.event === 'stopped')
+                            stops.push(m.body ?? {});
+                        if (m.type === 'event' && m.event === 'output')
+                            output += m.body?.output ?? '';
+                    },
+                }),
+            });
+            fs.rmSync(file('sdk/build/fases.elf').fsPath, { force: true });
+            try {
+                const ok = await vscode.debug.startDebugging(vscode.workspace.workspaceFolders![0], {
+                    type: 'zxv',
+                    request: 'launch',
+                    name: 'ZX-V: GDB (bancos)',
+                    program: '${workspaceFolder}/sdk/build/fases.elf',
+                });
+                assert.ok(ok, `no empieza la depuración: ${(await api()).debugError()}`);
+                await until('la parada en espacio_draw', () => stops[0], 120000);
+                const session = vscode.debug.activeDebugSession!;
+                const thread = stops[0].threadId ?? 1;
+                const st = await session.customRequest('stackTrace', { threadId: thread });
+                const top = st.stackFrames[0];
+                assert.strictEqual(path.basename(top.source?.path ?? ''), 'espacio.c');
+                assert.strictEqual(top.name.replace(/\(.*/, ''), 'espacio_draw');
+                assert.strictEqual(top.line, line + 1);
+                /* Que de verdad es el banco espacio el que está, en la tabla del
+                 * programa (_ovly_table: 4 palabras por banco, la cuarta, si
+                 * está cargado; valle es el 0 y espacio el 1): sin el script,
+                 * GDB para también con valle ahí y lo llama espacio_draw. */
+                const mapped = async (i: number) => (await session.customRequest('evaluate', {
+                    expression: `((unsigned int *)&_ovly_table)[${4 * i + 3}]`, frameId: top.id, context: 'watch',
+                })).result;
+                assert.deepStrictEqual([await mapped(0), await mapped(1)], ['0', '1']);
+                const names = st.stackFrames.map((f: { name: string }) => f.name.replace(/\(.*/, ''));
+                assert.ok(names.includes('__zxvbank_call') && names.includes('main'), names.join(', '));
+                /* Las variables del banco espacio (y no las de valle). */
+                const v = await session.customRequest('evaluate', { expression: 'star[0].speed', frameId: top.id, context: 'watch' });
+                assert.match(v.result, /^\d+$/);
+                /* La salida de -exec llega en la respuesta o como evento, según la versión de C/C++. */
+                const z = await session.customRequest('evaluate', { expression: '-exec zxvbanks', frameId: top.id, context: 'repl' });
+                const banksText = () => `${z?.result ?? ''}\n${output}`;
+                await until('la salida de zxvbanks', () => /espacio\s+\S+\s+cargado/.test(banksText()) || undefined, 10000)
+                    .catch(e => { throw new Error(`${e.message}: ${JSON.stringify(banksText())}`); });
+                assert.match(banksText(), /valle\s+\S+\s+-/);
+                /* Salir de la función: por el puente, hasta main. */
+                await session.customRequest('stepOut', { threadId: thread });
+                let where = '';
+                await until('la vuelta a main', async () => {
+                    if (stops.length < 2)
+                        return undefined;
+                    const s = await session.customRequest('stackTrace', { threadId: thread });
+                    where = `${stops.length} paradas, en ${s.stackFrames[0].name}`;
+                    return s.stackFrames[0].name.startsWith('main') ? s : undefined;
+                }, 30000).catch(e => { throw new Error(`${e.message} (${where})`); });
+                await vscode.debug.stopDebugging(session);
+            } finally {
+                tracker.dispose();
+                vscode.debug.removeBreakpoints(vscode.debug.breakpoints);
+            }
+        });
     });
 
     describe('depurar el BASIC de la ROM', function () {

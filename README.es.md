@@ -189,6 +189,19 @@ Si prefieres verlo todo, **ZX-V: Añadir una configuración para depurar con
 GDB** escribe una configuración `cppdbg` normal en `launch.json` y su
 `preLaunchTask` (la tarea `gdb-server`) en `tasks.json`.
 
+**Con bancos de código** (los de `zxvbanks.py` del SDK de ZX-V), varias
+funciones están en la misma dirección. Si el programa los tiene (hay un
+`PROGRAMA.bancos/gdb/` junto al `.elf`), la extensión le da a GDB el script
+del SDK `tools/zxvbanks-gdb.py`, que lo busca en `zxv.sdkPath` o subiendo
+desde el `.elf`. También lo pone en la configuración que escribe en
+`launch.json`. Con él, un punto de ruptura en una función de un banco para
+solo cuando ese banco está cargado, con su fichero y sus variables, y la
+pila llega hasta la función que la llamó. «Salir de la función» vuelve a
+esa función, pasando por el puente. «Paso a paso» no entra en una función
+de un banco: pon un punto de ruptura en ella. Con un SDK sin el script, la
+extensión avisa y GDB depura sin saber qué banco hay. Ver «Con bancos de
+código» en la guía del SDK.
+
 ### Depurar el BASIC de la ROM
 
 Con un listado del BASIC de la ROM abierto, F5 (o el tipo `zxv-basic` en

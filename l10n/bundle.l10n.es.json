@@ -94,5 +94,6 @@
   "Run from the card": "Ejecutar desde la tarjeta",
   "{0} is not inside the folder of the EXT: drive ({1}): it cannot be loaded from EXT:. Choose another folder in zxv.extFolder, or run it from the card.": "{0} no está dentro de la carpeta de la unidad EXT: ({1}): no se puede cargar desde EXT:. Elige otra carpeta en zxv.extFolder, o ejecútalo desde la tarjeta.",
   "ZX-V: serving {0} as the EXT: drive. Click to stop.": "ZX-V: sirviendo {0} como la unidad EXT:. Pulsa para parar.",
-  "The program is not inside the folder of the EXT: drive.": "El programa no está dentro de la carpeta de la unidad EXT:."
+  "The program is not inside the folder of the EXT: drive.": "El programa no está dentro de la carpeta de la unidad EXT:.",
+  "{0} has code banks, but I cannot find {1} of the ZX-V SDK (set zxv.sdkPath): GDB will not know which bank is loaded.": "{0} tiene bancos de código, pero no encuentro {1} del SDK de ZX-V (pon zxv.sdkPath): GDB no sabrá qué banco está cargado."
 }

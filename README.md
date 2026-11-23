@@ -186,6 +186,19 @@ If you prefer to see everything, **ZX-V: Add a GDB debug configuration**
 writes a plain `cppdbg` configuration to `launch.json` and its
 `preLaunchTask` (the `gdb-server` task) to `tasks.json`.
 
+**With code banks** (the ones from the ZX-V SDK's `zxvbanks.py`), several
+functions share an address. If the program has them (there is a
+`PROGRAM.bancos/gdb/` next to the `.elf`), the extension gives GDB the SDK's
+`tools/zxvbanks-gdb.py` script, looking for it in `zxv.sdkPath` or upwards
+from the `.elf`. It also puts it in the configuration it writes to
+`launch.json`. With it, a breakpoint in a bank function stops only while
+that bank is loaded, with its file and its variables, and the call stack
+goes up to the calling function. "Step Out" returns to that function,
+through the bridge. "Step Into" doesn't enter a bank function: put a
+breakpoint in it. With an SDK that lacks the script, the extension warns
+and GDB debugs without knowing which bank is there. See "With code banks"
+in the SDK guide.
+
 ### Debugging ROM BASIC
 
 With a ROM BASIC listing open, F5 (or the `zxv-basic` type in

@@ -10,11 +10,16 @@
  *
  * También vale una cppdbg normal con preLaunchTask (la tarea "gdb-server"):
  * la orden zxv.addDebugConfiguration escribe las dos cosas en .vscode.
+ *
+ * Un programa con bancos de código (ZX-V D109, banks.ts) necesita además el
+ * script de GDB del SDK, que se carga ya conectado (postRemoteConnectCommands:
+ * con el ELF cargado y antes de los puntos de ruptura).
  */
 import * as cp from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
+import * as banks from './banks';
 import { Program, TASK_TYPE, ZxvTaskDefinition, copyResources, emulatorArgs, findMakeDir, makeTask, outputChannel, runTask, showError } from './build';
 import * as tools from './tools';
 
@@ -57,6 +62,25 @@ function cpptoolsMissing(): boolean {
                 vscode.commands.executeCommand('workbench.extensions.installExtension', CPPTOOLS);
         });
     return true;
+}
+
+/* El script de los bancos de código para GDB, si el programa los tiene (y
+ * un aviso si no se encuentra: GDB depura, pero sin saber qué banco hay). */
+function bankScript(elf: string, scope: vscode.Uri): string | undefined {
+    if (!banks.hasCodeBanks(elf))
+        return undefined;
+    const script = banks.gdbScript(elf, tools.sdk(scope) || undefined);
+    if (!script)
+        vscode.window.showWarningMessage(vscode.l10n.t(
+            '{0} has code banks, but I cannot find {1} of the ZX-V SDK (set zxv.sdkPath): GDB will not know which bank is loaded.',
+            path.basename(elf), banks.SCRIPT.replace(/\\/g, '/')));
+    return script;
+}
+
+function bankCommands(script: string | undefined): { postRemoteConnectCommands?: object[] } {
+    return script
+        ? { postRemoteConnectCommands: [{ text: banks.sourceCommand(script), description: 'ZX-V: bancos de código', ignoreFailures: false }] }
+        : {};
 }
 
 /* "type": "zxv" → cppdbg. */
@@ -111,6 +135,7 @@ class ZxvDebugProvider implements vscode.DebugConfigurationProvider {
             fail(vscode.l10n.t('{0} does not exist: build the program first.', zxv));
             return undefined;
         }
+        const script = bankScript(m.elf, scope);
         const id = await startGdbServer({ file: zxv }, m, scope);
         if (!id)
             return undefined;
@@ -126,6 +151,7 @@ class ZxvDebugProvider implements vscode.DebugConfigurationProvider {
             stopAtEntry: z.stopAtEntry ?? false,
             externalConsole: false,
             setupCommands: [{ text: '-enable-pretty-printing', ignoreFailures: true }],
+            ...bankCommands(script),
             zxvEmulatorId: id,
         };
     }
@@ -246,6 +272,15 @@ async function addDebugConfiguration(): Promise<void> {
         elf = '${workspaceFolder}/' + pick;
     }
     const zxv = elf.replace(/\.elf$/, '.zxv');
+    /* Con bancos de código, el script del SDK (dentro de la carpeta, con
+     * ${workspaceFolder}, para que launch.json sirva en otro equipo). */
+    const realElf = elf.replace('${workspaceFolder}', folder.uri.fsPath);
+    let script = realElf.includes('${') ? undefined : bankScript(realElf, folder.uri);
+    if (script) {
+        const rel = path.relative(folder.uri.fsPath, script);
+        if (!rel.startsWith('..') && !path.isAbsolute(rel))
+            script = '${workspaceFolder}/' + rel.replace(/\\/g, '/');
+    }
     const port = tools.config(folder.uri).get<number>('gdbPort', 1234);
     const label = 'ZX-V: emulador con GDB';
     const launch = vscode.workspace.getConfiguration('launch', folder.uri);
@@ -261,6 +296,7 @@ async function addDebugConfiguration(): Promise<void> {
         miDebuggerServerAddress: `localhost:${port}`,
         stopAtEntry: false,
         externalConsole: false,
+        ...bankCommands(script),
         preLaunchTask: label,
     });
     await launch.update('configurations', configs, vscode.ConfigurationTarget.WorkspaceFolder);
