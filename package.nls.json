@@ -62,5 +62,15 @@
   "config.boardFrom.ext": "From the EXT: drive: the folder is served, nothing is copied",
   "config.boardFrom.card": "From the card: the program and its files are copied to it first",
   "config.extFolder": "The folder served as the machine's EXT: drive (it can read and write in it). Empty: the workspace folder. The program has to be inside it to load from EXT:.",
-  "config.extOverwrite": "Let the machine replace or delete files in the EXT: folder that it did not write."
+  "config.extOverwrite": "Let the machine replace or delete files in the EXT: folder that it did not write.",
+  "command.runOnBoardPc": "Run on the board straight into memory",
+  "command.boardFiles.refresh": "Refresh the board's files",
+  "command.boardFiles.choosePort": "Choose the board",
+  "command.boardFiles.run": "Run on the board",
+  "command.boardFiles.get": "Fetch to the PC...",
+  "command.boardFiles.put": "Send to the board...",
+  "command.boardFiles.mkdir": "New folder...",
+  "command.boardFiles.rename": "Rename...",
+  "command.boardFiles.delete": "Delete",
+  "view.boardFiles": "ZX-V: the board"
 }

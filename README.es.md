@@ -106,6 +106,7 @@ el fichero principal a la vista.
 | **ZX-V: Ejecutar en zxv-sdl** (F5 en el BASIC de la ROM) | Compila si hace falta y abre el programa en `zxv-sdl`, con su carpeta como tarjeta SD: `--sd CARPETA --type 'LOAD "programa.zxv"'` (con `: RUN` si es un listado). |
 | **ZX-V: Ejecutar en el editor** | Lo mismo, en el panel del emulador. |
 | **ZX-V: Ejecutar en la placa** | Lo mismo, en la máquina de verdad: manda el programa y los ficheros de su carpeta a la tarjeta por la tira J5 de la placa, con un adaptador USB-serie de 3,3 V y `zxv-link` (ZX-V 0.10 o posterior; [cómo se conecta](https://github.com/cronomantic/ZX-V/blob/main/docs/es/hardware/firmware.md#cargar-programas-desde-el-pc-j5)). Lo que ya está igual en la tarjeta no se vuelve a mandar. El puerto, `zxv.boardPort`: si está vacío, se elige la primera vez. |
+| **ZX-V: Ejecutar en la placa directo a la memoria** | La máquina lo carga del PC y lo ejecuta, sin copiar nada a la tarjeta (`zxv-link run --pc`, protocolo 6 de ZX-V). Si el programa carga otros ficheros, tienen que estar en la máquina: es para programas sencillos. |
 
 Desde el menú del explorador también se ejecuta tal cual un programa ya
 hecho: un `.zxv`, un programa del BASIC de la ROM grabado con `SAVE` (`.zvb`)
@@ -122,6 +123,28 @@ Los errores de `gcc`, del enlazador y de `zxbc` van al panel de problemas
 { "type": "zxv", "action": "zxbc", "file": "${file}", "label": "ZX-V: zxbc" }
 { "type": "zxv", "action": "run", "file": "${workspaceFolder}/build/juego.zxv", "label": "ZX-V: jugar" }
 ```
+
+### La placa: su tarjeta y su ROM
+
+En el panel del explorador, **ZX-V: la placa** enseña la tarjeta (`SD:`) y
+la ROM (solo leer) de la máquina de verdad, por la tira J5 o por Wi-Fi con
+una Pico 2 W (el puerto, `zxv.boardPort`: un `COM5` o una
+`ZX-V-1A2B (192.168.0.24)`; **Elegir la placa** lo cambia). Necesita el
+protocolo 6 de ZX-V. Con el menú de cada uno:
+
+- **Ejecutar en la placa** (también el botón ▶ de cada programa): entra en
+  su carpeta y lo carga, para que encuentre sus ficheros.
+- **Traer al PC...**: a una carpeta, la del espacio de trabajo al
+  principio.
+- **Mandar a la placa...**: ficheros del PC a esa carpeta (a la raíz desde
+  la barra de la vista, o desde el menú del explorador de ficheros). Se
+  pueden **arrastrar** a la vista.
+- **Carpeta nueva...**, **Renombrar...** y **Borrar** (las carpetas, con lo
+  que tienen dentro).
+
+**Sustituir y borrar preguntan antes**: en la tarjeta no hay papelera. Por
+la tira J5 solo un programa puede tener abierto el puerto: si se está
+sirviendo `EXT:`, la vista ofrece pararlo. Por la red no hace falta.
 
 ### El emulador dentro del editor
 

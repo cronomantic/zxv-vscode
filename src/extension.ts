@@ -1,14 +1,16 @@
 /*
  * extension.ts - La extensión de ZX-V para VS Code: los dos BASIC, compilar y
  * ejecutar, el emulador en un panel, depurar C con GDB, la ayuda al pasar el
- * ratón y los errores del BASIC de la ROM mientras se escribe.
+ * ratón, los errores del BASIC de la ROM mientras se escribe, y la máquina de
+ * verdad (ejecutar en ella, y su tarjeta y su ROM en el explorador).
  */
 import * as path from 'path';
 import * as vscode from 'vscode';
 import { BasicCheck } from './basicCheck';
 import { registerBasicDebug } from './basicDebug';
 import { TASK_TYPE, ZxvTaskProvider, buildProgram, lastError, runInEmulator, stopEmulator, targetDocument } from './build';
-import { runOnBoard, stopExtServer } from './board';
+import { runOnBoard, runOnBoardPc, stopExtServer } from './board';
+import { BoardFiles } from './boardFiles';
 import { registerDebug } from './debug';
 import { DialectService } from './dialectService';
 import { registerHovers } from './hover';
@@ -67,6 +69,12 @@ export function activate(ctx: vscode.ExtensionContext): ZxvApi {
             if (p)
                 await runOnBoard(p);
         }),
+        vscode.commands.registerCommand('zxv.runOnBoardPc', async (uri?: vscode.Uri) => {
+            const p = await buildProgram(uri);
+            if (p)
+                await runOnBoardPc(p);
+        }),
+        ...new BoardFiles().register(),
         vscode.commands.registerCommand('zxv.stopExt', () => stopExtServer()),
         new vscode.Disposable(stopExtServer),
         vscode.commands.registerCommand('zxv.openEmulator', () => EmulatorPanel.show(ctx)),

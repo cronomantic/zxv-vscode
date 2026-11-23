@@ -266,6 +266,59 @@
         "icon": "$(plug)"
       },
       {
+        "command": "zxv.runOnBoardPc",
+        "title": "%command.runOnBoardPc%",
+        "category": "ZX-V",
+        "icon": "$(rocket)"
+      },
+      {
+        "command": "zxv.boardFiles.refresh",
+        "title": "%command.boardFiles.refresh%",
+        "category": "ZX-V",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "zxv.boardFiles.choosePort",
+        "title": "%command.boardFiles.choosePort%",
+        "category": "ZX-V",
+        "icon": "$(plug)"
+      },
+      {
+        "command": "zxv.boardFiles.run",
+        "title": "%command.boardFiles.run%",
+        "category": "ZX-V",
+        "icon": "$(play)"
+      },
+      {
+        "command": "zxv.boardFiles.get",
+        "title": "%command.boardFiles.get%",
+        "category": "ZX-V",
+        "icon": "$(cloud-download)"
+      },
+      {
+        "command": "zxv.boardFiles.put",
+        "title": "%command.boardFiles.put%",
+        "category": "ZX-V",
+        "icon": "$(cloud-upload)"
+      },
+      {
+        "command": "zxv.boardFiles.mkdir",
+        "title": "%command.boardFiles.mkdir%",
+        "category": "ZX-V",
+        "icon": "$(new-folder)"
+      },
+      {
+        "command": "zxv.boardFiles.rename",
+        "title": "%command.boardFiles.rename%",
+        "category": "ZX-V"
+      },
+      {
+        "command": "zxv.boardFiles.delete",
+        "title": "%command.boardFiles.delete%",
+        "category": "ZX-V",
+        "icon": "$(trash)"
+      },
+      {
         "command": "zxv.stopExt",
         "title": "%command.stopExt%",
         "category": "ZX-V"
@@ -329,10 +382,47 @@
           "group": "zxv@3"
         },
         {
+          "command": "zxv.runOnBoardPc",
+          "when": "resourceExtname =~ /^\\.(zxv|zvb|tap|tzx|bas)$/i",
+          "group": "zxv@3"
+        },
+        {
+          "command": "zxv.boardFiles.put",
+          "when": "!explorerResourceIsFolder",
+          "group": "zxv@5"
+        },
+        {
           "command": "zxv.publishWeb",
           "when": "resourceExtname =~ /^\\.(zxv|zvb|tap|tzx|bas)$/i",
           "group": "zxv@4"
         }
+      ],
+      "view/title": [
+        { "command": "zxv.boardFiles.put", "when": "view == zxv.boardFiles", "group": "navigation@1" },
+        { "command": "zxv.boardFiles.refresh", "when": "view == zxv.boardFiles", "group": "navigation@2" },
+        { "command": "zxv.boardFiles.choosePort", "when": "view == zxv.boardFiles", "group": "navigation@3" }
+      ],
+      "view/item/context": [
+        { "command": "zxv.boardFiles.run", "when": "view == zxv.boardFiles && viewItem =~ /Program$/", "group": "inline@1" },
+        { "command": "zxv.boardFiles.run", "when": "view == zxv.boardFiles && viewItem =~ /Program$/", "group": "1_run@1" },
+        { "command": "zxv.boardFiles.get", "when": "view == zxv.boardFiles && viewItem =~ /(File|Program)$/", "group": "2_files@1" },
+        { "command": "zxv.boardFiles.put", "when": "view == zxv.boardFiles && viewItem =~ /^sd(Root|Dir)$/", "group": "2_files@2" },
+        { "command": "zxv.boardFiles.mkdir", "when": "view == zxv.boardFiles && viewItem =~ /^sd(Root|Dir)$/", "group": "2_files@3" },
+        { "command": "zxv.boardFiles.rename", "when": "view == zxv.boardFiles && viewItem =~ /^sd(Dir|File|Program)$/", "group": "3_edit@1" },
+        { "command": "zxv.boardFiles.delete", "when": "view == zxv.boardFiles && viewItem =~ /^sd(Dir|File|Program)$/", "group": "3_edit@2" }
+      ],
+      "commandPalette": [
+        { "command": "zxv.boardFiles.run", "when": "false" },
+        { "command": "zxv.boardFiles.get", "when": "false" },
+        { "command": "zxv.boardFiles.put", "when": "false" },
+        { "command": "zxv.boardFiles.mkdir", "when": "false" },
+        { "command": "zxv.boardFiles.rename", "when": "false" },
+        { "command": "zxv.boardFiles.delete", "when": "false" }
+      ]
+    },
+    "views": {
+      "explorer": [
+        { "id": "zxv.boardFiles", "name": "%view.boardFiles%", "contextualTitle": "ZX-V" }
       ]
     },
     "keybindings": [

@@ -62,5 +62,15 @@
   "config.boardFrom.ext": "Desde la unidad EXT:: se sirve la carpeta, no se copia nada",
   "config.boardFrom.card": "Desde la tarjeta: antes se copian a ella el programa y sus ficheros",
   "config.extFolder": "La carpeta que se sirve como la unidad EXT: de la máquina (puede leer y escribir en ella). Vacío: la del espacio de trabajo. El programa tiene que estar dentro para cargarlo desde EXT:.",
-  "config.extOverwrite": "Dejar que la máquina sustituya o borre ficheros de la carpeta de EXT: que no escribió ella."
+  "config.extOverwrite": "Dejar que la máquina sustituya o borre ficheros de la carpeta de EXT: que no escribió ella.",
+  "command.runOnBoardPc": "Ejecutar en la placa directo a la memoria",
+  "command.boardFiles.refresh": "Volver a leer los ficheros de la placa",
+  "command.boardFiles.choosePort": "Elegir la placa",
+  "command.boardFiles.run": "Ejecutar en la placa",
+  "command.boardFiles.get": "Traer al PC...",
+  "command.boardFiles.put": "Mandar a la placa...",
+  "command.boardFiles.mkdir": "Carpeta nueva...",
+  "command.boardFiles.rename": "Renombrar...",
+  "command.boardFiles.delete": "Borrar",
+  "view.boardFiles": "ZX-V: la placa"
 }

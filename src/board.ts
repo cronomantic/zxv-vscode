@@ -6,6 +6,10 @@
  * puente del depurador del BASIC ("target": "board"), con el mismo protocolo
  * que zxv-sdl --basic-debug.
  *
+ * «ZX-V: Ejecutar en la placa directo a la memoria» (ZX-V D112) no copia
+ * nada a la tarjeta: zxv-link run --pc sirve solo ese fichero mientras la
+ * máquina lo carga.
+ *
  * Por defecto (zxv.boardFrom "ext"), el programa no va a la tarjeta: se
  * carga desde la unidad EXT: de la máquina (ZX-V D101, fase 4), que sirve
  * zxv-link (serve --folder --run) mientras no se pare: la carpeta de
@@ -25,6 +29,11 @@ import * as tools from './tools';
  * en la barra de estado. */
 let extServer: cp.ChildProcess | undefined;
 let extStatus: vscode.StatusBarItem | undefined;
+
+/* Si se está sirviendo EXT: (ese zxv-link tiene abierto el puerto). */
+export function extServing(): boolean {
+    return !!extServer;
+}
 
 export function stopExtServer(): void {
     extServer?.kill();
@@ -75,8 +84,8 @@ async function extFor(file: string): Promise<string | null | undefined> {
 /* zxv-link sale con estos códigos cuando no puede abrir el puerto, y cuando
  * sustituiría en la tarjeta algo que no puso él (sin tocar nada: con
  * --overwrite, sí). */
-const EXIT_PORT = 3;
-const EXIT_EXISTS = 4;
+export const EXIT_PORT = 3;
+export const EXIT_EXISTS = 4;
 
 /* El puerto del adaptador: zxv.boardPort, si sigue ahí; si no (o con
  * choose), se elige de los que hay y se guarda. */
@@ -105,7 +114,7 @@ export async function boardPort(scope: vscode.Uri, choose = false): Promise<stri
 }
 
 /* zxv-link, de zxv.toolsPath o del PATH; undefined (y lo dice) si no está. */
-function linkExe(scope: vscode.Uri): string | undefined {
+export function linkExe(scope: vscode.Uri): string | undefined {
     const exe = tools.emulator('zxv-link', scope);
     if (!tools.exists(exe)) {
         missing('zxv-link', 'zxv.toolsPath');
@@ -114,7 +123,7 @@ function linkExe(scope: vscode.Uri): string | undefined {
     return exe;
 }
 
-function spawnLink(exe: string, args: string[], cwd: string): cp.ChildProcess {
+export function spawnLink(exe: string, args: string[], cwd: string): cp.ChildProcess {
     const out = outputChannel();
     out.appendLine(`> ${exe} ${args.map(a => (/\s|"/.test(a) ? JSON.stringify(a) : a)).join(' ')}`);
     const child = cp.spawn(exe, args, { cwd });
@@ -169,6 +178,43 @@ export async function runOnBoard(p: Program, choose = false, overwrite = false, 
                 showError(vscode.l10n.t('zxv-link failed: look at the ZX-V output.'));
             else
                 vscode.window.setStatusBarMessage(vscode.l10n.t('ZX-V: {0} running on the board', path.basename(p.file)), 4000);
+            resolve();
+        });
+    });
+}
+
+/* «Ejecutar en la placa directo a la memoria» (D112): nada a la tarjeta;
+ * zxv-link run --pc sirve el fichero hasta que la máquina lo ha leído. Lo
+ * que el programa cargue después tiene que estar en la máquina. Lo que se
+ * sirviera como EXT:, antes se para (dos servidores de EXT: se pisarían). */
+export async function runOnBoardPc(p: Program, choose = false): Promise<void> {
+    const scope = vscode.Uri.file(p.file);
+    const exe = linkExe(scope);
+    if (!exe)
+        return;
+    stopExtServer();
+    const port = await boardPort(scope, choose);
+    if (!port)
+        return;
+    outputChannel().show(true);
+    const child = spawnLink(exe, ['--port', port, 'run', '--pc', p.file], path.dirname(p.file));
+    await new Promise<void>(resolve => {
+        child.on('error', e => {
+            showError(vscode.l10n.t('zxv-link did not start: {0}', e.message));
+            resolve();
+        });
+        child.on('exit', code => {
+            if (code === EXIT_PORT) {
+                const other = vscode.l10n.t('Choose another port');
+                showError(vscode.l10n.t('zxv-link cannot open {0}: look at the ZX-V output.', port), other).then(a => {
+                    if (a === other)
+                        runOnBoardPc(p, true);
+                });
+            } else if (code)
+                showError(vscode.l10n.t('zxv-link failed: look at the ZX-V output.'));
+            else
+                vscode.window.setStatusBarMessage(vscode.l10n.t('ZX-V: {0} running on the board (loaded from the PC)',
+                                                                path.basename(p.file)), 4000);
             resolve();
         });
     });

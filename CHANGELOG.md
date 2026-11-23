@@ -1,5 +1,23 @@
 # Cambios / Changes
 
+## Sin publicar / Unreleased
+
+- La placa en el explorador (ZX-V D112, protocolo 6): **ZX-V: la placa**
+  enseña su tarjeta y su ROM (solo leer), por la tira J5 o por Wi-Fi, para
+  ejecutar, traer al PC, mandar (también arrastrando), crear carpetas,
+  renombrar y borrar; sustituir y borrar preguntan antes.
+- **ZX-V: Ejecutar en la placa directo a la memoria**: la máquina lo carga
+  del PC sin copiarlo a la tarjeta (`zxv-link run --pc`).
+
+---
+
+- The board in the explorer (ZX-V D112, protocol 6): **ZX-V: the board**
+  shows its card and its ROM (read only), through the J5 header or over
+  Wi-Fi, to run, fetch to the PC, send (also by dropping), create folders,
+  rename and delete; replacing and deleting ask first.
+- **ZX-V: Run on the board straight into memory**: the machine loads it
+  from the PC without copying it to the card (`zxv-link run --pc`).
+
 ## 0.5.0
 
 - Con ZX-V 0.10.0: el núcleo web del panel y de «Publicar en la web», con

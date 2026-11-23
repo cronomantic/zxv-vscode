@@ -105,6 +105,7 @@ with the main file in view.
 | **ZX-V: Run in zxv-sdl** (F5 in ROM BASIC) | Builds if needed and opens the program in `zxv-sdl`, with its folder as SD card: `--sd FOLDER --type 'LOAD "program.zxv"'` (plus `: RUN` for a listing). |
 | **ZX-V: Run in the editor** | The same, in the emulator panel. |
 | **ZX-V: Run on the board** | The same, on the real machine: it sends the program and the files of its folder to the card through the board's J5 header, with a 3.3 V USB-serial adapter and `zxv-link` (ZX-V 0.10 or later; [how to connect it](https://github.com/cronomantic/ZX-V/blob/main/docs/en/hardware/firmware.md#loading-programs-from-the-pc-j5)). What is already on the card, unchanged, is not sent again. The port, `zxv.boardPort`: if empty, it is chosen the first time. |
+| **ZX-V: Run on the board straight into memory** | The machine loads it from the PC and runs it, without copying anything to the card (`zxv-link run --pc`, ZX-V protocol 6). If the program loads other files, they must be on the machine: it is for simple programs. |
 
 From the Explorer's context menu, a program that is already built runs as it
 is too: a `.zxv`, a ROM BASIC program saved with `SAVE` (`.zvb`) or a
@@ -121,6 +122,27 @@ saved with it (`RUN` would clear them).
 { "type": "zxv", "action": "zxbc", "file": "${file}", "label": "ZX-V: zxbc" }
 { "type": "zxv", "action": "run", "file": "${workspaceFolder}/build/game.zxv", "label": "ZX-V: play" }
 ```
+
+### The board: its card and its ROM
+
+In the explorer panel, **ZX-V: the board** shows the card (`SD:`) and the
+ROM (read only) of the real machine, through the J5 header or over Wi-Fi
+with a Pico 2 W (the port, `zxv.boardPort`: a `COM5` or a
+`ZX-V-1A2B (192.168.0.24)`; **Choose the board** changes it). It needs ZX-V
+protocol 6. With the menu of each one:
+
+- **Run on the board** (also the ▶ button of each program): it goes into
+  its folder and loads it, so it finds its files.
+- **Fetch to the PC...**: to a folder, the workspace's at first.
+- **Send to the board...**: files from the PC to that folder (to the root
+  from the view's bar, or from the file explorer's menu). They can be
+  **dropped** on the view.
+- **New folder...**, **Rename...** and **Delete** (folders, with what is
+  inside).
+
+**Replacing and deleting ask first**: the card has no recycle bin. Through
+the J5 header only one program can have the port open: if `EXT:` is being
+served, the view offers to stop it. Over the network it isn't needed.
 
 ### The emulator inside the editor
 

@@ -66,6 +66,17 @@ function suite(): void {
         await api();
     });
 
+    describe('la placa (D112)', () => {
+        it('la vista de su tarjeta y su ROM, y ejecutar directo a la memoria', async () => {
+            const all = await vscode.commands.getCommands(true);
+            for (const c of ['zxv.runOnBoardPc', 'zxv.boardFiles.refresh', 'zxv.boardFiles.choosePort', 'zxv.boardFiles.run',
+                             'zxv.boardFiles.get', 'zxv.boardFiles.put', 'zxv.boardFiles.mkdir', 'zxv.boardFiles.rename',
+                             'zxv.boardFiles.delete'])
+                assert.ok(all.includes(c), c);
+            await vscode.commands.executeCommand('zxv.boardFiles.focus');   /* la vista existe y se abre */
+        });
+    });
+
     describe('los dos BASIC', () => {
         it('cascade.bas es el BASIC de la ROM y stardust.bas, ZX Basic', async () => {
             assert.strictEqual(await langOf('examples/basic/cascade/cascade.bas', 'zxv-basic'), 'zxv-basic');
