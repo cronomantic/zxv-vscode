@@ -57,10 +57,17 @@ describe('los datos de la ayuda', () => {
         assert.strictEqual(entry('PROTECT', 'en').title, 'Protected programs');
     });
 
-    it('un resumen que acaba en «:» lleva la lista de detrás (SAVE y sus ficheros)', () => {
-        assert.match(docs.en.save.summary, /^Saves to the SD card:\n\n- The \*\*program\*\*.*`\.zvb`/);
-        assert.match(docs.es.save.summary, /\n- `CODE`:.*`\.bin`/);
-        assert.match(docs.es.load.summary, /\n- Un \*\*programa\*\*/);
+    it('un resumen que acaba en «:» lleva la lista de detrás (LOAD y sus ficheros)', () => {
+        assert.match(docs.en.load.summary, /^Loads from the SD card \(or from `ROM:` or `EXT:`\):\n\n- A \*\*program\*\*/);
+        assert.match(docs.es.load.summary, /:\n\n- Un \*\*programa\*\*/);
+        assert.match(docs.en.save.summary, /^Saves to the SD card/);
+    });
+
+    it('una entrada que empieza con una lista la tiene de resumen, entera (ABS, SGN, INT)', () => {
+        const s = docs.en['abs-sgn-int'].summary;
+        assert.match(s, /^- `ABS x`: /);
+        assert.match(s, /\n- `INT x`: .*is -3\. To round to the nearest/);
+        assert.match(docs.es['abs-sgn-int'].summary, /^- `ABS x`: /);
     });
 
     it('los enlaces del resumen van a GitHub', () => {

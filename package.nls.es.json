@@ -54,7 +54,7 @@
   "debug.basic.target.zxv": "zxv, la aplicación de escritorio, con --basic-debug (ZX-V 0.8 o posterior, en zxv.toolsPath)",
   "debug.basic.snippet.emulator": "Depura un listado del BASIC de la ROM en zxv-sdl",
   "command.runOnBoard": "Ejecutar en la placa",
-  "config.boardPort": "El puerto serie del adaptador USB-serie en la tira J5 de la placa (`COM5`, `/dev/ttyUSB0`...), para «ZX-V: Ejecutar en la placa» y para depurar en la placa. Vacío: se elige la primera vez.",
+  "config.boardPort": "El puerto serie del adaptador USB-serie en la tira J5 de la placa (`COM5`, `/dev/ttyUSB0`...) o, por Wi-Fi con una Pico 2 W (ZX-V 0.11), el nombre de la máquina (`ZX-V-1A2B`) o su IP, para «ZX-V: Ejecutar en la placa» y para depurar en la placa. Vacío: se elige la primera vez.",
   "debug.basic.target.board": "La máquina de verdad, por la tira J5 de la placa con un adaptador USB-serie (zxv-link en zxv.toolsPath, ZX-V 0.10 o posterior)",
   "debug.basic.snippet.board": "Depura un listado del BASIC de la ROM en la placa, por J5 (zxv-link)",
   "command.stopExt": "Dejar de servir EXT:",

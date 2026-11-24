@@ -444,7 +444,25 @@ function referenceSections(md, lang) {
                     syntax = code.join('\n');
                 continue;
             }
-            if (!lines[j].trim() || /^[|>-]|^\*\*|^<!--/.test(lines[j]))
+            /* Una entrada que empieza con una lista (`ABS x`: ..., `SGN x`: ...):
+             * la lista es el resumen, con las líneas que siguen a cada punto. */
+            if (/^- /.test(lines[j]) && !paragraphs.length) {
+                const items = [];
+                for (; j < lines.length; j++) {
+                    if (/^- /.test(lines[j]))
+                        items.push(lines[j].trim());
+                    else if (items.length && /^\s+\S/.test(lines[j]))
+                        items[items.length - 1] += ' ' + lines[j].trim();
+                    else if (!lines[j].trim() && /^- /.test(lines[j + 1] ?? ''))
+                        continue;
+                    else
+                        break;
+                }
+                j--;
+                paragraphs.push(items.join('\n'));
+                break;
+            }
+            if (!lines[j].trim() || /^[|>-]|^\s|^\*\*|^<!--/.test(lines[j]))
                 continue;
             const para = [];
             for (; j < lines.length && lines[j].trim() && !lines[j].startsWith('```'); j++)

@@ -231,6 +231,18 @@
       "doc": "POLY c, x1, y1[, x2, y2...]: a point, a line or a filled polygon (up to 8 points)"
     },
     {
+      "name": "PATTERN",
+      "kind": "sub",
+      "signature": "PATTERN(n as UByte = 0, p as Integer = -1)",
+      "doc": "PATTERN n[, p]: BOX, DISC and POLY draw with pattern n (1 to 11, as PATTERN in the BASIC of ZX-V: 1 a chessboard, 2 a quarter, 3 an eighth, 4 three quarters, 5 and 6 stripes, 7 and 8 diagonals, 9 a grid, 10 bricks, 11 diamonds): their colour where the pattern has a 1, and paper p (0-15) where it has a 0, or nothing there with p = -1 (the default). PATTERN alone (or 0): no pattern. Needs a ZX-V ROM with patterns (ZX-V D110)"
+    },
+    {
+      "name": "PATTERNBITS",
+      "kind": "sub",
+      "signature": "PATTERNBITS(r0 as UByte, r1 as UByte, r2 as UByte, r3 as UByte, r4 as UByte, r5 as UByte, r6 as UByte, r7 as UByte, p as Integer = -1)",
+      "doc": "PATTERNBITS r0, r1, r2, r3, r4, r5, r6, r7[, p]: a pattern of your own, a byte a row (BIN 10101010...; bit 7 is the pixel on the left), with paper p as in PATTERN"
+    },
+    {
       "name": "CLIP",
       "kind": "sub",
       "signature": "CLIP(x as Integer = 0, y as Integer = 0, w as Integer = -1, h as Integer = 0)",
@@ -246,7 +258,7 @@
       "name": "KEY",
       "kind": "function",
       "signature": "KEY(n as UInteger) as UByte",
-      "doc": "KEY(n): 1 if the key is down now (several at once). n: CODE \"a\" to CODE \"z\", CODE \"0\" to CODE \"9\", 8 to 11 the cursor keys (left, right, down, up), 12 Delete, 13 Enter, 32 Space, or 256 + a USB key code"
+      "doc": "KEY(n): 1 if the key is down now (several at once). n: CODE \"a\" to CODE \"z\", CODE \"0\" to CODE \"9\", 8 to 11 the cursor keys (left, right, down, up), 12 Backspace, 13 Enter, 32 Space, or 256 + a USB key code"
     },
     {
       "name": "JOY",
@@ -355,6 +367,78 @@
       "kind": "function",
       "signature": "SAMPLEPLAYING as UByte",
       "doc": "SAMPLEPLAYING: 1 while any sound of SAMPLE plays"
+    },
+    {
+      "name": "TILE",
+      "kind": "sub",
+      "signature": "TILE(s as UByte, n as UInteger, x as Integer, y as Integer, w as UInteger = 0, h as UInteger = 0, t as Integer = -1)",
+      "doc": "TILE s, n, x, y[, w, h[, t]]: tile n (0-4095) of the set of side s (8 or 16) is the s x s square of the drawing page at (x, y); with w and h, that rectangle cut in tiles numbered from n row by row. Colour t becomes transparent. A set grows when a higher tile is defined (the new ones, black)"
+    },
+    {
+      "name": "TILESTR",
+      "kind": "sub",
+      "signature": "TILESTR(s as UByte, n as UInteger, ByVal a as String)",
+      "doc": "TILESTR s, n, a$: tiles from a string, s x s characters each (the hex digits are colours, anything else transparent); a longer one defines the next tiles"
+    },
+    {
+      "name": "MAPDIM",
+      "kind": "sub",
+      "signature": "MAPDIM(m as UByte, w as UInteger, h as UInteger, s as UByte = 8, r as UByte = 0)",
+      "doc": "MAPDIM m, w, h[, s[, r]]: map m (0-15) of w x h cells, all tile 0, of tiles of side s (8 or 16); with r = 1 it repeats in both directions"
+    },
+    {
+      "name": "MAPPOKE",
+      "kind": "sub",
+      "signature": "MAPPOKE(m as UByte, x as UInteger, y as UInteger, v as UInteger)",
+      "doc": "MAPPOKE m, x, y, v: cell (x, y) is v: the tile, + 4096 mirrored left to right, + 8192 upside down, + 16384 its 8 transparent, + 32768 priority"
+    },
+    {
+      "name": "MAPPOKESTR",
+      "kind": "sub",
+      "signature": "MAPPOKESTR(m as UByte, x as UInteger, y as UInteger, ByVal a as String)",
+      "doc": "MAPPOKESTR m, x, y, a$: the cells from (x, y) to the right, the code of each character as the tile: \"  ##..\" uses tiles 32, 35 and 46"
+    },
+    {
+      "name": "MAP",
+      "kind": "sub",
+      "signature": "MAP(m as UByte, mx as Integer = 0, my as Integer = 0, x as Integer = 0, y as Integer = 0, w as Integer = -1, h as Integer = -1, f as UByte = 0)",
+      "doc": "MAP m[, mx, my[, x, y, w, h[, f]]]: draws map m from its pixel (mx, my) on the whole page or the rectangle (x, y, w, h); f: 0 every cell, 1 the ones without priority, 2 only the ones with it. All its tiles must exist"
+    },
+    {
+      "name": "CELL",
+      "kind": "function",
+      "signature": "CELL(m as UByte, x as Integer, y as Integer) as UInteger",
+      "doc": "CELL(m, x, y): the cell at column x and row y of map m, with its bits; out of a map that does not repeat, 0"
+    },
+    {
+      "name": "TEXTURE",
+      "kind": "sub",
+      "signature": "TEXTURE(n as UByte, x as Integer, y as Integer, s as UInteger, c as Integer = -1, t as Integer = -1)",
+      "doc": "TEXTURE n, x, y, s[, c[, t]]: texture n (0-3) for FLOOR and ROTATE is the s x s square (2, 4, 8... 256) of the page at (x, y). It repeats or, with colour c, outside it is that colour; colour t is transparent, and with c = t, the outside too"
+    },
+    {
+      "name": "FLOOR",
+      "kind": "sub",
+      "signature": "FLOOR(n as UByte, x as Fixed, y as Fixed, height as Fixed, angle as Fixed, horizon as Integer, focal as Fixed = 0)",
+      "doc": "FLOOR n, x, y, height, angle, horizon[, focal]: a floor in perspective with texture n (the \"mode 7\"), seen from its point (x, y) at that height, looking at angle (radians; 0 towards the growing x), with the horizon at that row of the page and that focal length (0: half the page; smaller, wider)"
+    },
+    {
+      "name": "FLOORMAP",
+      "kind": "sub",
+      "signature": "FLOORMAP(m as UByte, x as Fixed, y as Fixed, height as Fixed, angle as Fixed, horizon as Integer, focal as Fixed = 0)",
+      "doc": "FLOORMAP m, x, y, height, angle, horizon[, focal]: the same with tile map m (what is out of a map that does not repeat is not drawn)"
+    },
+    {
+      "name": "ROTATE",
+      "kind": "sub",
+      "signature": "ROTATE(n as UByte, x as Fixed, y as Fixed, angle as Fixed = 0, zoom as Fixed = 1, cx as Integer = -32768, cy as Integer = -32768)",
+      "doc": "ROTATE n, x, y[, angle[, zoom[, cx, cy]]]: texture n turned angle radians clockwise and zoom times bigger around its point (x, y), which is seen at (cx, cy) of the page (by default its centre), on the whole page or the CLIP"
+    },
+    {
+      "name": "ROTATEMAP",
+      "kind": "sub",
+      "signature": "ROTATEMAP(m as UByte, x as Fixed, y as Fixed, angle as Fixed = 0, zoom as Fixed = 1, cx as Integer = -32768, cy as Integer = -32768)",
+      "doc": "ROTATEMAP m, x, y[, angle[, zoom[, cx, cy]]]: the same with tile map m"
     }
   ]
 }

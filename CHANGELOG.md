@@ -1,7 +1,18 @@
 # Cambios / Changes
 
-## Sin publicar / Unreleased
+## 0.6.0
 
+- Con ZX-V 0.11.0: el núcleo web del panel y de «Publicar en la web»; las
+  órdenes nuevas del BASIC (`PATTERN`, `ROTATE`, `MAP` tras `FLOOR` y
+  `ROTATE`...), coloreadas y con su ayuda, sacada de las referencias
+  rehechas de ZX-V.
+- La placa por Wi-Fi (ZX-V 0.11, con una Pico 2 W): en `zxv.boardPort`
+  vale también el nombre de la máquina (`ZX-V-1A2B`) o su IP, y la lista
+  de puertos enseña las de la red.
+- Depurar C con bancos de código (ZX-V 0.11): si junto al `.elf` están los
+  bancos que hace `zxvbanks.py`, el depurador carga el script del SDK
+  `tools/zxvbanks-gdb.py` y los puntos de parada de un banco paran solo
+  con él cargado.
 - La placa en el explorador (ZX-V 0.11.0, protocolo 6): **ZX-V: la placa**
   enseña su tarjeta y su ROM (solo leer), por la tira J5 o por Wi-Fi, para
   ejecutar, traer al PC, mandar (también arrastrando), crear carpetas,
@@ -18,6 +29,17 @@
 
 ---
 
+- With ZX-V 0.11.0: the web core of the panel and of «Publish on the web»;
+  the BASIC's new commands (`PATTERN`, `ROTATE`, `MAP` after `FLOOR` and
+  `ROTATE`...), highlighted and with their help, taken from ZX-V's
+  rewritten references.
+- The board over Wi-Fi (ZX-V 0.11, with a Pico 2 W): `zxv.boardPort` also
+  takes the machine's name (`ZX-V-1A2B`) or its IP, and the port list shows
+  the ones on the network.
+- Debugging C with code banks (ZX-V 0.11): if the banks made by
+  `zxvbanks.py` are next to the `.elf`, the debugger loads the SDK's
+  `tools/zxvbanks-gdb.py` script, and breakpoints in a bank stop only while
+  it is loaded.
 - The board in the explorer (ZX-V 0.11.0, protocol 6): **ZX-V: the board**
   shows its card and its ROM (read only), through the J5 header or over
   Wi-Fi, to run, fetch to the PC, send (also by dropping), create folders,

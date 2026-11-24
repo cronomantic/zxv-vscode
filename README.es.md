@@ -287,7 +287,7 @@ memoria, y la ROM evalúa, lista las variables y recorre la pila.
 | Ajuste | Para qué |
 |---|---|
 | `zxv.toolsPath` | La carpeta de una release de ZX-V, con `zxv-sdl`, `zxv-cli` y `zxv-link` (si no, el PATH) |
-| `zxv.boardPort` | El puerto serie del adaptador en la tira J5 de la placa (`COM5`, `/dev/ttyUSB0`...): para ejecutar y depurar en la placa |
+| `zxv.boardPort` | El puerto serie del adaptador en la tira J5 de la placa (`COM5`, `/dev/ttyUSB0`...) o, por Wi-Fi con una Pico 2 W (ZX-V 0.11), el nombre de la máquina (`ZX-V-1A2B`) o su IP: para ejecutar y depurar en la placa |
 | `zxv.sdkPath` | La carpeta `sdk` de ZX-V, que se pasa a `make` como `SDK=` |
 | `zxv.zxbcPath` | `zxbc.exe` de la release del fork (1.19.0-zxv.4 o posterior), o `zxbc.py` (con `zxv.pythonPath`) |
 | `zxv.gdbPath` | GDB para RISC-V (si no, `riscv64-unknown-elf-gdb`, `riscv64-elf-gdb` o `gdb-multiarch` del PATH) |

@@ -133,12 +133,20 @@
         {
           "title": "PRINT",
           "anchor": "print"
+        },
+        {
+          "title": "INPUT",
+          "anchor": "input"
         }
       ],
       "es": [
         {
           "title": "PRINT",
           "anchor": "print"
+        },
+        {
+          "title": "INPUT",
+          "anchor": "input"
         }
       ]
     }
@@ -605,8 +613,8 @@
     "zxv": false,
     "anywhere": true,
     "kind": {
-      "en": "function; in SAVE, LOAD",
-      "es": "función; en SAVE, LOAD"
+      "en": "function; in SAVE, LOAD, VERIFY",
+      "es": "función; en SAVE, LOAD, VERIFY"
     },
     "docs": {
       "en": [
@@ -617,6 +625,10 @@
         {
           "title": "SAVE",
           "anchor": "save"
+        },
+        {
+          "title": "LOAD",
+          "anchor": "load"
         }
       ],
       "es": [
@@ -627,6 +639,10 @@
         {
           "title": "SAVE",
           "anchor": "save"
+        },
+        {
+          "title": "LOAD",
+          "anchor": "load"
         }
       ]
     }
@@ -709,8 +725,8 @@
     "zxv": false,
     "anywhere": true,
     "kind": {
-      "en": "statement; in SAVE, LOAD",
-      "es": "orden; en SAVE, LOAD"
+      "en": "statement; in SAVE, LOAD, VERIFY",
+      "es": "orden; en SAVE, LOAD, VERIFY"
     },
     "docs": {
       "en": [
@@ -721,6 +737,10 @@
         {
           "title": "SAVE",
           "anchor": "save"
+        },
+        {
+          "title": "LOAD",
+          "anchor": "load"
         }
       ],
       "es": [
@@ -731,6 +751,10 @@
         {
           "title": "SAVE",
           "anchor": "save"
+        },
+        {
+          "title": "LOAD",
+          "anchor": "load"
         }
       ]
     }
@@ -933,20 +957,28 @@
     "zxv": true,
     "anywhere": true,
     "kind": {
-      "en": "in IF",
-      "es": "en IF"
+      "en": "in IF, CASE ELSE",
+      "es": "en IF, CASE ELSE"
     },
     "docs": {
       "en": [
         {
           "title": "IF, THEN, ELSE",
           "anchor": "if-then-else"
+        },
+        {
+          "title": "SELECT CASE",
+          "anchor": "select-case"
         }
       ],
       "es": [
         {
           "title": "IF, THEN, ELSE",
           "anchor": "if-then-else"
+        },
+        {
+          "title": "SELECT CASE",
+          "anchor": "select-case"
         }
       ]
     }
@@ -1293,20 +1325,28 @@
     "zxv": false,
     "anywhere": true,
     "kind": {
-      "en": "statement",
-      "es": "orden"
+      "en": "statement; in ON ERROR",
+      "es": "orden; en ON ERROR"
     },
     "docs": {
       "en": [
         {
           "title": "GO TO",
           "anchor": "go-to"
+        },
+        {
+          "title": "ON ERROR",
+          "anchor": "on-error"
         }
       ],
       "es": [
         {
           "title": "GO TO",
           "anchor": "go-to"
+        },
+        {
+          "title": "ON ERROR",
+          "anchor": "on-error"
         }
       ]
     }
@@ -1353,6 +1393,10 @@
         {
           "title": "LOAD",
           "anchor": "load"
+        },
+        {
+          "title": "VERIFY",
+          "anchor": "verify"
         }
       ],
       "es": [
@@ -1363,6 +1407,10 @@
         {
           "title": "LOAD",
           "anchor": "load"
+        },
+        {
+          "title": "VERIFY",
+          "anchor": "verify"
         }
       ]
     }
@@ -1869,8 +1917,8 @@
     "zxv": true,
     "anywhere": false,
     "kind": {
-      "en": "statement",
-      "es": "orden"
+      "en": "statement; in FLOOR, ROTATE",
+      "es": "orden; en FLOOR y ROTATE"
     },
     "docs": {
       "en": [
@@ -1881,6 +1929,14 @@
         {
           "title": "MAP DIM, MAP POKE",
           "anchor": "map-dim-map-poke"
+        },
+        {
+          "title": "FLOOR",
+          "anchor": "floor"
+        },
+        {
+          "title": "ROTATE",
+          "anchor": "rotate"
         }
       ],
       "es": [
@@ -1891,6 +1947,14 @@
         {
           "title": "MAP DIM, MAP POKE",
           "anchor": "map-dim-map-poke"
+        },
+        {
+          "title": "FLOOR",
+          "anchor": "floor"
+        },
+        {
+          "title": "ROTATE",
+          "anchor": "rotate"
         }
       ]
     }
@@ -2344,6 +2408,30 @@
     }
   },
   {
+    "keyword": "PATTERN",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "PATTERN",
+          "anchor": "pattern"
+        }
+      ],
+      "es": [
+        {
+          "title": "PATTERN",
+          "anchor": "pattern"
+        }
+      ]
+    }
+  },
+  {
     "keyword": "PAUSE",
     "class": "other",
     "zxv": false,
@@ -2445,20 +2533,28 @@
     "zxv": false,
     "anywhere": false,
     "kind": {
-      "en": "statement",
-      "es": "orden"
+      "en": "statement; in MUSIC",
+      "es": "orden; en MUSIC"
     },
     "docs": {
       "en": [
         {
           "title": "PLAY",
           "anchor": "play"
+        },
+        {
+          "title": "MUSIC",
+          "anchor": "music"
         }
       ],
       "es": [
         {
           "title": "PLAY",
           "anchor": "play"
+        },
+        {
+          "title": "MUSIC",
+          "anchor": "music"
         }
       ]
     }
@@ -2741,20 +2837,28 @@
     "zxv": true,
     "anywhere": false,
     "kind": {
-      "en": "statement",
-      "es": "orden"
+      "en": "statement; in RASTER",
+      "es": "orden; en RASTER"
     },
     "docs": {
       "en": [
         {
           "title": "REMAP",
           "anchor": "remap"
+        },
+        {
+          "title": "RASTER",
+          "anchor": "raster"
         }
       ],
       "es": [
         {
           "title": "REMAP",
           "anchor": "remap"
+        },
+        {
+          "title": "RASTER",
+          "anchor": "raster"
         }
       ]
     }
@@ -2928,6 +3032,30 @@
     }
   },
   {
+    "keyword": "ROTATE",
+    "class": "other",
+    "zxv": true,
+    "anywhere": false,
+    "kind": {
+      "en": "statement",
+      "es": "orden"
+    },
+    "docs": {
+      "en": [
+        {
+          "title": "ROTATE",
+          "anchor": "rotate"
+        }
+      ],
+      "es": [
+        {
+          "title": "ROTATE",
+          "anchor": "rotate"
+        }
+      ]
+    }
+  },
+  {
     "keyword": "RUN",
     "class": "control",
     "zxv": false,
@@ -3037,8 +3165,8 @@
     "zxv": false,
     "anywhere": true,
     "kind": {
-      "en": "function; in SAVE, LOAD",
-      "es": "función; en SAVE, LOAD"
+      "en": "function; in SAVE, LOAD, VERIFY",
+      "es": "función; en SAVE, LOAD, VERIFY"
     },
     "docs": {
       "en": [
@@ -3049,6 +3177,10 @@
         {
           "title": "SAVE",
           "anchor": "save"
+        },
+        {
+          "title": "LOAD",
+          "anchor": "load"
         }
       ],
       "es": [
@@ -3059,6 +3191,10 @@
         {
           "title": "SAVE",
           "anchor": "save"
+        },
+        {
+          "title": "LOAD",
+          "anchor": "load"
         }
       ]
     }
@@ -3069,20 +3205,28 @@
     "zxv": true,
     "anywhere": false,
     "kind": {
-      "en": "statement",
-      "es": "orden"
+      "en": "statement; in RASTER",
+      "es": "orden; en RASTER"
     },
     "docs": {
       "en": [
         {
           "title": "SCROLL",
           "anchor": "scroll"
+        },
+        {
+          "title": "RASTER",
+          "anchor": "raster"
         }
       ],
       "es": [
         {
           "title": "SCROLL",
           "anchor": "scroll"
+        },
+        {
+          "title": "RASTER",
+          "anchor": "raster"
         }
       ]
     }
@@ -3373,12 +3517,20 @@
         {
           "title": "PRINT",
           "anchor": "print"
+        },
+        {
+          "title": "INPUT",
+          "anchor": "input"
         }
       ],
       "es": [
         {
           "title": "PRINT",
           "anchor": "print"
+        },
+        {
+          "title": "INPUT",
+          "anchor": "input"
         }
       ]
     }
@@ -3509,8 +3661,8 @@
     "zxv": false,
     "anywhere": true,
     "kind": {
-      "en": "in FOR, slices, MOVE, COPY",
-      "es": "en FOR, trozos, MOVE, COPY"
+      "en": "in FOR, slices, CASE, MOVE, COPY",
+      "es": "en FOR, trozos, CASE, MOVE, COPY"
     },
     "docs": {
       "en": [
@@ -3521,6 +3673,18 @@
         {
           "title": "Strings",
           "anchor": "strings"
+        },
+        {
+          "title": "SELECT CASE",
+          "anchor": "select-case"
+        },
+        {
+          "title": "MOVE",
+          "anchor": "move"
+        },
+        {
+          "title": "COPY",
+          "anchor": "copy"
         }
       ],
       "es": [
@@ -3531,6 +3695,18 @@
         {
           "title": "Cadenas",
           "anchor": "cadenas"
+        },
+        {
+          "title": "SELECT CASE",
+          "anchor": "select-case"
+        },
+        {
+          "title": "MOVE",
+          "anchor": "move"
+        },
+        {
+          "title": "COPY",
+          "anchor": "copy"
         }
       ]
     }

@@ -54,7 +54,7 @@
   "debug.basic.target.zxv": "zxv, the desktop app, with --basic-debug (ZX-V 0.8 or later, in zxv.toolsPath)",
   "debug.basic.snippet.emulator": "Debugs a ROM BASIC listing in zxv-sdl",
   "command.runOnBoard": "Run on the board",
-  "config.boardPort": "The serial port of the USB-serial adapter on the board's J5 header (`COM5`, `/dev/ttyUSB0`...), for «ZX-V: Run on the board» and debugging on the board. Empty: it is chosen the first time.",
+  "config.boardPort": "The serial port of the USB-serial adapter on the board's J5 header (`COM5`, `/dev/ttyUSB0`...) or, over Wi-Fi with a Pico 2 W (ZX-V 0.11), the machine's name (`ZX-V-1A2B`) or its IP, for «ZX-V: Run on the board» and debugging on the board. Empty: it is chosen the first time.",
   "debug.basic.target.board": "The real machine, through the board's J5 header with a USB-serial adapter (zxv-link in zxv.toolsPath, ZX-V 0.10 or later)",
   "debug.basic.snippet.board": "Debugs a ROM BASIC listing on the board, through J5 (zxv-link)",
   "command.stopExt": "Stop serving EXT:",

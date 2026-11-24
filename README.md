@@ -283,7 +283,7 @@ stack.
 | Setting | What for |
 |---|---|
 | `zxv.toolsPath` | The folder of a ZX-V release, with `zxv-sdl`, `zxv-cli` and `zxv-link` (otherwise, the PATH) |
-| `zxv.boardPort` | The serial port of the adapter on the board's J5 header (`COM5`, `/dev/ttyUSB0`...): to run and debug on the board |
+| `zxv.boardPort` | The serial port of the adapter on the board's J5 header (`COM5`, `/dev/ttyUSB0`...) or, over Wi-Fi with a Pico 2 W (ZX-V 0.11), the machine's name (`ZX-V-1A2B`) or its IP: to run and debug on the board |
 | `zxv.sdkPath` | The ZX-V `sdk` folder, passed to `make` as `SDK=` |
 | `zxv.zxbcPath` | `zxbc.exe` from the fork release (1.19.0-zxv.4 or later), or `zxbc.py` (with `zxv.pythonPath`) |
 | `zxv.gdbPath` | GDB for RISC-V (otherwise `riscv64-unknown-elf-gdb`, `riscv64-elf-gdb` or `gdb-multiarch` on the PATH) |
