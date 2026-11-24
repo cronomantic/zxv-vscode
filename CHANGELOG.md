@@ -2,21 +2,36 @@
 
 ## Sin publicar / Unreleased
 
-- La placa en el explorador (ZX-V D112, protocolo 6): **ZX-V: la placa**
+- La placa en el explorador (ZX-V 0.11.0, protocolo 6): **ZX-V: la placa**
   enseña su tarjeta y su ROM (solo leer), por la tira J5 o por Wi-Fi, para
   ejecutar, traer al PC, mandar (también arrastrando), crear carpetas,
-  renombrar y borrar; sustituir y borrar preguntan antes.
+  renombrar y borrar; sustituir y borrar preguntan antes. Antes de mandar
+  se vuelve a leer la carpeta, y solo se sustituye lo que se ha dicho que
+  sí; si el puerto está ocupado, dice por qué.
 - **ZX-V: Ejecutar en la placa directo a la memoria**: la máquina lo carga
-  del PC sin copiarlo a la tarjeta (`zxv-link run --pc`).
+  del PC sin copiarlo a la tarjeta (`zxv-link run --pc`), y se le sigue
+  sirviendo mientras lo tenga abierto (los programas con bancos de código
+  los leen de él); se para desde la notificación o la barra de estado.
+- El puerto de la placa se comprueba una vez (y otra si falla), sin parar
+  VS Code; las llamadas a `zxv-link` sobre un puerto van de una en una; y
+  el nombre del programa se comprueba antes de cargarlo en la máquina.
 
 ---
 
-- The board in the explorer (ZX-V D112, protocol 6): **ZX-V: the board**
+- The board in the explorer (ZX-V 0.11.0, protocol 6): **ZX-V: the board**
   shows its card and its ROM (read only), through the J5 header or over
   Wi-Fi, to run, fetch to the PC, send (also by dropping), create folders,
-  rename and delete; replacing and deleting ask first.
+  rename and delete; replacing and deleting ask first. Before sending, the
+  folder is read again, and only what you agreed to is replaced; if the
+  port is busy, it says why.
 - **ZX-V: Run on the board straight into memory**: the machine loads it
-  from the PC without copying it to the card (`zxv-link run --pc`).
+  from the PC without copying it to the card (`zxv-link run --pc`), and it
+  keeps being served while the machine has it open (programs with code
+  banks read them from it); it is stopped from the notification or the
+  status bar.
+- The board's port is checked once (again if it fails), without stalling
+  VS Code; the calls to `zxv-link` on one port go one at a time; and the
+  name of the program is checked before loading it on the machine.
 
 ## 0.5.0
 

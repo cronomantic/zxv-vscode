@@ -105,7 +105,7 @@ with the main file in view.
 | **ZX-V: Run in zxv-sdl** (F5 in ROM BASIC) | Builds if needed and opens the program in `zxv-sdl`, with its folder as SD card: `--sd FOLDER --type 'LOAD "program.zxv"'` (plus `: RUN` for a listing). |
 | **ZX-V: Run in the editor** | The same, in the emulator panel. |
 | **ZX-V: Run on the board** | The same, on the real machine: it sends the program and the files of its folder to the card through the board's J5 header, with a 3.3 V USB-serial adapter and `zxv-link` (ZX-V 0.10 or later; [how to connect it](https://github.com/cronomantic/ZX-V/blob/main/docs/en/hardware/firmware.md#loading-programs-from-the-pc-j5)). What is already on the card, unchanged, is not sent again. The port, `zxv.boardPort`: if empty, it is chosen the first time. |
-| **ZX-V: Run on the board straight into memory** | The machine loads it from the PC and runs it, without copying anything to the card (`zxv-link run --pc`, ZX-V protocol 6). If the program loads other files, they must be on the machine: it is for simple programs. |
+| **ZX-V: Run on the board straight into memory** | The machine loads it from the PC and runs it, without copying anything to the card (`zxv-link run --pc`, ZX-V protocol 6). `zxv-link` keeps serving it while the machine has it open (a program with code banks reads them from it) until the program closes it or ends, or you stop it: from the notification or the status bar. Meanwhile the J5 port is busy. Other files the program loads must be on the machine. |
 
 From the Explorer's context menu, a program that is already built runs as it
 is too: a `.zxv`, a ROM BASIC program saved with `SAVE` (`.zvb`) or a
@@ -133,16 +133,23 @@ protocol 6. With the menu of each one:
 
 - **Run on the board** (also the ▶ button of each program): it goes into
   its folder and loads it, so it finds its files.
-- **Fetch to the PC...**: to a folder, the workspace's at first.
+- **Fetch to the PC...**: to a folder, the workspace's at first. Several
+  files of the same name from different folders can go each inside its
+  folder.
 - **Send to the board...**: files from the PC to that folder (to the root
   from the view's bar, or from the file explorer's menu). They can be
-  **dropped** on the view.
+  **dropped** on the view: on a folder, or on a file or the *Empty* line to
+  go to its folder.
 - **New folder...**, **Rename...** and **Delete** (folders, with what is
   inside).
 
-**Replacing and deleting ask first**: the card has no recycle bin. Through
-the J5 header only one program can have the port open: if `EXT:` is being
-served, the view offers to stop it. Over the network it isn't needed.
+**Replacing and deleting ask first**: the card has no recycle bin. Before
+sending, the view reads the folder again: only what you agree to is
+replaced, and if the folder cannot be read nothing is sent. The calls to
+`zxv-link` go one at a time, and the port is checked once (again if it
+fails). Through the J5 header only one program can have the port open: if
+`EXT:` or a program straight into memory is being served, the view says so
+and offers to stop it. Over the network it isn't needed.
 
 ### The emulator inside the editor
 
