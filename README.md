@@ -294,26 +294,27 @@ stack.
 
 ## Installing it
 
-It is not in the stores yet: install the `.vsix` by hand, from
-**Extensions > ... > Install from VSIX**, or with
+It is on the VS Code Marketplace and on Open VSX: search for **ZX-V** in
+the Extensions view (`cronomantic.zxv`). To try a `.vsix` you built, install
+it from **Extensions > ... > Install from VSIX**, or with
 
 ```bash
-code --install-extension zxv-0.1.0.vsix
+code --install-extension zxv-VERSION.vsix
 ```
 
 ## Building it
 
 ```bash
 npm install
-npm run web         # the web core: copies zxv-web.zip from ../ZX-V/build/release/0.9.0
+npm run web         # the web core: copies zxv-web.zip from ../ZX-V/build/release/VERSION
 npm run grammars    # the grammars: media/web/zxv-check.js, ../ZX-V/docs and ../zxbasic
 npm test            # unit tests
-npx vsce package    # zxv-0.4.0.vsix
+npx vsce package    # zxv-VERSION.vsix
 ```
 
 `npm run web -- --from PATH` uses another `zxv-web.zip` (or a folder with
-it), and `npm run web -- --download` downloads it from the
-[v0.9.0 release](https://github.com/cronomantic/ZX-V/releases/tag/v0.9.0).
+it), and `npm run web -- --download` downloads it from the ZX-V release
+named by `ZXV_VERSION` in `scripts/fetch-web.mjs`.
 With one older than 0.6.2, which has no `zxv-check.js`, `npm run web --
 --check PATH` adds one built separately (the `zxv-check-web` target of ZX-V
 with `emcmake`); without it, the extension does not mark errors as you type.
@@ -341,8 +342,11 @@ Open VSX, and leaves the `.vsix` in a GitHub release, when a tag with the
 `package.json` version is pushed:
 
 ```bash
-git tag v0.1.0 && git push origin v0.1.0
+git tag -a vX.Y.Z -m "zxv X.Y.Z" && git push origin main vX.Y.Z
 ```
+
+Push it after the ZX-V release it uses exists (the workflow downloads its
+`zxv-web.zip`), and approve the `publish` environment in Actions.
 
 No tokens: both stores trust that workflow (trusted publishing with OIDC),
 which runs in the repository's `publish` environment. It downloads the web

@@ -298,26 +298,27 @@ memoria, y la ROM evalúa, lista las variables y recorre la pila.
 
 ## Instalarla
 
-Todavía no está en las tiendas: instala el `.vsix` a mano, desde
-**Extensiones > ... > Instalar desde VSIX**, o con
+Está en el VS Code Marketplace y en Open VSX: busca **ZX-V** en la vista de
+Extensiones (`cronomantic.zxv`). Para probar un `.vsix` que hayas compilado,
+instálalo desde **Extensiones > ... > Instalar desde VSIX**, o con
 
 ```bash
-code --install-extension zxv-0.1.0.vsix
+code --install-extension zxv-VERSIÓN.vsix
 ```
 
 ## Compilarla
 
 ```bash
 npm install
-npm run web         # el núcleo web: copia zxv-web.zip de ../ZX-V/build/release/0.9.0
+npm run web         # el núcleo web: copia zxv-web.zip de ../ZX-V/build/release/VERSIÓN
 npm run grammars    # las gramáticas: media/web/zxv-check.js, ../ZX-V/docs y ../zxbasic
 npm test            # pruebas unitarias
-npx vsce package    # zxv-0.4.0.vsix
+npx vsce package    # zxv-VERSIÓN.vsix
 ```
 
 `npm run web -- --from RUTA` usa otro `zxv-web.zip` (o una carpeta con él), y
-`npm run web -- --download` lo descarga de la
-[release v0.9.0](https://github.com/cronomantic/ZX-V/releases/tag/v0.9.0).
+`npm run web -- --download` lo descarga de la release de ZX-V que dice
+`ZXV_VERSION` en `scripts/fetch-web.mjs`.
 Con uno anterior a la 0.6.2, que no trae `zxv-check.js`, `npm run web --
 --check RUTA` pone uno compilado aparte (el objetivo `zxv-check-web` de ZX-V
 con `emcmake`); sin él, la extensión no marca los errores mientras escribes.
@@ -345,8 +346,11 @@ Open VSX, y deja el `.vsix` en una release de GitHub, cuando se sube una
 etiqueta con la versión de `package.json`:
 
 ```bash
-git tag v0.1.0 && git push origin v0.1.0
+git tag -a vX.Y.Z -m "zxv X.Y.Z" && git push origin main vX.Y.Z
 ```
+
+Súbela después de la release de ZX-V que usa (el workflow baja su
+`zxv-web.zip`), y aprueba el entorno `publish` en Actions.
 
 Sin tokens: las dos tiendas confían en ese workflow (publicación de confianza
 con OIDC), que corre en el entorno `publish` del repositorio. El núcleo web

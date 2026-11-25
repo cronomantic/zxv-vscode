@@ -15,7 +15,7 @@ NAME    := {{name}}
 SOURCES := $(wildcard *.c)
 OPT     ?= -Os
 
-CFLAGS  := -march=rv32imac_zicsr_zifencei_zba_zbb_zbs_zbkb_zcb -mabi=ilp32            $(OPT) -g -Wall -Wextra -std=gnu11 -ffreestanding -fno-builtin            -fno-tree-loop-distribute-patterns -I$(SDK)/include
+CFLAGS  := -march=rv32imac_zicsr_zifencei_zba_zbb_zbs_zbkb_zcb -mabi=ilp32            $(OPT) -g -Wall -Wextra -std=gnu11 -ffreestanding -fno-builtin            -fno-tree-loop-distribute-patterns -ffunction-sections -fdata-sections -I$(SDK)/include
 LDFLAGS := -nostdlib -nostartfiles -static -T $(SDK)/zxv.ld -Wl,--gc-sections            -Wl,--no-warn-rwx-segments
 
 $(NAME).zxv: $(NAME).elf
