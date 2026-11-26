@@ -218,7 +218,7 @@
     "joy": {
       "title": "JOY",
       "syntax": "JOY n\nJOY n, mode",
-      "summary": "The function `JOY n` gives the state of joystick `n` (0 for the first one connected and 1 for the second) as a number made of these bits:"
+      "summary": "The function `JOY n` gives the state of joystick `n` (0 for the first one connected, 1 for the second, and so on up to 3) as a number made of these bits:"
     },
     "key": {
       "title": "KEY",
@@ -785,7 +785,7 @@
     "joy": {
       "title": "JOY",
       "syntax": "JOY n\nJOY n, modo",
-      "summary": "La función `JOY n` da el estado del mando `n` (0 para el primero que se conecta y 1 para el segundo) como un número formado por estos bits:"
+      "summary": "La función `JOY n` da el estado del mando `n` (0 para el primero que se conecta, 1 para el segundo, y así hasta el 3) como un número formado por estos bits:"
     },
     "key": {
       "title": "KEY",

@@ -1,5 +1,22 @@
 # Cambios / Changes
 
+## 0.7.0
+
+- Con ZX-V 0.12.0: el núcleo web del panel y de «Publicar en la web», que
+  admite hasta cuatro mandos; la ayuda al día (`JOY n` de 0 a 3 y con el
+  fuego 4, L y R, en el BASIC de la ROM y en ZX Basic v1.19.0-zxv.8).
+- La plantilla de C compila con `-ffunction-sections` y `-fdata-sections`,
+  como el SDK: los programas ocupan menos.
+
+---
+
+- With ZX-V 0.12.0: the web core of the panel and of «Publish on the web»,
+  which takes up to four gamepads; the help brought up to date (`JOY n`
+  from 0 to 3 and with fire 4, L and R, in the ROM BASIC and in ZX Basic
+  v1.19.0-zxv.8).
+- The C template builds with `-ffunction-sections` and `-fdata-sections`,
+  as the SDK does: programs are smaller.
+
 ## 0.6.0
 
 - Con ZX-V 0.11.0: el núcleo web del panel y de «Publicar en la web»; las
